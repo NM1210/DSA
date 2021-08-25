@@ -1,0 +1,72 @@
+class Solution {
+    HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+	void addEdge(int u, int v){
+        if(!map.containsKey(u)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(v);
+            map.put(u, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(u);
+            list.add(v);
+            map.put(u, list);
+        }
+    }
+	void printGraph() {
+		for(int i: map.keySet()){
+            System.out.print(i+"->");
+            for(int j = 0; j<map.get(i).size(); j++){
+                System.out.print(map.get(i).get(j)+"->");
+            }
+            System.out.println();
+        }
+	}
+	boolean cycle_bfs_directed(int n) {
+		int indegree[] = new int[n];
+		for(int i = 0; i<n; i++) {
+			if(map.containsKey(i)) {
+				for(Integer j: map.get(i)) {
+					indegree[j]++;
+				}
+			}
+		}
+//		for(int i = 0; i<n; i++) {
+//			System.out.print(indegree[i]+" ");
+//		}
+//		System.out.println();
+		Queue<Integer> q = new LinkedList<>();
+		int count = 0;
+        for(int i = 0; i<n; i++){
+            if(indegree[i]==0){
+                q.add(i);
+            }
+        }
+			while(!q.isEmpty()) {
+				int curr = q.remove();
+//				System.out.print(curr);
+				count++;
+//				System.out.print(count+" ");
+//				System.out.print(count);
+				if(map.containsKey(curr)) {
+					for(int j = 0; j<map.get(curr).size(); j++) {
+						indegree[map.get(curr).get(j)]--;
+						if(indegree[map.get(curr).get(j)]==0) {
+							q.add(map.get(curr).get(j));
+						}
+					}
+				}
+			}
+		
+//		System.out.println(count);
+		if(count==n) return false;
+		return true;
+	}
+    public boolean canFinish(int numCourses, int[][] dependencies) {
+        if(dependencies.length==0) return true;
+        for(int i = 0; i<dependencies.length; i++) {
+			addEdge(dependencies[i][1], dependencies[i][0]);
+		}
+        if(cycle_bfs_directed(numCourses)) return false;
+		else return true;
+    }
+}

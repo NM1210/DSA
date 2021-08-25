@@ -1,0 +1,117 @@
+BOTTOM-UP(OPTIMIZED USING BigInteger):-
+
+class Solution
+{
+    //Function to find the nth catalan number.
+    public static BigInteger findCatalan(int n)
+    {
+        BigInteger dp[] = new BigInteger[n+1];
+        for(int i = 0; i<dp.length; i++){
+            dp[i] = new BigInteger("0");
+        }
+        dp[0]= new BigInteger("1");
+        // for(int i = 0; i<dp.length; i++){
+        //     System.out.print(dp[i] + " ");
+        // }
+        // System.out.println();
+        for(int i = 0; i<n; i++){
+            if((i+1)%2==0){
+                for(int j = 0; j<=i/2; j++){
+                    dp[i+1]=dp[i+1].add(dp[j].multiply(dp[i-j]));
+                }
+                dp[i+1]=dp[i+1].multiply(new BigInteger("2"));
+            }
+            else{
+                for(int j = 0; j<i/2; j++){
+                    dp[i+1]=dp[i+1].add(dp[j].multiply(dp[i-j]));
+                }
+                dp[i+1]=dp[i+1].multiply(new BigInteger("2"));
+                dp[i+1]=dp[i+1].add(dp[i/2].multiply(dp[i/2]));
+            }
+        }
+        // for(int i = 0; i<dp.length; i++){
+        //     System.out.print(dp[i] + " ");
+        // }
+        // System.out.println();
+        // return new BigInteger("1");
+        return dp[n];
+    }
+}
+____________________________________________________________________
+
+BOTTOM-UP:-
+
+class Solution
+{
+    //Function to find the nth catalan number.
+    public static int findCatalan(int n)
+    {
+        int dp[] = new int[n+1];
+        dp[0]=1;
+        for(int i = 0; i<n; i++){
+            if((i+1)%2==0){
+                for(int j = 0; j<=i/2; j++){
+                    dp[i+1]+=dp[j]*dp[i-j];
+                }
+                dp[i+1]*=2;
+            }
+            else{
+                for(int j = 0; j<i/2; j++){
+                    dp[i+1]+=dp[j]*dp[i-j];
+                }
+                dp[i+1]*=2;
+                dp[i+1]+=dp[i/2]*dp[i/2];
+            }
+        }
+        // for(int i = 0; i<dp.length; i++){
+        //     System.out.print(dp[i] + " ");
+        // }
+        // System.out.println();
+        return dp[n];
+    }
+}
+
+____________________________________________________________________
+
+RECURRSION(OPTIMIZED):-
+
+class Solution
+{
+    //Function to find the nth catalan number.
+    public static int findCatalan(int n)
+    {
+        if(n==0) return 1;
+        int ans = 0;
+        if(n%2==0){
+            for(int i = 0; i<n/2; i++){
+                ans+=findCatalan(i)*findCatalan(n-1-i);
+            }
+            ans*=2;
+        }
+        else{
+            for(int i = 0; i<n/2; i++){
+                ans+=findCatalan(i)*findCatalan(n-1-i);
+            }
+            ans*=2;
+            ans+=findCatalan(n/2)*findCatalan(n/2);
+        }
+        return ans;
+    }
+}
+____________________________________________________________________
+
+RECURRSION:-
+
+class Solution
+{
+    //Function to find the nth catalan number.
+    public static int findCatalan(int n)
+    {
+        if(n==0) return 1;
+        int ans = 0;
+        for(int i = 0; i<n; i++){
+            ans+=findCatalan(i)*findCatalan(n-1-i);
+        }
+        return ans;
+    }
+}

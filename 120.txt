@@ -1,0 +1,88 @@
+class TestClass {
+    public static Set<ArrayList<Integer>> function(int mat[][]){
+        Set<ArrayList<Integer>> set = new HashSet<ArrayList<Integer>>();
+        int m = mat.length;
+        int n = mat[0].length;
+        int N = Math.min(m,n);
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                int r = i, c = j;
+                int size = 1;
+                while(size<=N){
+                    ArrayList<Integer> list = new ArrayList<Integer>();
+                    for(int I = 0; I<size; I++){
+                        for(int J = 0; J<size; J++){
+                            if(r+I<m && c+J<n)
+                        		list.add(mat[r+I][c+J]);
+                        }
+                    }
+                    set.add(list);
+                    size++;
+                }
+            }
+        }
+        return set;
+    }
+    public static void main(String args[] ) throws Exception {
+        /* Sample code to perform I/O:
+         * Use either of these methods for input
+
+        //BufferedReader
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String name = br.readLine();                // Reading input from STDIN
+        System.out.println("Hi, " + name + ".");    // Writing output to STDOUT
+
+        //Scanner
+        Scanner s = new Scanner(System.in);
+        String name = s.nextLine();                 // Reading input from STDIN
+        System.out.println("Hi, " + name + ".");    // Writing output to STDOUT
+
+        */
+
+        Scanner input = new Scanner(System.in);
+        int m = input.nextInt();
+        int n = input.nextInt();
+        int keshtak1[][] = new int[m][n];
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                keshtak1[i][j] = input.nextInt();
+            }
+        }
+        int x = input.nextInt();
+        int y = input.nextInt();
+        int keshtak2[][] = new int[m][n];
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                keshtak2[i][j] = input.nextInt();
+            }
+        }
+        // for(int i = 0; i<m; i++){
+        //     for(int j = 0; j<n; j++){
+        //         System.out.print(keshtak1[i][j]+" ");
+        //     }
+        //     System.out.println();
+        // }
+        // for(int i = 0; i<m; i++){
+        //     for(int j = 0; j<n; j++){
+        //         System.out.print(keshtak2[i][j]+" ");
+        //     }
+        //     System.out.println();
+        // }
+
+        Set<ArrayList<Integer>> s1 = new HashSet<ArrayList<Integer>>();
+        s1 = function(keshtak1);
+        Set<ArrayList<Integer>> s2 = new HashSet<ArrayList<Integer>>();
+        s2 = function(keshtak2);
+        s1.retainAll(s2);
+
+        int ans = 0;
+        
+        for(ArrayList<Integer> element : s1){
+        	if(element.size()>ans) {
+        		ans = element.size();
+        	}
+        }
+        
+        System.out.println(ans/2);
+    }
+}

@@ -1,0 +1,110 @@
+class GFG {
+    static final int N = 3;
+    static void getCofactor(int mat[][], int temp[][],
+                            int p, int q, int n)
+    {
+        int i = 0, j = 0;
+ 
+        // Looping for each element of
+        // the matrix
+        for (int row = 0; row < n; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                // Copying into temporary matrix
+                // only those element which are
+                // not in given row and column
+                if (row != p && col != q)
+                {
+                    temp[i][j++] = mat[row][col];
+                    // Row is filled, so increase
+                    // row index and reset col
+                    // index
+                    if (j == n - 1)
+                    {
+                        j = 0;
+                        i++;
+                    }
+                }
+            }
+        }
+    }
+ 
+    /* Recursive function for finding determinant
+    of matrix. n is current dimension of mat[][]. */
+    static int determinantOfMatrix(int mat[][], int n)
+    {
+        int D = 0; // Initialize result
+ 
+        // Base case : if matrix contains single
+        // element
+        if (n == 1)
+            return mat[0][0];
+ 
+        // To store cofactors
+        int temp[][] = new int[N][N];
+ 
+        // To store sign multiplier
+        int sign = 1;
+ 
+        // Iterate for each element of first row
+        for (int f = 0; f < n; f++)
+        {
+            // Getting Cofactor of mat[0][f]
+            getCofactor(mat, temp, 0, f, n);
+            D += sign * mat[0][f]
+                 * determinantOfMatrix(temp, n - 1);
+ 
+            // terms are to be added with
+            // alternate sign
+            sign = -sign;
+        }
+ 
+        return D;
+    }
+    
+	public static void main (String[] args) {
+		int mat[][] = {{0,0,1,1},{0,0,1,1},{1,1,0,1},{1,1,1,0}};
+		int n = mat.length;
+		int degree[][] = new int[n][n];
+		int laplace[][] = new int[n][n];
+		for (int i = 0; i<n; i++){
+		    int count = 0;
+		    for(int j = 0; j<n; j++){
+		        if(mat[i][j]!=0) count++;
+		    }
+		    degree[i][i] = count;
+		}
+// 		for (int i = 0; i<n; i++){
+// 		    for(int j = 0; j<n; j++){
+// 		        System.out.print(mat[i][j]+" ");
+// 		    }
+// 		    System.out.println();
+// 		}
+// 		for (int i = 0; i<n; i++){
+// 		    for(int j = 0; j<n; j++){
+// 		        System.out.print(degree[i][j]+" ");
+// 		    }
+// 		    System.out.println();
+// 		}
+		for (int i = 0; i<n; i++){
+		    for(int j = 0; j<n; j++){
+		        laplace[i][j] = degree[i][j]-mat[i][j];
+		    }
+		}
+// 		for (int i = 0; i<n; i++){
+// 		    for(int j = 0; j<n; j++){
+// 		        System.out.print(laplace[i][j]+" ");
+// 		    }
+// 		    System.out.println();
+// 		}
+        int temp[][] = new int[n-1][n-1];
+        for(int i = 0; i<temp.length; i++){
+            for(int j = 0; j<temp.length; j++){
+                temp[i][j] = laplace[i+1][j+1];
+            }
+        }
+        int ans = (int)Math.pow(1, 0+0)*determinantOfMatrix(temp, temp.length);
+        System.out.println(ans);
+	}
+}

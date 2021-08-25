@@ -1,0 +1,21 @@
+	void longest_distance_directed(int n, int source) {
+		int distance[] = new int[n];
+		Arrays.fill(distance, Integer.MIN_VALUE);
+		Stack<Integer> topo = topological_sort_dfs(n);
+		distance[source] = 0;
+		while(!topo.isEmpty()) {
+			int node = topo.pop();
+			if(distance[node]!=Integer.MIN_VALUE) {
+				if(map.containsKey(node)) {
+					for(int i = 0; i<map.get(node).size(); i++) {
+						if(distance[node]+map.get(node).get(i).getElement1()>distance[map.get(node).get(i).getElement0()]) {
+							distance[map.get(node).get(i).getElement0()] = distance[node]+map.get(node).get(i).getElement1();
+						}
+					}
+				}
+			}
+		}
+		for(int i = 0; i<n; i++) {
+			System.out.print(distance[i]+" ");
+		}
+	}

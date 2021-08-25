@@ -1,0 +1,67 @@
+class Solution
+{
+    HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+    void addEdge(int u, int v){
+        if(!map.containsKey(u)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(v);
+            map.put(u, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(u);
+            list.add(v);
+            map.put(u, list);
+        }
+    }
+    void printGraph() {
+		for(int i: map.keySet()){
+            System.out.print(i+"->");
+            for(int j = 0; j<map.get(i).size(); j++){
+                System.out.print(map.get(i).get(j)+"->");
+            }
+            System.out.println();
+        }
+	}
+    public String findOrder(String [] dict, int N, int K)
+    {
+        String ans = new String();
+        char[] alpha = new char[27];
+        int vis[] = new int[27];
+        int counter = 97;
+        for(int i = 1; i<alpha.length; i++){
+            alpha[i] = (char) counter;
+            // System.out.print(alpha[i]);
+            counter++;
+        }
+        // System.out.println();
+        int beg = 0;
+        for(int i = 0; i<dict.length-1; i++){
+            int ind = 0;
+            while(ind<Math.min(dict[i].length(), dict[i+1].length()) && dict[i].charAt(ind)==dict[i+1].charAt(ind)){
+                ind++;
+            }
+            if(i==0 && ind<dict[i].length()){
+                beg = Arrays.binarySearch(alpha, dict[i].charAt(ind));
+            }
+            if(ind<dict[i].length()) addEdge(Arrays.binarySearch(alpha, dict[i].charAt(ind)), Arrays.binarySearch(alpha, dict[i+1].charAt(ind)));
+        }
+        // printGraph();
+        // System.out.println(beg);
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.add(beg);
+        vis[beg] = 1;
+        while(!q.isEmpty()){
+            int curr = q.poll();
+            ans += alpha[curr];
+            if(map.containsKey(curr)){
+                for(int i = 0; i<map.get(curr).size(); i++){
+                    if(vis[map.get(curr).get(i)]==0){
+                        q.add(map.get(curr).get(i));
+                        vis[map.get(curr).get(i)]=1;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}

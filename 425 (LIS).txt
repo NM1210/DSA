@@ -1,0 +1,52 @@
+BOTTOM-UP(NlogN):-
+
+static int longestSubsequence(int size, int a[])
+    {
+        int end_elems[] = new int[size+1];
+        Arrays.fill(end_elems, Integer.MAX_VALUE);
+        int ans = 0;
+        for(int i = 0; i<size; i++){
+            int f = 1;
+            int l = size;
+            while(f<=l){
+                int mid = (f+l)/2;
+                if(a[i]<end_elems[mid]){
+                    l = mid - 1;
+                }
+                else if(a[i]>end_elems[mid]){
+                    f = mid + 1;
+                }
+            }
+            end_elems[f] = a[i];
+            if(f>ans) ans = f;
+        }
+        return ans;
+    }
+_______________________________________________________________
+
+BOTTOM-UP:-
+
+class Solution 
+{
+    //Function to find length of longest increasing subsequence.
+    static int longestSubsequence(int size, int a[])
+    {
+        int dp[] = new int[size];
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i<size-1; i++){
+            for(int j = i+1; j<size; j++){
+                if(a[j]>a[i]){
+                    if(dp[i]+1>dp[j]){
+                        dp[j] = dp[i]+1;
+                    }
+                }
+            }
+        }
+        for(int i = 0; i<size; i++){
+            if(dp[i]>max){
+                max = dp[i];
+            }
+        }
+        return max+1;
+    }
+} 

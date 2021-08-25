@@ -1,0 +1,90 @@
+public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {
+        int board[][] = new int[N][N];
+        for(int[] row: board){
+            Arrays.fill(row, -1);
+        }
+        int start[] = new int[2];
+        int end[] = new int[2];
+        start[0] = N - KnightPos[1];
+        start[1] = KnightPos[0] - 1;
+        end[0] = N - TargetPos[1];
+        end[1] = TargetPos[0] - 1;
+        Queue<int[]> q = new LinkedList<>();
+        board[start[0]][start[1]] = 0;
+        q.add(start);
+        while(!q.isEmpty()){
+            int curr[] = q.poll();
+            if(check(curr[0]-2, curr[1]-1, board, board[curr[0]][curr[1]]+1)){
+            	int temp[] = new int[2];
+                board[curr[0]-2][curr[1]-1] = board[curr[0]][curr[1]]+1;
+                temp[0] = curr[0]-2;
+                temp[1] = curr[1]-1;
+                q.add(temp);
+            }
+            if(check(curr[0]-2, curr[1]+1, board, board[curr[0]][curr[1]]+1)){
+            	int temp[] = new int[2];
+                board[curr[0]-2][curr[1]+1] = board[curr[0]][curr[1]]+1;
+                temp[0] = curr[0]-2;
+                temp[1] = curr[1]+1;
+                q.add(temp);
+            }
+            if(check(curr[0]-1, curr[1]+2, board, board[curr[0]][curr[1]]+1)){
+            	int temp[] = new int[2];
+                board[curr[0]-1][curr[1]+2] = board[curr[0]][curr[1]]+1;
+                temp[0] = curr[0]-1;
+                temp[1] = curr[1]+2;
+                q.add(temp);
+            }
+            if(check(curr[0]+1, curr[1]+2, board, board[curr[0]][curr[1]]+1)){
+            	int temp[] = new int[2];
+                board[curr[0]+1][curr[1]+2] = board[curr[0]][curr[1]]+1;
+                temp[0] = curr[0]+1;
+                temp[1] = curr[1]+2;
+                q.add(temp);
+            }
+            if(check(curr[0]+2, curr[1]+1, board, board[curr[0]][curr[1]]+1)){
+            	int temp[] = new int[2];
+                board[curr[0]+2][curr[1]+1] = board[curr[0]][curr[1]]+1;
+                temp[0] = curr[0]+2;
+                temp[1] = curr[1]+1;
+                q.add(temp);
+            }
+            if(check(curr[0]+2, curr[1]-1, board, board[curr[0]][curr[1]]+1)){
+            	int temp[] = new int[2];
+                board[curr[0]+2][curr[1]-1] = board[curr[0]][curr[1]]+1;
+                temp[0] = curr[0]+2;
+                temp[1] = curr[1]-1;
+                q.add(temp);
+            }
+            if(check(curr[0]+1, curr[1]-2, board, board[curr[0]][curr[1]]+1)){
+            	int temp[] = new int[2];
+                board[curr[0]+1][curr[1]-2] = board[curr[0]][curr[1]]+1;
+                temp[0] = curr[0]+1;
+                temp[1] = curr[1]-2;
+                q.add(temp);
+            }
+            if(check(curr[0]-1, curr[1]-2, board, board[curr[0]][curr[1]]+1)){
+            	int temp[] = new int[2];
+                board[curr[0]-1][curr[1]-2] = board[curr[0]][curr[1]]+1;
+                temp[0] = curr[0]-1;
+                temp[1] = curr[1]-2;
+                q.add(temp);
+            }
+            for(int i = 0; i<N; i++){
+                for(int j = 0; j<N; j++){
+                    System.out.print(board[i][j]+"    ");
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
+        
+        return board[end[0]][end[1]];
+    }
+    
+    boolean check(int r, int c, int[][] mat, int count){
+        if(r<0 || r>=mat.length || c<0 || c>=mat[0].length) return false;
+        if(mat[r][c]!=-1 && count>=mat[r][c]) return false;
+        return true;
+    }

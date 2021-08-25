@@ -1,0 +1,25 @@
+BOTTOM-UP:-
+
+public class No3Consecutive {
+
+	public static void main(String[] args) {
+//		int a[] = {1, 2, 3};						//5
+//		int a[] = {3000, 2000, 1000, 3, 10};		//5013		
+//		int a[] = {100, 1000, 100, 1000, 1};		//2101
+//		int a[] = {1, 1, 1, 1, 1};					//4
+		int a[] = {1, 2, 3, 4, 5, 6, 7, 8};			//27
+		int n = a.length;
+		int sum[] = new int[n];
+		if(n>=1)
+			sum[0] = a[0];
+		if(n>=2)
+			sum[1] = a[0] + a[1];
+		if(n>2)
+			sum[2] = Math.max(sum[1], Math.max(a[1]+a[2], a[0]+a[2]));
+		for(int i = 3; i<n; i++) {
+			sum[i] = Math.max(sum[i-1], Math.max(sum[i-2]+a[i], a[i-1]+a[i]+sum[i-3]));
+		}
+		System.out.println(sum[n-1]);
+	}
+
+}

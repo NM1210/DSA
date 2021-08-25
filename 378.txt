@@ -1,0 +1,51 @@
+public class TSP {
+	
+	int min = Integer.MAX_VALUE;
+	
+	public static void main(String[] args) {
+		
+		TSP obj = new TSP();
+		int mat[][] = {{0,0,0,0,0},
+					   {0,0,10,15,20},
+					   {0,5,0,9,10},
+					   {0,6,13,0,12},
+					   {0,8,8,9,0}};
+//		for(int i = 1; i<mat.length; i++) {
+//			for(int j = 1; j<mat[i].length; j++) {
+//				System.out.print(mat[i][j]+" ");
+//			}
+//			System.out.println();
+//		}
+		int n = mat.length-1;
+		int vis[] = new int[n+1];
+//		System.out.println(n);
+		for(int i = 1; i<=n; i++){
+            vis[i] = 1;
+            obj.tsp(i, n, mat, vis, 0, 1);
+            vis[i] = 0;
+        }
+		System.out.println(obj.min);
+	}
+
+	void tsp(int i, int n, int[][] mat, int[] vis, int distance, int count) {
+		if(count == n) {
+			for(int j = 1; j<=n; j++){
+	            if(vis[j]==1){
+	                if(distance+mat[i][j]<min) {
+	                	min = distance+mat[i][j];
+//	                	System.out.println(min);
+	                }
+	            }
+	        }
+		}
+		for(int j = 1; j<=n; j++){
+            if(mat[i][j]!=0 && vis[j]==0){
+                vis[j] = count+1;
+                tsp(j, n, mat, vis, distance+mat[i][j], vis[j]);
+                vis[j] = 0;
+            }
+        }
+	}
+}
+
+_______________________________________________________________________________________________________

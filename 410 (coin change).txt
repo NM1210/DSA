@@ -1,0 +1,239 @@
+TOTAL NUMBER OF COMBINATIONS USING BOTTOM-UP(OPTIMAL APPROACH):-
+
+class Solution {
+    public int change(int amount, int[] coins) {
+        int dp[] = new int[amount +1];
+        dp[0] = 1;
+        for(int i = 0; i<coins.length; i++){
+            for(int amt = i; amt<dp.length; amt++){
+                if(amt - coins[i]>=0){
+                    dp[amt] += dp[amt - coins[i]];
+                }
+            }
+        }
+        return dp[amount];
+    }
+}
+
+_____________________________________________________________________________________
+
+TOTAL NUMBER OF COMBINATIONS USING BOTTOM-UP:-
+
+class Solution {
+    int dp[][];
+    int max(int coins[]){
+        int max = 0;
+        for(int i = 0; i<coins.length; i++){
+            if(coins[i]>max) max = coins[i];
+        }
+        return max;
+    }
+    public int change(int amount, int[] coins) {
+        if(amount==0) return 1;
+        dp = new int[amount+1][max(coins)+1];
+        // for (int[] row: dp){
+        //     Arrays.fill(row, -1);
+        // }
+        int n = coins.length;
+        // System.out.print(dp.length+" "+dp[0].length);
+        for(int i = 0; i<n; i++){
+            dp[0][coins[i]] = 1;
+        }
+        for(int amt = 1; amt<amount; amt++){
+            for(int prev = 0; prev<n; prev++){
+                if(amt<=amount-coins[prev]){
+                    for(int coin = 0; coin<n; coin++){
+                        if(amt-coins[coin]>=0 && coins[coin]>=coins[prev]){
+                            dp[amt][coins[prev]] += dp[amt-coins[coin]][coins[coin]];
+                        }
+                    }
+                }
+            }
+        }
+        for(int i = 0; i<n; i++){
+            if(amount-coins[i]>=0){
+                dp[amount][0] += dp[amount-coins[i]][coins[i]];
+            }
+        }
+        // for(int i = 0; i<dp.length; i++){
+        //     for(int j = 0; j<dp[0].length; j++){
+        //         System.out.print(dp[i][j]+" ");
+        //     }
+        //     System.out.println();
+        // }
+        return dp[amount][0];
+    }
+}
+
+___________________________________________________________________________
+
+MINIMUM NUMBER OF COINS REQUIRED USING BOTTOM-UP:-
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
+        int dp[] = new int[amount+1];
+        for(int i = 1; i<=amount; i++){
+            int min = Integer.MAX_VALUE;
+            for(int j = 0; j<coins.length; j++){
+                if(i-coins[j]>=0)
+                    if(dp[i-coins[j]]<min)
+                        min = dp[i-coins[j]]+1;
+            }
+            dp[i] = min;
+        }
+        return dp[amount]==Integer.MAX_VALUE?-1:dp[amount];
+    }
+}
+
+_____________________________________________________________________________
+
+TOTAL NUMBER OF COMBINATIONS USING MEMOIZATION:-
+
+class Solution {
+    int dp[][];
+    int coin_change(int coins[], int amt, int prev)
+    {
+        if(amt==0){
+            dp[amt][prev] = 1;
+            return dp[amt][prev];
+        } 
+        int count = 0;
+        for(int i = 0; i<coins.length; i++){
+            if(coins[i]>=prev && amt-coins[i]>=0){
+                if(dp[amt-coins[i]][coins[i]]!=-1){
+                    count += dp[amt-coins[i]][coins[i]];
+                }
+                else{
+                    count += coin_change(coins, amt-coins[i], coins[i]);
+                }
+            }
+        }
+        dp[amt][prev] = count;
+        return dp[amt][prev];
+    }   
+    int max(int coins[]){
+        int max = 0;
+        for(int i = 0; i<coins.length; i++){
+            if(coins[i]>max) max = coins[i];
+        }
+        return max;
+    }
+    public int change(int amount, int[] coins) {
+        dp = new int[amount+1][max(coins)+1];
+        for (int[] row: dp){
+            Arrays.fill(row, -1);
+        }
+        // System.out.print(dp.length+" "+dp[0].length);
+        return coin_change(coins, amount, 0);
+    }
+}
+
+_________________________________________________________________________
+
+MINIMUM NUMBER OF COINS REQUIRED USING MEMOIZATION:-
+
+class Solution {
+    int dp[] = new int[10000];
+    int coin_change(int[] coins, int amt){
+        if(amt<=0){
+            if(amt==0) return dp[0];
+            return Integer.MAX_VALUE/2;
+        }
+        if(dp[amt]!=0){
+            return dp[amt];
+        }
+        int min = Integer.MAX_VALUE/2;
+        for(int i = 0; i<coins.length; i++){
+            int temp = coin_change(coins, amt - coins[i]) + 1;
+            if(temp<min){
+                min = temp;
+            }
+        }
+        dp[amt] = min;
+        return min;
+    }
+    public int coinChange(int[] coins, int amount) {
+        int res = coin_change(coins, amount);
+        if(res>=Integer.MAX_VALUE/2) return -1;
+        return res;
+    }
+}
+
+_________________________________________________________________________
+
+TOTAL NUMBER OF COMBINATIONS USING RECURRSION:-
+
+class Solution {
+    int coin_change(int coins[], int amt, int prev)
+    {
+        if(amt==0) return 1;
+        int count = 0;
+        for(int i = 0; i<coins.length; i++){
+            if(coins[i]>=prev && amt-coins[i]>=0){
+                count += coin_change(coins, amt-coins[i], coins[i]);
+            }
+        }
+        return count;
+    }    
+    public int change(int amount, int[] coins) {
+        return coin_change(coins, amount, 0);
+    }
+}
+
+_________________________________________________________________________
+
+MINIMUM NUMBER OF COINS REQUIRED USING RECURRSION:-
+
+class Solution
+{
+    long min = Long.MAX_VALUE;
+    void coin_change(int coins[], int amt, int count){
+        if(amt<=0){
+            if(amt==0 && count<min){
+                min = count;
+            }
+            return;
+        }
+        for(int i = 0; i<coins.length; i++){
+            coin_change(coins, amt - coins[i], count+1);
+        }
+    }
+    public long count(int S[], int m, int n) 
+    { 
+        coin_change(S, n, 0);
+        return min;
+    } 
+}
+
+_______________________________________________________________________
+
+TOTAL NUMBER OF COMBINATIONS (MORE LIKE PERMUTATIONS) USING RECURRSION:-
+
+class Solution
+{
+    long min = 0;
+    // void coin_change(int coins[], int amt, int count){
+    //     if(amt<=0){
+    //         if(amt==0 && count<min){
+    //             min = count;
+    //         }
+    //         return;
+    //     }
+        // for(int i = 0; i<coins.length; i++){
+        //     coin_change(coins, amt - coins[i], count+1);
+        // }
+    // }
+    public long count(int S[], int m, int n) 
+    { 
+        if(n <= 0){
+            if(n==0){
+                min += 1;
+            }
+            return min;
+        }
+        for(int i = 0; i<m; i++){
+            count(S, m, n - S[i]);
+        }
+        return min;
+    }
+}

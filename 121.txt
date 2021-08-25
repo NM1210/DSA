@@ -1,0 +1,104 @@
+class TestClass {
+    public static void main(String args[] ) throws Exception {
+        /* Sample code to perform I/O:
+         * Use either of these methods for input
+
+        //BufferedReader
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String name = br.readLine();                // Reading input from STDIN
+        System.out.println("Hi, " + name + ".");    // Writing output to STDOUT
+
+        //Scanner
+        Scanner s = new Scanner(System.in);
+        String name = s.nextLine();                 // Reading input from STDIN
+        System.out.println("Hi, " + name + ".");    // Writing output to STDOUT
+
+        */
+
+        Scanner input = new Scanner(System.in);
+
+        int t = input.nextInt();
+        // System.out.println(t);
+        for(int i = 0; i<t; i++){
+            int n = input.nextInt();
+            int q = input.nextInt();
+            // System.out.println(n+" "+q);
+            int ab[][] = new int[n][2];
+            for(int j = 0; j<n; j++){
+                ab[j][0] = input.nextInt();
+                ab[j][1] = input.nextInt();
+            }
+            // for(int j = 0; j<n; j++){
+            //     System.out.println(ab[j][0]+" "+ab[j][1]);
+            // }
+            int k[] = new int[q];
+            for(int j = 0; j<q; j++){
+                k[j] = input.nextInt();
+            }
+            // for(int j = 0; j<q; j++){
+            //     System.out.println(k[j]);
+            // }
+            for(int j = 0; j<n; j++){
+                for(int K = 0; K<q; K++){
+                    if(k[K]>ab[j][1]-ab[j][0]) System.out.println(-1);
+                    else{
+                        System.out.println(ab[j][0]+k[K]-1);
+                    }
+                }
+            }
+        }
+
+    }
+}
+___________________________________________________________________________________
+
+class TestClass {
+    public static void main(String args[] ) throws Exception {
+        /* Sample code to perform I/O:
+         * Use either of these methods for input
+
+        //BufferedReader
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String name = br.readLine();                // Reading input from STDIN
+        System.out.println("Hi, " + name + ".");    // Writing output to STDOUT
+
+        //Scanner
+        Scanner s = new Scanner(System.in);
+        String name = s.nextLine();                 // Reading input from STDIN
+        System.out.println("Hi, " + name + ".");    // Writing output to STDOUT
+
+        */
+
+        Scanner input = new Scanner(System.in);
+
+        int t = input.nextInt();
+        // System.out.println(t);
+        for(int i = 0; i<t; i++){
+            int n = input.nextInt();
+            int q = input.nextInt();
+            // System.out.println(n+" "+q);
+            int ab[][] = new int[n][2];
+            for(int j = 0; j<n; j++){
+                ab[j][0] = input.nextInt();
+                ab[j][1] = input.nextInt();
+            }
+            // for(int j = 0; j<n; j++){
+            //     System.out.println(ab[j][0]+" "+ab[j][1]);
+            // }
+            int k[] = new int[q];
+            for(int j = 0; j<q; j++){
+                k[j] = input.nextInt();
+            }
+            // for(int j = 0; j<q; j++){
+            //     System.out.println(k[j]);
+            // }
+            for(int j = 0; j<q; j++){
+                if(k[j]>ab[j%n][1]-ab[j%n][0]+1) System.out.println(-1);
+                else{
+                    System.out.println(ab[j%n][0]+k[j]-1);
+                }
+            }
+        }
+
+    }
+}

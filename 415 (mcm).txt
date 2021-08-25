@@ -1,0 +1,74 @@
+BOTTOM-UP:-
+
+class Solution{
+    static int matrixMultiplication(int N, int arr[])
+    {
+        int dp[][] = new int[N][N];
+        for(int row[]: dp){
+            Arrays.fill(row, -1);
+        }
+        for(int i = 0; i<N; i++){
+            dp[i][i] = 0;
+        }
+        for(int l = 1; l<N-1; l++){
+            for(int i = 1; i<N-l; i++){
+                int j = i + l;
+                int min = Integer.MAX_VALUE;
+                for(int k = i+1; k<=j; k++){
+                    int temp = arr[i-1]*arr[j]*arr[k-1] + dp[i][k-1] + dp[k][j];
+                    if(temp<min) min = temp;
+                }
+                dp[i][j] = min;
+            }
+        }
+        return dp[1][N-1];
+    }
+}
+___________________________________________________________________________________________________
+
+MEMOIZATION:-
+
+class Solution{
+    static int dp[][];
+    static int mcm(int arr[], int i, int j){
+        if(i==j){
+            dp[i][j] = 0;
+            return dp[i][j];
+        }
+        if(dp[i][j]!=-1) return dp[i][j];
+        int min = Integer.MAX_VALUE;
+        for(int k = i+1; k<=j; k++){
+            int temp = mcm(arr, i, k-1) + mcm(arr, k, j) + arr[i-1]*arr[j]*arr[k-1];
+            if(temp<min) min = temp;
+        }
+        dp[i][j] = min;
+        return dp[i][j];
+    }
+    static int matrixMultiplication(int N, int arr[])
+    {
+        dp = new int[N][N];
+        for(int row[]: dp){
+            Arrays.fill(row, -1);
+        }
+        return mcm(arr, 1, N-1);
+    }
+}
+__________________________________________________________________________________________________
+
+RECURRSION:-
+
+class Solution{
+    static int mcm(int arr[], int i, int j){
+        if(i==j) return 0;
+        int min = Integer.MAX_VALUE;
+        for(int k = i+1; k<=j; k++){
+            int temp = mcm(arr, i, k-1) + mcm(arr, k, j) + arr[i-1]*arr[j]*arr[k-1];
+            if(temp<min) min = temp;
+        }
+        return min;
+    }
+    static int matrixMultiplication(int N, int arr[])
+    {
+        return mcm(arr, 1, N-1);
+    }
+}

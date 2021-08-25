@@ -1,0 +1,79 @@
+class Solution {
+    HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+    void addEdge(int connection[]){
+        int u = connection[0];
+        int v = connection[1];
+        if(!map.containsKey(u)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(v);
+            map.put(u, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(u);
+            list.add(v);
+            map.put(u, list);
+        }
+        if(!map.containsKey(v)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(u);
+            map.put(v, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(v);
+            list.add(u);
+            map.put(v, list);
+        }
+    }
+    void printGraph() {
+		for(int i: map.keySet()){
+            System.out.print(i+"->");
+            for(int j = 0; j<map.get(i).size(); j++){
+                System.out.print(map.get(i).get(j)+"->");
+            }
+            System.out.println();
+        }
+	}
+    int bfs(int node, int vis[]){
+        int n = 0;
+        int e = 0;
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.add(node);
+        while(!q.isEmpty()){
+            int curr = q.poll();
+            if(vis[curr]!=1){
+                n++;
+                vis[curr] = 1;
+                if(map.containsKey(curr)){
+                    for(int j = 0; j<map.get(curr).size(); j++){
+                        if(vis[map.get(curr).get(j)]!=1){
+                            e++;
+                            q.add(map.get(curr).get(j));
+                        }
+                    }
+                }
+            }
+        }
+        return e-(n-1);
+    }
+    int call_bfs(int n){
+        int visited[] = new int[n];
+        int c = 0;
+        int r = 0;
+        for(int i = 0; i<visited.length; i++){
+            if(visited[i]!=1){
+                c++;
+                r += bfs(i, visited);
+            }
+        }
+        if(r<c-1) return -1;
+        else return c-1;
+    }
+    public int makeConnected(int n, int[][] connections) {
+        // Solution graph = new Solution();
+        for(int i = 0; i<connections.length; i++){
+            addEdge(connections[i]);
+        }
+        // printGraph();
+        return call_bfs(n);
+    }
+}

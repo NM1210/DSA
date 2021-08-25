@@ -1,0 +1,200 @@
+class GFG {
+    HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+    void addEdge(int u, int v){
+        if(!map.containsKey(u)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(v);
+            map.put(u, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(u);
+            list.add(v);
+            map.put(u, list);
+        }
+        
+    }
+    void printGraph(){
+        for(Integer node: map.keySet()){
+            System.out.print(node+"->");
+            for(int i = 0; i<map.get(node).size(); i++){
+                System.out.print(map.get(node).get(i)+"->");
+            }
+            System.out.println();
+        }
+    }
+    int sum(int degree[]){
+        int sum = 0;
+        for(int i = 0; i<degree.length; i++){
+            sum += degree[i];
+        }
+        return sum;
+    }
+    void dfs(int start, Stack<Integer> S, Stack<Integer> result, int outdegree[]){
+        // if(sum(outdegree)==0) return S;
+        // if(map.containsKey(start)){
+            S.push(start);
+            for(int i = 0; i<map.get(start).size(); i++){
+                if(map.get(start).get(i)!=-1){
+                    int next = map.get(start).get(i);
+                    map.get(start).set(i, -1);
+                    outdegree[start]--;
+                    dfs(next, S, result, outdegree);
+                }
+            }
+            result.push(S.pop());
+        // }
+    }
+	public static void main (String[] args) {
+		GFG graph = new GFG();
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(1, 3);
+		graph.addEdge(2, 0);
+		graph.addEdge(3, 4);
+		graph.addEdge(4, 1);
+		graph.printGraph();
+		int n = graph.map.size();
+		boolean f = true;
+		int indegree[] = new int[n];
+		int outdegree[] = new int[n];
+		for(int i = 0; i<n; i++){
+		    outdegree[i] = graph.map.get(i).size();
+		    for(int j = 0; j<outdegree[i]; j++){
+		        indegree[graph.map.get(i).get(j)]++;
+		    }
+		}
+// 		for(int i = 0; i<n; i++){
+// 		    System.out.print(indegree[i]+" ");
+// 		}
+// 		System.out.println();
+// 		for(int i = 0; i<n; i++){
+// 		    System.out.print(outdegree[i]+" ");
+// 		}
+		for(int i = 0; i<n; i++){
+		    if(indegree[i]!=outdegree[i]) f = false;
+		}
+		if(!f){
+		    int count = 0;
+		    for(int i = 0; i<n; i++){
+		        if(outdegree[i] - indegree[i] == 1 || outdegree[i] - indegree[i] == -1) count++;
+		    }
+		    if(count == 2) f = true;
+		}
+		if(f){
+		    Stack<Integer> S = new Stack<>();
+		    Stack<Integer> result = new Stack<>();
+		  //  System.out.print(S.size());
+		  //  Stack<Integer> result = graph.dfs(0, S, outdegree);
+		    graph.dfs(0, S, result, outdegree);
+		  //  System.out.println(S.size());
+		    while(!result.isEmpty()){
+                System.out.print(result.pop()+" ");
+	        }
+		}
+		else System.out.print(f);
+	}
+}
+
+_____________________________________________________________________________________________________________________________________
+
+/*package whatever //do not write package name here */
+
+import java.io.*;
+import java.util.*;
+
+class GFG {
+    HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+    void addEdge(int u, int v){
+        if(!map.containsKey(u)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(v);
+            map.put(u, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(u);
+            list.add(v);
+            map.put(u, list);
+        }
+        
+    }
+    void printGraph(){
+        for(Integer node: map.keySet()){
+            System.out.print(node+"->");
+            for(int i = 0; i<map.get(node).size(); i++){
+                System.out.print(map.get(node).get(i)+"->");
+            }
+            System.out.println();
+        }
+    }
+    int sum(int degree[]){
+        int sum = 0;
+        for(int i = 0; i<degree.length; i++){
+            sum += degree[i];
+        }
+        return sum;
+    }
+    void dfs(int start, Stack<Integer> S, int outdegree[]){
+        // if(sum(outdegree)==0) return S;
+        // if(map.containsKey(start)){
+            // S.push(start);
+            for(int i = 0; i<map.get(start).size(); i++){
+                if(map.get(start).get(i)!=-1){
+                    int next = map.get(start).get(i);
+                    map.get(start).set(i, -1);
+                    outdegree[start]--;
+                    dfs(next, S, outdegree);
+                }
+            }
+            S.push(start);
+        // }
+    }
+	public static void main (String[] args) {
+		GFG graph = new GFG();
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 2);
+		graph.addEdge(1, 3);
+		graph.addEdge(2, 0);
+		graph.addEdge(3, 4);
+		graph.addEdge(4, 1);
+		graph.printGraph();
+		int n = graph.map.size();
+		boolean f = true;
+		int indegree[] = new int[n];
+		int outdegree[] = new int[n];
+		for(int i = 0; i<n; i++){
+		    outdegree[i] = graph.map.get(i).size();
+		    for(int j = 0; j<outdegree[i]; j++){
+		        indegree[graph.map.get(i).get(j)]++;
+		    }
+		}
+// 		for(int i = 0; i<n; i++){
+// 		    System.out.print(indegree[i]+" ");
+// 		}
+// 		System.out.println();
+// 		for(int i = 0; i<n; i++){
+// 		    System.out.print(outdegree[i]+" ");
+// 		}
+		for(int i = 0; i<n; i++){
+		    if(indegree[i]!=outdegree[i]) f = false;
+		}
+		if(!f){
+		    int count = 0;
+		    for(int i = 0; i<n; i++){
+		        if(outdegree[i] - indegree[i] == 1 || outdegree[i] - indegree[i] == -1) count++;
+		    }
+		    if(count == 2) f = true;
+		}
+		if(f){
+		    Stack<Integer> S = new Stack<>();
+		  //  Stack<Integer> result = new Stack<>();
+		  //  System.out.print(S.size());
+		  //  Stack<Integer> result = graph.dfs(0, S, outdegree);
+		    graph.dfs(0, S, outdegree);
+		  //  System.out.println(S.size());
+		    while(!S.isEmpty()){
+                System.out.print(S.pop()+" ");
+	        }
+		}
+		else System.out.print(f);
+	}
+}

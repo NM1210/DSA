@@ -1,0 +1,32 @@
+BOTTOM-UP:-
+
+class Solution
+{
+	public int maxSumIS(int a[], int n)  
+	{  
+	    int dp[] = new int[n];
+	   // dp = a;
+	    for(int i = 0; i<n; i++){
+	        dp[i] = a[i];
+	    }
+	    for(int i = 0; i<n-1; i++){
+	        for(int j = i+1; j<n; j++){
+	            if(a[j]>a[i]){
+	                if(a[j]+dp[i]>dp[j]){
+	                    dp[j] = a[j] + dp[i];
+	                }
+	            }
+	        }
+	    }
+	   // for(int i = 0; i<n; i++){
+	   //     System.out.print(dp[i]+" ");
+	   // }
+	    int max = Integer.MIN_VALUE;
+	    for(int i = 0; i<n; i++){
+	        if(dp[i]>max){
+	            max = dp[i];
+	        }
+	    }
+	    return max;
+	}  
+}

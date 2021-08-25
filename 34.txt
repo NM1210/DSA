@@ -1,0 +1,30 @@
+	int max = 0;
+        int q = 0;
+        int i = 0;
+        int j = n-1;
+        int f = 0;
+    
+        for(int k = 0; k < n; k++){
+            if(arr[k] >= arr[max])
+                max = k;
+        }
+    
+        while(j!=max){
+            if(arr[j] > f)
+                f = arr[j];
+            else
+            {    q = q + f - arr[j];}
+            j--;
+        }
+    
+        f = 0;
+    
+        while(i!=max){
+            if(arr[i] > f)
+                f = arr[i];
+            else
+            {    q = q + f - arr[i];}
+            i++;
+        }
+    
+        return q;

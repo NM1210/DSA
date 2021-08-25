@@ -1,0 +1,136 @@
+class TestClass {
+    static HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+
+    void addEdge(int u, int v){
+        if(!map.containsKey(u)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(v);
+            map.put(u, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(u);
+            list.add(v);
+            map.put(u, list);
+        }
+        if(!map.containsKey(v)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(u);
+            map.put(v, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(v);
+            list.add(u);
+            map.put(v, list);
+        }
+    }
+
+    String towards(int start, int find, int[] vis){
+        Queue<Integer> q = new LinkedList<>();
+        q.add(start);
+        while(!q.isEmpty()){
+            int curr = q.poll();
+            if(curr==find) return "YES";
+            if(map.containsKey(curr)){
+                for(int i = 0; i<map.get(curr).size(); i++){
+                    if(vis[map.get(curr).get(i)]<vis[curr]){
+                        q.add(map.get(curr).get(i));
+                    }
+                }
+            }
+        }
+        return "NO";
+    }
+
+    boolean dfs(int start, int find, int[] vis){
+        if(start==find) return true;
+        if(map.containsKey(start)){
+            for(int i = 0; i<map.get(start).size(); i++){
+                if(vis[map.get(start).get(i)]>vis[start]){
+                    if(dfs(map.get(start).get(i), find, vis)) return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    String away(int start, int find, int[] vis){
+        if(dfs(start, find, vis)) return "YES";
+        return "NO";
+    }
+
+    // void printGraph() {
+	// 	for(Integer entry: map.keySet()) {
+	// 		System.out.print(entry + "->");
+	// 		for(Integer node : map.get(entry)) {
+	// 			System.out.print("("+node+")->");
+	// 		}
+	// 		System.out.println();
+	// 	}
+	// }
+
+    public static void main(String args[] ) throws Exception {
+        /* Sample code to perform I/O:
+         * Use either of these methods for input
+
+        //BufferedReader
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String name = br.readLine();                // Reading input from STDIN
+        System.out.println("Hi, " + name + ".");    // Writing output to STDOUT
+
+        //Scanner
+        Scanner s = new Scanner(System.in);
+        String name = s.nextLine();                 // Reading input from STDIN
+        System.out.println("Hi, " + name + ".");    // Writing output to STDOUT
+
+        */
+
+        TestClass graph = new TestClass();
+
+        Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        for(int i = 1; i<n; i++){
+            int u = input.nextInt();
+            int v = input.nextInt();
+            graph.addEdge(u, v);
+        }
+        // graph.printGraph();
+        int vis[] = new int[n+1];
+        Arrays.fill(vis, -1);
+        Queue<Integer> q = new LinkedList<>();
+        vis[1] = 0;
+        q.add(1);
+        while(!q.isEmpty()){
+            int curr = q.poll();
+            if(map.containsKey(curr)){
+                for(int i = 0; i<map.get(curr).size(); i++){
+                    if(vis[map.get(curr).get(i)]==-1){
+                        vis[map.get(curr).get(i)] = vis[curr]+1;
+                        q.add(map.get(curr).get(i));
+                    }
+                }
+            }
+        }
+        // for(int i = 0; i<vis.length; i++){
+        //     System.out.print(vis[i]+" ");
+        // }
+        int Q = input.nextInt();
+        int queries[][] = new int[Q][3];
+        for(int i = 0; i<Q; i++){
+            queries[i][0] = input.nextInt();
+            queries[i][1] = input.nextInt();
+            queries[i][2] = input.nextInt();
+        }
+        // for(int i = 0; i<Q; i++){
+        //     System.out.println(queries[i][0]+" "+queries[i][1]+" "+queries[i][2]);
+        // }
+        for(int i = 0; i<Q; i++){
+            if(queries[i][0]==0){
+                System.out.println(graph.towards(queries[i][2], queries[i][1], vis));
+            }
+            else{
+                System.out.println(graph.away(queries[i][2], queries[i][1], vis));
+            }
+        }
+
+    }
+}

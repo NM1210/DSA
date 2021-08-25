@@ -1,0 +1,115 @@
+class Solution {
+
+    public void merge(int arr1[], int arr2[], int n, int m) {
+        for(int i = 0; i < n; i++)
+        {
+            int j = 0;
+            if(arr1[i]>arr2[j]){
+                int temp = arr1[i];
+                arr1[i] = arr2[j];
+                while(j + 1 < m && temp > arr2[j+1]){
+                    arr2[j] = arr2[j+1];
+                    j++;
+                }
+                arr2[j] = temp;
+            }
+        }
+    }
+}
+__________________________________________________________________________
+
+class Solution {
+
+    public void merge(int arr1[], int arr2[], int n, int m) {
+        for(int j = m-1; j>=0; j--){
+            int last = arr1[n-1];
+            int i = n-2;
+            if(arr2[j] < last){
+                while(i>=0 && arr2[j]<arr1[i]){
+                    arr1[i+1] = arr1[i];
+                    i--;
+                }
+                arr1[i+1] = arr2[j];
+                arr2[j] = last;
+            }
+        }
+    }
+}
+__________________________________________________________________________
+
+class Solution {
+
+    public void merge(int arr1[], int arr2[], int n, int m) {
+        for(int j = m-1; j>=0; j--){
+            int last = arr1[n-1];
+            int i = n-2;
+            while(i>=0 && arr2[j]<arr1[i]){
+                arr1[i+1] = arr1[i];
+                if(i!=n-2 || arr2[j] < last){
+                    arr1[i+1] = arr2[j];
+                    arr2[j] = last;
+                }
+                i--;
+            }
+        }
+    }
+}
+__________________________________________________________________________
+
+class Solution {
+
+    public void merge(int arr1[], int arr2[], int n, int m) {
+        for(int j = m - 1; j>=0; j--){
+            int last = arr1[n - 1];
+            if(arr2[j]<last){
+                int i = n - 2;
+                while(i>=0 && arr2[j]<arr1[i]){
+                    arr1[i + 1] = arr1[i];
+                    i--;
+                }
+                arr1[i + 1] = arr2[j];
+                arr2[j] = last;
+            }
+        }
+    }
+}
+__________________________________________________________________________
+
+class Solution {
+
+    public void merge(int arr1[], int arr2[], int n, int m) {
+        for(int i = (m+n)/2 + (m+n)%2; i!=0; i = (i/2) + (i%2)){
+            // System.out.println("itr = " + i);
+            int index = 0;
+            while(index < n && (index+i) < n){
+                // System.out.println("1");
+                if(arr1[index] >= arr1[index + i]){
+                    int temp = arr1[index + i];
+                    arr1[index + i] = arr1[index];
+                    arr1[index] = temp;
+                }
+                index++;
+            }
+            // index = index%i;
+            while(index < n && (index%i) < m){
+                // System.out.println("2");
+                if(arr1[index] >= arr2[index%i]){
+                    int temp = arr2[index%i];
+                    arr2[index%i] = arr1[index];
+                    arr1[index] = temp;
+                }
+                index++;
+            }
+            index = 0;
+            while(index < m && (index+i) < m){
+                // System.out.println("3");
+                if(arr2[index] >= arr2[index + i]){
+                    int temp = arr2[index + i];
+                    arr2[index + i] = arr2[index];
+                    arr2[index] = temp;
+                }
+                index++;
+            }
+        }
+    }
+}

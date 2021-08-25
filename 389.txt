@@ -1,0 +1,119 @@
+class Pair{
+    private int element0;
+    private int element1;
+
+    public static Pair createPair(int element0, int element1) {
+        return new Pair(element0, element1);
+    }
+
+    public Pair(int element0, int element1) {
+        this.element0 = element0;
+        this.element1 = element1;
+    }
+    
+    Pair() {}
+
+    public int get0() {
+        return element0;
+    }
+
+    public int get1() {
+        return element1;
+    }
+    
+    public void set0(int element0) {
+        this.element0 = element0;
+    }
+
+    public void set1(int element1) {
+        this.element1 = element1;
+    }
+    
+}
+class Solution
+{
+	public static void main(String[] args) {
+		Solution obj = new Solution();
+		System.out.println(obj.minSteps(3, 5, 4));
+	}
+    public int  minSteps(int m, int n, int d)
+    {
+        if(d>n) return -1;
+        int dp[][] = new int[m+1][n+1];
+        Pair state = new Pair(0, 0);
+        // System.out.println(state.getElement0()+" "+state.getElement1());
+        dp[state.get0()][state.get1()] = 0;
+        for(int i = 0; i<dp.length; i++){
+            Arrays.fill(dp[i], -1);
+        }
+        Queue<Pair> q = new LinkedList<>();
+        q.add(state);
+        while(!q.isEmpty()){
+//        	System.out.println("in");
+            Pair curr = q.poll();
+            if(curr.get0()==d || curr.get1()==d) return dp[curr.get0()][curr.get1()];
+            if(dp[0][curr.get1()]==-1){
+                Pair temp = new Pair(0, curr.get1());
+                dp[temp.get0()][temp.get1()] = dp[curr.get0()][curr.get1()] + 1;
+                q.add(temp);
+            }
+            if(dp[curr.get0()][0]==-1){
+                Pair temp = new Pair(curr.get0(), 0);
+                dp[temp.get0()][temp.get1()] = dp[curr.get0()][curr.get1()] + 1;
+                q.add(temp);
+            }
+            if(dp[m][curr.get1()]==-1){
+                Pair temp = new Pair(m, curr.get1());
+                dp[temp.get0()][temp.get1()] = dp[curr.get0()][curr.get1()] + 1;
+                q.add(temp);
+            }
+            if(dp[curr.get0()][n]==-1){
+                Pair temp = new Pair(curr.get0(), n);
+                dp[temp.get0()][temp.get1()] = dp[curr.get0()][curr.get1()] + 1;
+                q.add(temp);
+            }
+            if(curr.get0()!= 0 && curr.get1()!= n){
+                Pair temp = new Pair(curr.get0(), curr.get1());
+//                while(temp.get0()!= 0 && temp.get1() != n){
+////                	System.out.println(temp.get0()+" "+temp.get1());
+//                    temp.set0(temp.get0()-1);
+//                    temp.set1(temp.get1()+1);
+////                    System.out.println(temp.get0()+" "+temp.get1());
+//                }
+                int to_fill = n - temp.get1();
+                int to_empty = temp.get0();
+                int min = Math.min(to_fill, to_empty);
+                temp.set0(temp.get0()-min);
+                temp.set1(temp.get1()+min);
+                if(dp[temp.get0()][temp.get1()]==-1){
+                    dp[temp.get0()][temp.get1()] = dp[curr.get0()][curr.get1()] + 1;
+                    q.add(temp);
+                }
+            }
+            if(curr.get0()!= m && curr.get1()!= 0){
+                Pair temp = new Pair(curr.get0(), curr.get1());
+//                while(temp.get0()!= m && temp.get1()!= 0){
+////                	System.out.println("??");
+//                    temp.set0(temp.get0()+1);
+//                    temp.set1(temp.get1()-1);
+//                }
+                int to_fill = m - temp.get0();
+                int to_empty = temp.get1();
+                int min = Math.min(to_fill, to_empty);
+                temp.set0(temp.get0()+min);
+                temp.set1(temp.get1()-min);
+                if(dp[temp.get0()][temp.get1()]==-1){
+                    dp[temp.get0()][temp.get1()] = dp[curr.get0()][curr.get1()] + 1;
+                    q.add(temp);
+                }
+            }
+        }
+        for(int i = 0; i<dp.length; i++){
+            for(int j = 0; j<dp[i].length; j++){
+                System.out.print(dp[i][j]+" ");
+            }
+            System.out.println();
+        }
+        return -1;
+    }
+}

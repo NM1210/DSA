@@ -1,0 +1,41 @@
+class Solution {
+    public int strStr(String haystack, String needle) {
+        if(needle.isEmpty()) return 0;
+        else if(!needle.isEmpty() && haystack.isEmpty()) return -1;
+        int d = 125;
+        int m = needle.length();
+        int n = haystack.length();
+        if(m>n) return -1;
+        int p = 0;
+        int t = 0;
+        int q =101;
+        int ans = -1;
+        for(int i = 0; i<m; i++){
+            p = p + needle.charAt(i)*(int)Math.pow(d, m-1-i);
+            t = t + haystack.charAt(i)*(int)Math.pow(d, m-1-i);
+        }
+        int Q = t/q;
+        t = t%q;
+        p = p%q;
+        for(int i = 0; i<=n-m; i++){
+            // System.out.println(p + " " + t);
+            if(p==t){
+                // System.out.println("in");
+                int j;
+                for(j = 0; j<m; j++){
+                    if(needle.charAt(j) != haystack.charAt(i+j)) break;
+                }
+                if(j==m){
+                    ans = i;
+                    break;
+                }
+            }
+            if(i<n-m){
+                t = ((t+Q*q)-haystack.charAt(i)*(int)Math.pow(d,m-1))*d+haystack.charAt(i+m);
+                Q = t/q;
+                t = t%q;
+            }
+        }
+        return ans;
+    }
+}

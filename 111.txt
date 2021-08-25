@@ -1,0 +1,32 @@
+class Solution {
+    public ArrayList<ArrayList<Integer>> fourSum(int[] a, int k) {
+        Arrays.sort(a);
+        int n = a.length;
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<ArrayList<Integer>>();
+        for(int i = 0; i<=n-4; i++){
+            for(int j = i+1; j<=n-3; j++){
+                int l = j+1;
+                int r = n-1;
+                while(l<r){
+                    if(a[l]+a[r]==k-a[j]-a[i]){
+                        ArrayList<Integer> list = new ArrayList<Integer>();
+                        list.add(a[i]);
+                        list.add(a[j]);
+                        list.add(a[l]);
+                        list.add(a[r]);
+                        ans.add(list);
+                        l++;
+                        r--;
+                    }
+                    else if(a[l]+a[r]>k-a[j]-a[i]){
+                        r--;
+                    }
+                    else{
+                        l++;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}

@@ -1,0 +1,89 @@
+class Solution
+{
+    // return the smallest window in S with all the characters of P
+    // if no such window exists, return "-1" 
+    public static boolean contain(String str, String pat){
+        for(int i = 0; i<pat.length(); i++){
+            if(!str.contains(String.valueOf(pat.charAt(i)))){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public static String smallestWindow(String s, String p){
+       int n = s.length();
+       int beg = 0;
+       int end = 0;
+       int len = Integer.MAX_VALUE;
+       int i = 0;
+       int j = 0;
+       if(!contain(s,p)) return "-1";
+       while(i<n){
+           if(!contain(s.substring(j,i),p)){
+               i++;
+            //   if(i-j<len){
+            //         len = i-j;
+            //         beg = j;
+            //         end = i;
+            //     }
+           }
+           while(contain(s.substring(j,i),p)){
+               j++;
+               if(i-j<len){
+                    len = i-j;
+                    beg = j-1;
+                    end = i;
+                }
+           }
+       }
+       return s.substring(beg,end);
+    }
+}
+___________________________________________________________//to handle duplicacies
+
+class Solution
+{
+    // return the smallest window in S with all the characters of P
+    // if no such window exists, return "-1" 
+    public static boolean contain(String str, String pat){
+        for(int i = 0; i<pat.length(); i++){
+            if(!str.contains(String.valueOf(pat.charAt(i)))){
+                return false;
+            }
+            else{
+                str = str.substring(0,str.indexOf(pat.charAt(i))) + str.substring(str.indexOf(pat.charAt(i))+1);
+            }
+        }
+        return true;
+    }
+    
+    public static String smallestWindow(String s, String p){
+       int n = s.length();
+       int beg = 0;
+       int end = 0;
+       int len = Integer.MAX_VALUE;
+       int i = 0;
+       int j = 0;
+       if(!contain(s,p)) return "-1";
+       while(i<n){
+           if(!contain(s.substring(j,i),p)){
+               i++;
+            //   if(i-j<len){
+            //         len = i-j;
+            //         beg = j;
+            //         end = i;
+            //     }
+           }
+           while(contain(s.substring(j,i),p)){
+               j++;
+               if(i-j<len){
+                    len = i-j;
+                    beg = j-1;
+                    end = i;
+                }
+           }
+       }
+       return s.substring(beg,end);
+    }
+}

@@ -1,0 +1,28 @@
+	void bfs(int i, int[] vis) {
+		Queue<Integer> q = new LinkedList<Integer>();
+		vis[i] = 1;
+		q.add(i);
+		while(!q.isEmpty()) {
+			int curr = q.poll();
+			if(map.containsKey(curr)) {
+				for(int j = 0; j<map.get(curr).size(); j++) {
+					if(vis[curr]+1>vis[map.get(curr).get(j)]) {
+						vis[map.get(curr).get(j)] = vis[curr]+1;
+						q.add(map.get(curr).get(j));
+					}
+				}
+			}
+		}
+	}
+	
+	void minTime(int n) {
+		int vis[] = new int[n];
+		for(int i = 1; i<n; i++) {
+			if(vis[i]==0) {
+				bfs(i, vis);
+			}
+		}
+		for(int i = 1; i<n; i++) {
+			System.out.print(vis[i]+" ");
+		}
+	}

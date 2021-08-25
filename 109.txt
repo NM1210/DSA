@@ -1,0 +1,16 @@
+class Complete{
+    
+   
+    // Function for finding maximum and value pair
+    public static int search (int a[], int n, int x, int k) {
+        int i = 0;
+        while(i<n){
+            if(a[i]==x) return i;
+            int diff = Math.abs(a[i]-x);
+            i = i + Math.max(1,diff/k);
+        }
+        return -1;
+    }
+    
+    
+}

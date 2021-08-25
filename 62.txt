@@ -1,0 +1,22 @@
+class Solution {
+    public String countAndSay(int n) {
+        String str = "";
+        for(int i = 1; i<=n; i++){
+            StringBuilder temp = new StringBuilder("");
+            if(i==1) temp.append("1");
+            else{
+                for(int j = 0; j<str.length(); j++){
+                    int count = 1;
+                    while(j+1<str.length() && str.charAt(j)==str.charAt(j+1)){  
+                        count++;
+                        j++;
+                    }
+                    temp.append(count);
+                    temp.append(str.charAt(j));
+                }
+            }
+            str = temp.toString();
+        }
+        return str;
+    }
+}

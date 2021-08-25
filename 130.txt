@@ -1,0 +1,53 @@
+class GFG {
+	public static void main (String[] args) {
+		Scanner input = new Scanner(System.in);
+		int t = input.nextInt();
+// 		System.out.println(t);
+	    while(t>0){
+	        int ans = -1;
+	        int k = input.nextInt();
+	        int n = input.nextInt();
+	        int a[] = new int[n];
+	        for(int i = 0; i<n; i++){
+	            a[i] = input.nextInt();
+	        }
+	       // System.out.println(k+" "+n);
+	       // for(int i = 0; i<n; i++){
+	       //     System.out.print(a[i]+" ");
+	       // }
+	       // System.out.println();
+	       
+	       int lb = 0;
+	       for(int i = 0; i<n; i++){
+	            if(a[i]>lb) lb = a[i];
+	        }
+	        int ub = 0;
+	        for(int i = 0; i<n; i++){
+	            ub = ub + a[i];
+	        }
+	       // System.out.println(lb+" "+ub);
+	       
+	       while(lb<=ub){
+	           int mid = (lb+ub)/2;
+	           int count = 1;
+	           int sum = 0;
+	           for(int i = 0; i<n; i++){
+	               sum = sum + a[i];
+	               if(sum>mid){
+	                   sum = a[i];
+	                   count++;
+	               }
+	           }
+	           if(count<=k){
+	               ans = mid;
+	               ub = mid - 1;
+	           }
+	           else{
+	               lb = lb + 1;
+	           }
+	       }
+	       System.out.println(ans);
+	        t--;
+	    }
+	}
+}

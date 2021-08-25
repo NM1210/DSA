@@ -1,0 +1,17 @@
+class Solution{
+    // Function to return maximum of sum without adjacent elements
+    public int FindMaxSum(int a[], int n){
+        if(n==0) return 0;
+        int var1 = a[0];
+        if(n==1) return var1;
+        int var2 = Math.max(a[0],a[1]);
+        if(n==2) return var2;
+        int max_val = 0;
+        for(int i = 2; i<n; i++){
+            max_val = Math.max(a[i]+var1, var2);
+            var1 = var2;
+            var2 = max_val;
+        }
+        return max_val;
+    }
+}

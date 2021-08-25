@@ -1,0 +1,62 @@
+class Solution {
+    HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+    void addEdge(int u, int v){
+        if(!map.containsKey(u)){
+            ArrayList<Integer> list = new ArrayList<Integer>();
+            list.add(v);
+            map.put(u, list);
+        }
+        else{
+            ArrayList<Integer> list = map.get(u);
+            list.add(v);
+            map.put(u, list);
+        }
+    }
+    void printGraph() {
+		for(int i: map.keySet()){
+            System.out.print(i+"->");
+            for(int j = 0; j<map.get(i).size(); j++){
+                System.out.print(map.get(i).get(j)+"->");
+            }
+            System.out.println();
+        }
+	}
+    int compare(String word, String element){
+        int count = 0;
+        for(int i = 0; i<element.length(); i++){
+            if(word.charAt(i)!=element.charAt(i)){
+                count++;
+            }
+        }
+        return count;
+    }
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        if (!wordList.contains(endWord)) return 0;
+        List<String> list = new ArrayList<String>();
+        if(!wordList.contains(beginWord)){
+            list.add(beginWord);
+        }
+        list.addAll(wordList);
+        for(int i = 0; i<list.size(); i++){
+            System.out.print(list.get(i)+" ");
+        }
+        System.out.println();
+        int vis[] = new int[list.size()];
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.add(list.indexOf(beginWord));
+        vis[list.indexOf(beginWord)] = 1;
+        while(!q.isEmpty()){
+            int index = q.poll();
+            String word = list.get(index);
+            for(int i = 0; i<list.size(); i++){
+                if(compare(word, list.get(i)) == 1 && vis[i]==0){
+                    addEdge(index, i);
+                    vis[i] = vis[index]+1;
+                    q.add(i);
+                }
+            }
+        }
+        // printGraph();
+        return vis[list.indexOf(endWord)];
+    }
+}

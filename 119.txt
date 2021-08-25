@@ -1,0 +1,23 @@
+	Scanner input = new Scanner(System.in);
+        int n = input.nextInt();
+        int sol[] = new int[n];
+        for(int i = 0; i<n; i++){
+            sol[i] = input.nextInt();
+        }
+        int q = input.nextInt();
+        int m[] = new int[q];
+        for(int i = 0; i<q; i++){
+            m[i] = input.nextInt();
+        }
+
+        for(int i = 0; i<q; i++){
+            int num = 0, sum = 0;
+            for(int j = 0; j<n; j++){
+                if(sol[j]<=m[i]){
+                    num++;
+                    sum = sum + sol[j];
+                }
+            }
+            System.out.print(num + " " + sum);
+            System.out.println();
+        }

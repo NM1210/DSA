@@ -1,0 +1,102 @@
+class solve 
+{
+    //Function to determine if graph can be coloured with at most M colours such
+    //that no two adjacent vertices of graph are coloured with same colour.
+    public static boolean graphColoring(List<Integer>[] G, int[] vis, int i, int M) 
+    {
+        int n = G.length;
+        // for(int j = 0; j<G.length; j++){
+        //     // System.out.print(G[j]+"->");
+        //     for(int k = 0; k<G[j].size(); k++){
+        //         System.out.print(G[j].get(k)+"->");
+        //     }
+        //     System.out.println();
+        // }
+        // System.out.println(n);
+        Queue<Integer> q = new LinkedList<>();
+        // for(int itr = 0; itr<n; itr++){
+        //     if(vis[itr]==0){
+                q.add(i);
+                while(!q.isEmpty()){
+                int curr = q.poll();
+                if(vis[curr]==0){
+                        int colors[] = new int[M+1];
+                        for(int j = 0; j<G[curr].size(); j++){
+                            // if(G[curr].get(j)==1){
+                                if(vis[G[curr].get(j)]==0){
+                                    q.add(G[curr].get(j));
+                                }
+                                else{
+                                    colors[vis[G[curr].get(j)]] = 1;
+                                }
+                            // }
+                        }
+                        // for(int j = 1; j<M+1; j++){
+                        //     System.out.print(colors[j]+" ");
+                        // }
+                        // System.out.println();
+                        for(int j = 1; j<M+1; j++){
+                            if(colors[j]!=1){
+                                vis[curr] = j;
+                                break;
+                            }
+                        }
+                        // for(int j = 0; j<vis.length; j++){
+                        //     System.out.print(vis[j]+" ");
+                        // }
+                        // System.out.println();
+                    }
+                    // if(vis[curr]==0) return false;
+                }
+        //     }
+        // }
+        for(int j = 0; j<vis.length; j++){
+            System.out.print(vis[j]+" ");
+        }
+        System.out.println();
+        for(int j = 0; j<vis.length; j++){
+            if(vis[j]==0) return false;
+        }
+        return true;
+    }
+}
+
+__________________________________________________________________________________
+
+class solve 
+{
+    //Function to determine if graph can be coloured with at most M colours such
+    //that no two adjacent vertices of graph are coloured with same colour.
+    public static boolean graphColoring(List<Integer>[] G, int[] color, int i, int M) 
+    {
+        // for(int j = 0; j<color.length; j++){
+        //     System.out.print(color[j]);
+        // }
+        Arrays.fill(color, 1);
+        int max = 1;
+        int n = G.length;
+        int vis[] = new int[n];
+        Queue<Integer> q = new LinkedList<>();
+        vis[i] = 1;
+        q.add(i);
+        while(!q.isEmpty()){
+            int curr = q.poll();
+            for(int j = 0; j<G[curr].size(); j++){
+                if(color[G[curr].get(j)]==color[curr]){
+                    color[G[curr].get(j)]=color[G[curr].get(j)]+1;
+                }
+                max = Math.max(max, Math.max(color[G[curr].get(j)], color[curr]));
+                if(max>M) return false;
+                if(vis[G[curr].get(j)]!=1){
+                    vis[G[curr].get(j)] = 1;
+                    q.add(G[curr].get(j));
+                }
+                // if(color[G[curr].get(j)]>=M) return false;
+            }
+        }
+        for(int j = 0; j<color.length; j++){
+            System.out.print(color[j]);
+        }
+        return true;
+    }
+}

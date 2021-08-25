@@ -1,0 +1,84 @@
+BOTTOM-UP:-
+
+class Solution{
+    static int nCr(int n, int r)
+    {
+        if(r>n) return 0;
+        if(r>n-r){
+            r = n-r;
+        }
+        int dp[][] = new int[n+1][r+1];
+        int p = (int)Math.pow(10, 9)+7;
+        // System.out.println(p);
+        for(int i = 0; i<=n; i++){
+            dp[i][0] = 1; 
+        }
+        for(int i = 0; i<=n; i++){
+            for(int j = 0; j<=r; j++){
+                if(i>=j){
+                    if(i-1>=0 && j-1>=0){
+                        dp[i][j] = (dp[i-1][j-1] + dp[i-1][j])%p;
+                    }
+                }
+            }
+        }
+        return dp[n][r];
+    }
+}
+
+_______________________________________________________________________________
+
+MEMOIZATION:-
+
+class Solution{
+    static int dp[][];
+    static int p;
+    static int C(int n, int r){
+        if(r==0 || r==n) return 1;
+        if(dp[n][r]!=-1) return dp[n][r]%p;
+        dp[n][r] = (C(n-1, r-1) + C(n-1, r));
+        return dp[n][r]%p;
+    }
+    static int nCr(int n, int r)
+    {
+        if(r>n) return 0;
+        if(r>n-r){
+            r = n-r;
+        }
+        dp = new int[n+1][r+1];
+        for(int row[]: dp){
+            Arrays.fill(row, -1);
+        }
+        p = (int)Math.pow(10, 9)+7;
+        // System.out.println(p);
+        // for(int i = 0; i<dp.length; i++){
+        //     for(int j = 0; j<dp[i].length; j++){
+        //         System.out.print(dp[i][j]+" ");
+        //     }
+        //     System.out.println();
+        // }
+        return C(n, r);
+    }
+}
+
+__________________________________________________________________
+
+RECURRSION:-
+
+class Solution{
+    static int p;
+    static int C(int n, int r){
+        if(r==0 || r==n) return 1;
+        return (C(n-1, r-1) + C(n-1, r))%p;
+    }
+    static int nCr(int n, int r)
+    {
+        if(r>n) return 0;
+        if(r>n-r){
+            r = n-r;
+        }
+        p = (int)Math.pow(10, 9)+7;
+        // System.out.println(p);
+        return C(n, r);
+    }
+}

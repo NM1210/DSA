@@ -1,0 +1,29 @@
+Scanner input = new Scanner(System.in);
+		int n = input.nextInt();
+		int m = input.nextInt();
+		int a[] = new int[n];
+		for(int i = 0; i<n; i++){
+			a[i] = input.nextInt();
+		}
+//		for(int i = 0; i<n; i++){
+//			System.out.print(a[i]+" ");
+//		}
+		Arrays.sort(a);
+//		for(int i = 0; i<n; i++){
+//			System.out.print(a[i]+" ");
+//		}
+		int i = n-1;
+		int max = a[i];
+		int sum = 0;
+		for(int h = max; h>=0; h--){
+			if(sum>=m) {
+				System.out.print(h+1);
+				break;
+			}
+//			sum = sum + (max - h)*(n-i);
+			sum = sum + (n-i);
+			if(h==a[i-1]){
+				i = i-1;
+				max = a[i];
+			}
+		}

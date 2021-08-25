@@ -1,0 +1,84 @@
+class Pair {
+    private int element0;
+    private int element1;
+
+    public static Pair createPair(int element0, int element1) {
+        return new Pair(element0, element1);
+    }
+
+    public Pair(int element0, int element1) {
+        this.element0 = element0;
+        this.element1 = element1;
+    }
+    
+    Pair() {}
+
+    public int get0() {
+        return element0;
+    }
+
+    public int get1() {
+        return element1;
+    }
+
+}
+
+class Solution{
+    
+    HashMap<Integer, ArrayList<Pair>> map = new HashMap<>();
+    
+    void addEdge(int u, int v, int w, int direction){
+        if(!map.containsKey(u)){
+            Pair pair = Pair.createPair(v, w);
+            ArrayList<Pair> list = new ArrayList<Pair>();
+            list.add(pair);
+            map.put(u, list);
+        }
+        else{
+            Pair pair = new Pair(v, w);
+            ArrayList<Pair> list = map.get(u);
+            list.add(pair);
+            map.put(u, list);
+        }
+        if(direction == 1){
+            addEdge(v, u, w, 0);
+        }
+    }
+    
+    void printGraph() {
+		for(Integer key: map.keySet()) {
+			System.out.print(key + "->");
+			for(Pair node : map.get(key)) {
+				System.out.print("("+node.get0()+","+node.get1()+")->");
+			}
+			System.out.println();
+		}
+	}
+	
+	boolean dfs(int start, int[] dis, int k){
+	    if(map.containsKey(start)){
+	        for(int i = 0; i<map.get(start).size(); i++){
+	            if(dis[map.get(start).get(i).get0()]==-1){
+	                dis[map.get(start).get(i).get0()] = dis[start]+map.get(start).get(i).get1();
+	                if(dfs(map.get(start).get(i).get0(), dis, k)) return true;
+	                dis[map.get(start).get(i).get0()] = -1;
+	            }
+	        }
+	    }
+	    if(dis[start]>=k) return true;
+	    return false;
+	}
+    
+    boolean pathMoreThanK(int n, int E, int k, int[] array){
+        for(int i = 0; i<=array.length-3; i=i+3){
+            addEdge(array[i], array[i+1], array[i+2], 1);
+        }
+        // printGraph();
+        int dis[] = new int[n];
+        Arrays.fill(dis, -1);
+        dis[0] = 0;
+        if(dfs(0, dis, k)) return true;
+        return false;
+    }
+    
+}

@@ -1,0 +1,44 @@
+public class aggressiveCows {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner(System.in);
+		int t = input.nextInt();
+		for(int test = 0; test<t; test++){
+			int ans = 0;
+			int n = input.nextInt();
+			int a[] = new int[n];
+			int c = input.nextInt();
+			for(int i = 0; i<n; i++){
+				a[i] = input.nextInt();
+			}
+//			System.out.println(t);
+//			System.out.println(n+" "+c);
+//			for(int i = 0; i<n; i++){
+//				System.out.println(a[i]);
+//			}
+			
+			Arrays.sort(a);
+			int lb = 1;
+			int ub = (int) 1e9;
+			while(lb<=ub){
+				int mid = (lb+ub)/2;
+				int nearest = a[0];
+				int cows = 1;
+				for(int i = 1; i<n; i++){
+					if(a[i]-nearest>=mid){
+						nearest = a[i];
+						cows++;
+						if(c==cows) break;
+					}
+				}
+				if(cows==c){
+					ans = mid;
+					lb = mid+1;
+				}
+				else ub = mid-1;
+			}
+			System.out.println(ans);
+		}
+	}
+
+}

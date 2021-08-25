@@ -1,0 +1,94 @@
+class GFG {
+    
+    int partition(int arr[], int low, int high) 
+    { 
+        int pivot = arr[high];  
+        int i = (low-1); // index of smaller element 
+        for (int j=low; j<high; j++) 
+        { 
+            // If current element is smaller than the pivot 
+            if (arr[j] < pivot) 
+            { 
+                i++; 
+  
+                // swap arr[i] and arr[j] 
+                int temp = arr[i]; 
+                arr[i] = arr[j]; 
+                arr[j] = temp; 
+            } 
+        } 
+  
+        // swap arr[i+1] and arr[high] (or pivot) 
+        int temp = arr[i+1]; 
+        arr[i+1] = arr[high]; 
+        arr[high] = temp; 
+  
+        return i+1; 
+    } 
+  
+  
+    /* The main function that implements QuickSort() 
+      arr[] --> Array to be sorted, 
+      low  --> Starting index, 
+      high  --> Ending index */
+    void sort(int arr[], int low, int high) 
+    {
+        
+        if (low < high) 
+        { 
+            /* pi is partitioning index, arr[pi] is  
+              now at right place */
+            int pi = partition(arr, low, high); 
+  
+            // Recursively sort elements before 
+            // partition and after partition 
+            sort(arr, low, pi-1); 
+            sort(arr, pi+1, high); 
+        } 
+    }
+    
+	public static void main (String[] args) {
+	    
+	    GFG obj = new GFG();
+	    
+	    Scanner input = new Scanner(System.in);
+	    
+	    int t = input.nextInt();
+	    int[] output = new int[t];
+	    int k = 0;
+	    
+	    while(k<t && input.hasNext()){
+	        int n = input.nextInt();
+	        int[] arr = new int[n];
+	        for(int i = 0; i < n; i++){
+	            arr[i] = input.nextInt();
+	        }
+	        int m = input.nextInt();
+	        
+	       // for(int i = 0; i<n; i++){
+	       //     System.out.print(arr[i] + " ");
+	       // }
+	       // System.out.println();
+	       
+	        obj.sort(arr,0,n-1);
+	        
+	       // for(int i = 0; i<n; i++){
+	       //     System.out.print(arr[i] + " ");
+	       // }
+	        
+	        int diff = Integer.MAX_VALUE;
+	        for(int i = 0; i<=n-m; i++){
+	            if(arr[i + m - 1] - arr[i] < diff){
+	                diff = arr[i + m - 1] - arr[i];
+	            }
+	        }
+	        output[k] = diff;
+	        t++;
+	    }
+	    
+	    for(int i = 0; i<output.length; i++){
+	        System.out.println(output[i]);
+	    }
+	    
+	}
+}

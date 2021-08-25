@@ -1,0 +1,162 @@
+BOTTOM-UP:-
+
+class Solution {
+    public int editDistance(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        int dp[][] = new int[m+1][n+1];
+        for(int i = 0; i<dp.length; i++){
+            for(int j = 0; j<dp[i].length; j++){
+                if(i==0){
+                    dp[i][j] = j;
+                }
+                else if(j==0){
+                    dp[i][j] = i;
+                }
+                else if(s.charAt(i-1)==t.charAt(j-1)){
+                    dp[i][j] = dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j] = Math.min(dp[i-1][j], Math.min(dp[i-1][j-1], dp[i][j-1]))+1;
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}
+________________________________________________________________________________________________________________
+
+MEMOIZATION:-
+
+class Solution {
+    int dp[][];
+    int edit(String str1, String str2, int m, int n){
+        if(str1==str2) return 0;
+        if(m == 0) return n;
+        if(n == 0) return m;
+        if(dp[m][n]!=-1) return dp[m][n];
+        if(str1.charAt(m-1)==str2.charAt(n-1)){
+            if(dp[m-1][n-1]!=-1) return dp[m][n] = dp[m-1][n-1];
+            else return dp[m][n] = edit(str1, str2, m-1, n-1);
+        }
+        else{
+            int m1, m2, m3;
+            if(dp[m-1][n]!=-1) m1 = dp[m-1][n];
+            else m1 = edit(str1, str2, m-1, n);
+            if(dp[m-1][n-1]!=-1) m2 = dp[m-1][n-1];
+            else m2 = edit(str1, str2, m-1, n-1);
+            if(dp[m][n-1]!=-1) m3 = dp[m][n-1];
+            else m3 = edit(str1, str2, m, n-1);
+            return dp[m][n] = Math.min(m1, Math.min(m2, m3))+1;
+        }
+    }
+    public int editDistance(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        dp = new int[m+1][n+1]; 
+        for(int row[]:dp){
+            Arrays.fill(row, -1);
+        }
+        return edit(s, t, m, n);
+    }
+}
+______________________________________________________________________________________
+
+RECURRSION(OPTIMIZED):-
+
+-> UPDATED:-
+class Solution {
+    int edit(String str1, String str2, int m, int n){
+        if(str1==str2) return 0;
+        if(m == 0) return n;
+        if(n == 0) return m;
+        if(str1.charAt(m-1)==str2.charAt(n-1)) return edit(str1, str2, m-1, n-1);
+        return Math.min(edit(str1, str2, m-1, n), 
+               Math.min(edit(str1, str2, m-1, n-1), 
+                        edit(str1, str2, m, n-1)))+1;
+    }
+    public int editDistance(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        return edit(s, t, m, n);
+    }
+}
+
+-> DERIVATIVE:-
+class Solution {
+    public int editDistance(String str1, String str2) {
+        if(str1.compareTo(str2)==0) return 0;
+        if(str1.isEmpty()) return str2.length();
+        if(str2.isEmpty()) return str1.length();
+        if(str1.charAt(str1.length()-1)==str2.charAt(str2.length()-1)){
+            return editDistance(str1.substring(0, str1.length()-1), str2.substring(0, str2.length()-1));
+        }
+        int min = Integer.MAX_VALUE;
+        int temp = Math.min(editDistance(str1.substring(0, str1.length()-1), str2),
+                   Math.min(editDistance(str1.substring(0, str1.length()-1), str2.substring(0, str2.length()-1)),
+                            editDistance(str1, str2.substring(0, str2.length()-1))))+1;
+        if(temp<min) min = temp;
+        return min;
+    }
+}
+__________________________________________________________________________________________________________________________
+
+MEMOIZATION(FAILED-ATTEMPT):-
+
+class Solution {
+    int dp[][];
+    int edit(String str1, String str2){
+        if(str1.compareTo(str2)==0){
+            dp[str1.length()][str2.length()]=0;
+            return dp[str1.length()][str2.length()];
+        } 
+        if(str1.isEmpty()){
+            dp[0][str2.length()] = str2.length();
+            return dp[0][str2.length()];
+        } 
+        if(str2.isEmpty()){
+            dp[str1.length()][0] = str1.length();
+            return dp[str1.length()][0];
+        } 
+        if(dp[str1.length()][str2.length()]!=-1){
+            return dp[str1.length()][str2.length()];
+        }
+        if(str1.charAt(str1.length()-1)==str2.charAt(str2.length()-1)){
+            return editDistance(str1.substring(0, str1.length()-1), str2.substring(0, str2.length()-1));
+        }
+        int min = Integer.MAX_VALUE;
+        int temp = Math.min(editDistance(str1.substring(0, str1.length()-1), str2),
+                   Math.min(editDistance(str1.substring(0, str1.length()-1)+str2.charAt(str2.length()-1), str2),
+                            editDistance(str1+str2.charAt(str2.length()-1), str2)))+1;
+        if(temp<min) min = temp;
+        dp[str1.length()][str2.length()] = min;
+        return dp[str1.length()][str2.length()];
+    }
+    public int editDistance(String str1, String str2) {
+        dp = new int[101][101];
+        for(int row[]: dp){
+            Arrays.fill(row, -1);
+        }
+        return edit(str1, str2);
+    }
+}
+____________________________________________________________________________________________________________________________
+
+RECURRSION:-
+
+class Solution {
+    public int editDistance(String str1, String str2) {
+        if(str1.compareTo(str2)==0) return 0;
+        if(str1.isEmpty()) return str2.length();
+        if(str2.isEmpty()) return str1.length();
+        if(str1.charAt(str1.length()-1)==str2.charAt(str2.length()-1)){
+            return editDistance(str1.substring(0, str1.length()-1), str2.substring(0, str2.length()-1));
+        }
+        int min = Integer.MAX_VALUE;
+        int temp = Math.min(editDistance(str1.substring(0, str1.length()-1), str2),
+                   Math.min(editDistance(str1.substring(0, str1.length()-1)+str2.charAt(str2.length()-1), str2),
+                            editDistance(str1+str2.charAt(str2.length()-1), str2)))+1;
+        if(temp<min) min = temp;
+        return min;
+    }
+}
