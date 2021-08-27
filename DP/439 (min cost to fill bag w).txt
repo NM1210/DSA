@@ -1,0 +1,30 @@
+class Solution
+{
+	static int dp[][];
+	static int calc(int[] a, int n, int w, int c, int size){
+        	if(w==0) {
+        	// 	System.out.println(c);
+        		return dp[size][w] = c;
+        	}
+        	if(dp[size][w] != -1) return dp[size][w];
+        	int min = Integer.MAX_VALUE;
+        	for(int i = 0; i<n; i++){
+        		int temp = min;
+            		if(a[i]!=-1 && i+1<=w){
+                		temp = calc(a, n, w-(i+1), c+a[i], size+1);
+            		}
+            		if(temp<min) min = temp;
+        	}
+        	return dp[size][w] =  min;
+    	}
+	public int minimumCost(int a[], int n,int w)
+	{
+	    dp = new int[w+1][w+1];
+	    for(int[] row: dp){
+	        Arrays.fill(row, -1);
+	    }
+	    int ans = calc(a, n, w, 0, 0);
+	    if(ans==Integer.MAX_VALUE) return -1;
+		return ans;
+	}
+}

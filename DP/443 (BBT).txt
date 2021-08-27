@@ -1,0 +1,11 @@
+class Solution {
+    static long countBT(int h){
+        long p = (long)Math.pow(10, 9) + 7;
+        long dp[] = new long[h+1];
+        dp[0] = dp[1] = 1;
+        for(int i = 2; i<h+1; i++){
+            dp[i] = (dp[i-1]*(2*dp[i-2]+dp[i-1]))%p;
+        }
+        return dp[h];
+    }
+}

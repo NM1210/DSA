@@ -1,0 +1,24 @@
+class Geeks {
+    public long count(int n) {
+        long[] dp = new long[(int)n+1];
+        Arrays.fill(dp, 0);
+        dp[0] = 1;
+        
+        int points[] = {3, 5, 10};
+        for(int i = 0; i<points.length; i++){
+            for(int j = 0; j<n+1; j++){
+                if(j-points[i]>=0){
+                    dp[j] += dp[j-points[i]];
+                }
+                // System.out.print(dp[j]+" ");
+            }
+            // System.out.println();
+        }
+        
+        // for(int j = 0; j<n+1; j++){
+        //     System.out.print(dp[j]+" ");
+        // }
+        
+        return dp[n];
+    }
+}

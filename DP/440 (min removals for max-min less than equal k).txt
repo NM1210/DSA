@@ -1,0 +1,18 @@
+public class Solution {
+    static int dp[][]; 
+    static int helper(ArrayList<Integer> a, int i, int j, int k, int count){
+        if(dp[i][j]!=-1) return dp[i][j];
+        int diff = a.get(j)-a.get(i);
+        if(diff<=k) return dp[i][j] = count;
+        if(j+1-i==1) return dp[i][j] = count;
+        return dp[i][j] = Math.min(helper(a, i+1, j, k, count+1), helper(a, i, j-1, k, count+1));
+    }
+    public static int minRemovals(ArrayList<Integer> a, int n, int k) {
+        dp = new int[n+1][n+1];
+        for(int[] row: dp){
+            Arrays.fill(row, -1);
+        }
+        Collections.sort(a);
+        return helper(a, 0, n-1, k, 0);
+    }
+}
