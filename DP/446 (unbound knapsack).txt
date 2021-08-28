@@ -1,0 +1,45 @@
+BOTTOM-UP:-
+
+class Solution{
+    static int knapSack(int n, int W, int val[], int wt[])
+    {
+        int dp[] = new int[W+1];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        for(int i = 0; i<n; i++){
+            for(int j = 1; j<W+1; j++){
+                if(j-wt[i]>=0 && dp[j-wt[i]]!=-1){
+                    dp[j] = Math.max(dp[j], dp[j-wt[i]]+val[i]);
+                }
+            }
+        }
+        int max = 0;
+        for(int i = 0; i<dp.length; i++){
+            if(dp[i]>max) max = dp[i];
+        }
+        return max;
+    }
+}
+_________________________________________________________________________
+
+RECURRSION:-
+
+class Solution{
+    static int unbound(int val[], int wt[], int W, int cost){
+        if(W==0){
+            return cost;
+        }
+        int max = 0;
+        for(int i = 0; i<val.length; i++){
+            if(W-wt[i]>=0){
+                int temp = unbound(val, wt, W-wt[i], cost+val[i]);
+                if(temp>max) max = temp;
+            }
+        }
+        return max;
+    }
+    static int knapSack(int n, int W, int val[], int wt[])
+    {
+        return unbound(val, wt, W, 0);
+    }
+}

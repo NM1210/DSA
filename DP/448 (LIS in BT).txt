@@ -1,0 +1,103 @@
+/*
+Structure of node class is as follows:
+class Node {
+    int data;
+    Node left, right;
+    
+    public Node(int data){
+        this.data = data;
+    }
+}
+*/
+_____________________________________________________________________________________________________
+MEMOIZATION:-
+
+class Solution {
+    public void dfs(Node node){
+        // System.out.print(node!=null?node.data:"null");
+        if(node==null) return;
+        node.data = -1;
+        dfs(node.left);
+        dfs(node.right);
+        // System.out.print(node.data);
+    }
+    public int LIS(Node node){
+        if(node==null) return 0;
+        if(node.data!=-1) return node.data;
+        Node lchild = node.left;
+        Node rchild = node.right;
+        if(lchild==null && rchild==null){
+            node.data = 1;
+            return node.data;
+        }
+        else if(lchild==null && rchild!=null){
+            node.data = Math.max(LIS(lchild)+LISS(rchild), 1+LIS(rchild.left)+LIS(rchild.right));
+            return node.data;
+        }
+        else if(lchild!=null && rchild==null){
+            node.data = Math.max(LIS(lchild)+LISS(rchild), 1+LIS(lchild.left)+LIS(lchild.right));
+            return node.data;
+        }
+        else{
+            node.data = Math.max(LIS(lchild)+LIS(rchild), 1+LIS(lchild.left)+LIS(rchild.left)
+                                                             +LIS(lchild.right)+LIS(rchild.right));
+            return node.data;
+        }
+    }
+    public int LISS(Node node){
+        dfs(node);
+        return LIS(node);
+    }
+}
+______________________________________________________________________________________________________________________
+
+USING HASHMAP (WRONG FOR DUPLICATE NODES):-
+
+class Solution {
+    HashMap<Integer, Integer> map = new HashMap<>();
+    public int LISS(Node node){
+        if(node==null) return 0;
+        if(map.containsKey(node.data)) return map.get(node.data);
+        Node lchild = node.left;
+        Node rchild = node.right;
+        if(lchild==null && rchild==null){
+            map.put(node.data, 1);
+            return map.get(node.data);
+        }
+        else if(lchild==null && rchild!=null){
+            map.put(node.data, Math.max(LISS(lchild)+LISS(rchild), 1+LISS(rchild.left)+LISS(rchild.right)));
+            return map.get(node.data);
+        }
+        else if(lchild!=null && rchild==null){
+            map.put(node.data, Math.max(LISS(lchild)+LISS(rchild), 1+LISS(lchild.left)+LISS(lchild.right)));
+            return map.get(node.data);
+        }
+        else{
+            map.put(node.data, Math.max(LISS(lchild)+LISS(rchild), 1+LISS(lchild.left)+LISS(rchild.left)
+                                                                    +LISS(lchild.right)+LISS(rchild.right)));
+            return map.get(node.data);
+        }
+    }
+}
+____________________________________________________________________________________________________________________
+
+RECURRSION:-
+
+class Solution {
+    public int LISS(Node node){
+        if(node==null) return 0;
+        Node lchild = node.left;
+        Node rchild = node.right;
+        if(lchild==null && rchild==null) return 1;
+        else if(lchild==null && rchild!=null){
+            return Math.max(LISS(lchild)+LISS(rchild), 1+LISS(rchild.left)+LISS(rchild.right));
+        }
+        else if(lchild!=null && rchild==null){
+            return Math.max(LISS(lchild)+LISS(rchild), 1+LISS(lchild.left)+LISS(lchild.right));
+        }
+        else{
+            return Math.max(LISS(lchild)+LISS(rchild), 1+LISS(lchild.left)+LISS(rchild.left)
+                                                        +LISS(lchild.right)+LISS(rchild.right));
+        }
+    }
+}
