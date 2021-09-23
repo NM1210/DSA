@@ -1,0 +1,32 @@
+SPACE OPTIMIZATION:-
+
+class Solution{
+    static long disarrange(int n){
+        long p = (long)Math.pow(10, 9) + 7;
+        long n_1 = 1;
+        long n_2 = 0;
+        if(n==2) return n_1;
+        long ans = 0;
+        for(int i = 3; i<n+1; i++){
+            ans = ((i-1)*(n_1+n_2))%p;
+            n_2 = n_1;
+            n_1 = ans;
+        }
+        return ans;
+    }
+}
+_________________________________________________________
+
+BOTTOM-UP:-
+
+class Solution{
+    static long disarrange(int n){
+        long p = (long)Math.pow(10, 9) + 7;
+        long[] c = new long[n+1];
+        c[2] = 1;
+        for(int i = 3; i<n+1; i++){
+            c[i] = ((i-1)*(c[i-1]+c[i-2]))%p;
+        }
+        return c[n];
+    }
+}

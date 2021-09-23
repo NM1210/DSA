@@ -1,0 +1,21 @@
+class solve
+{
+    static long game(int a[], boolean p, long amta, long amtb, int i, int j){
+        if(i==j){
+            amtb -= a[i];
+            if(amta+amtb<0) return amtb;
+            else if(amta+amtb>0) return amta;
+        }
+        if(!p){     //if(p==0)
+            return Math.max(game(a,!p,amta+a[i],amtb,i+1,j),game(a,!p,amta+a[j],amtb,i,j-1));
+        }
+        else{       //if(p==1)
+            return Math.min(game(a,!p,amta,amtb-a[i],i+1,j),game(a,!p,amta,amtb-a[j],i,j-1));
+        }
+    }
+    //Function to find the maximum possible amount of money we can win.
+    static long countMaximum(int a[], int n)
+    {
+        return game(a, false, 0, 0, 0, n-1);
+    }
+}
