@@ -1,0 +1,17 @@
+RECURRSION:-
+
+class Solution {
+    public int chain(int pairs[][], int n, int prev[], int pos){
+        if(pos>=n) return 0;
+        if(pairs[pos][0]>prev[1]){
+            return Math.max(chain(pairs, n, pairs[pos], 0)+1,
+                            chain(pairs, n, prev, pos+1));
+        }
+        else{
+            return chain(pairs, n, prev, pos+1);
+        }
+    }
+    public int findLongestChain(int[][] pairs) {
+        return chain(pairs, pairs.length, new int[]{Integer.MIN_VALUE, Integer.MIN_VALUE}, 0);
+    }
+}

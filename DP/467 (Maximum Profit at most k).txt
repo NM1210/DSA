@@ -1,0 +1,45 @@
+O(k*n) (OPTIMIZED):-
+
+class Solution {
+    static int maxProfit(int k, int n, int prices[]) {
+        int pre_profit[] = new int[n];
+        int curr_profit[] = new int[n];
+        for(int t = 1; t<=k; t++){
+            int net_max = Integer.MIN_VALUE;
+            for(int i = 1; i<n; i++){
+                if(pre_profit[i-1]-prices[i-1]>net_max){
+                    net_max = pre_profit[i-1]-prices[i-1];
+                }
+                curr_profit[i] = Math.max(curr_profit[i-1], prices[i]+net_max);
+            }
+            for(int i = 0; i<n; i++){
+                pre_profit[i] = curr_profit[i];
+            }
+        }
+        return curr_profit[n-1];
+    }
+}
+_________________________________________________________________________
+O(k*n^2):-
+
+class Solution {
+    static int maxProfit(int k, int n, int prices[]) {
+        int pre_profit[] = new int[n];
+        int curr_profit[] = new int[n];
+        for(int t = 1; t<=k; t++){
+            for(int i = 1; i<n; i++){
+                int max = Integer.MIN_VALUE;
+                for(int j = 0; j<i; j++){
+                    if(prices[i]-prices[j]+pre_profit[j]>max){
+                        max = prices[i]-prices[j]+pre_profit[j];
+                    }
+                }
+                curr_profit[i] = Math.max(curr_profit[i-1], max);
+            }
+            for(int i = 0; i<n; i++){
+                pre_profit[i] = curr_profit[i];
+            }
+        }
+        return curr_profit[n-1];
+    }
+}

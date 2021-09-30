@@ -1,0 +1,24 @@
+class Solution {
+    int maximumSumRectangle(int r, int c, int m[][]) {
+        int max = Integer.MIN_VALUE;
+        for(int i = 0; i<r; i++){
+            int a[] = new int[c];
+            for(int j = i; j<r; j++){
+                int max_sum = Integer.MIN_VALUE;
+                int curr_sum = 0;
+                for(int k = 0; k<c; k++){
+                    a[k] += m[j][k];
+                    curr_sum += a[k];
+                    if(curr_sum>max_sum){
+                        max_sum = curr_sum;
+                    }
+                    if(curr_sum<0){
+                        curr_sum = 0;
+                    }
+                }
+                if(max_sum>max) max = max_sum;
+            }
+        }
+        return max;
+    }
+}

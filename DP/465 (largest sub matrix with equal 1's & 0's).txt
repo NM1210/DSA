@@ -1,0 +1,42 @@
+public class Solution {
+    public static int width(int a[]){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        int n=a.length, sum = 0, max_len = 0, k = 0;
+        for(int i = 0; i<n; i++){
+            sum += a[i];
+            if(sum==0) max_len = i+1;
+            if(!map.containsKey(sum)){
+                map.put(sum, i);
+            }
+            if(map.containsKey(sum-k)){
+                int index = map.get(sum-k);
+                if(i-index > max_len){
+                    max_len = i-index;
+                }
+            }
+        }
+        return max_len;
+    }
+    public static int maximumArea(int[][] mat,int n ,int m) {
+        for(int i = 0; i<n; i++){
+            for(int j = 0; j<m; j++){
+                mat[i][j] = (mat[i][j]==0)?-1:1;
+            }
+        }
+        int max_area = 0;
+        for(int i = 0; i<n; i++){
+            int a[] = new int[m];
+            int h = 1;
+            for(int j = i; j<n; j++){
+                for(int col = 0; col<m; col++){
+            	    a[col] += mat[j][col];
+            	}
+                int w = width(a);
+                int area = h*w;
+                if(area > max_area) max_area = area;
+                h++;
+            }
+        }
+        return max_area;
+    }
+}

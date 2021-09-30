@@ -1,0 +1,35 @@
+BOTTOM-UP(N^3):-
+
+class Solution{
+    static int palindromicPartition(String str)
+    {
+        int n = str.length();
+        int dp[][] = new int[n][n];
+        for(int gap = 1; gap<n; gap++){
+            for(int i = 0; i<n-gap; i++){
+                if(str.charAt(i)==str.charAt(i+gap) && dp[i+1][i+gap-1]==0){
+                    dp[i][i+gap] = 0;
+                }
+                else{
+                    if(gap==1) dp[i][i+gap] = 1;
+                    else{
+                        int min = Integer.MAX_VALUE;
+                        for(int j = i+gap; j>i; j--){
+                            if(dp[j][i+gap] + dp[i][j-1] + 1 < min){
+                                min = dp[j][i+gap] + dp[i][j-1] + 1;
+                            }
+                        }
+                        dp[i][i+gap] = min;
+                    }
+                }
+            }
+        }
+        // for(int i = 0; i<n; i++){
+        //     for(int j = 0; j<n; j++){
+        //         System.out.print(dp[i][j] + " ");
+        //     }
+        //     System.out.println();
+        // }
+        return dp[0][n-1];
+    }
+}
