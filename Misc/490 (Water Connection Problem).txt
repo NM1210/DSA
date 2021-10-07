@@ -1,0 +1,54 @@
+class Solution 
+{ 
+    boolean check(ArrayList<Integer> b, Integer key){
+        for(int i = 0; i<b.size(); i++){
+            if(b.get(i)==key) return false;
+        }
+        return true;
+    }
+    ArrayList<ArrayList<Integer>> solve(int n, int p, ArrayList<Integer> a ,ArrayList<Integer> b ,ArrayList<Integer> d) 
+    { 
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        HashMap<Integer, ArrayList<Integer>> map = new HashMap<>();
+        int vis[] = new int[n+1];
+        for(int i = 0; i<p; i++){
+            int u = a.get(i);
+            int v = b.get(i);
+            int w = d.get(i);
+            ArrayList<Integer> element = new ArrayList<>();
+            element.add(v);
+            element.add(w);
+            map.put(u, element);
+        }
+        // for(Integer key: map.keySet()){
+        //     System.out.println(key+" "+map.get(key).get(0)+" "+map.get(key).get(1));
+        // }
+        for(Integer key: map.keySet()){
+            if(vis[key]==0){
+                if(check(b, key)){
+                    ArrayList<Integer> list = new ArrayList<>();
+                    list.add(key);
+                    vis[key] = 1;
+                    int w = Integer.MAX_VALUE;
+                    while(map.containsKey(key)){
+                        if(map.get(key).get(1)<w) w = map.get(key).get(1);
+                        key = map.get(key).get(0);
+                        vis[key] = 1;
+                    }
+                    list.add(key);
+                    list.add(w);
+                    ans.add(list);
+                }
+            }
+        }
+        Collections.sort(ans, new Comparator<ArrayList<Integer>>(){
+            @Override
+            public int compare(ArrayList<Integer> one, ArrayList<Integer> two){
+                if(one.get(0)<two.get(0)) return -1;
+                else if(one.get(0)>two.get(0)) return 1;
+                else return 0;
+            }
+        });
+        return ans;
+    }
+}

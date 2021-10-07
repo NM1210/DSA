@@ -1,0 +1,50 @@
+BOTTOM-UP:-
+
+class Solution{
+	static int get_ans(int a[][]){
+		int n = a.length;
+		int dp[][] = new int[n][n];
+		for(int i = 0; i<n; i++) {
+			for(int j = i; j<n; j++) {
+				if(i==j) {
+					if(i-1<0) {
+						dp[i][j] = a[i][j];
+					}
+					else {
+						dp[i][j] = Math.max(a[i][j], Math.min(dp[i-1][j], dp[i][j-1]));
+					}
+				}
+				else {
+					if(i-1<0) {
+						dp[i][j] = Math.max(a[i][j], dp[i][j-1]);
+						dp[j][i] = Math.max(a[j][i], dp[j-1][i]);
+					}
+					else {
+						dp[i][j] = Math.max(a[i][j], Math.min(dp[i-1][j], dp[i][j-1]));
+						dp[j][i] = Math.max(a[j][i], Math.min(dp[j-1][i], dp[j][i-1]));
+					}
+				}
+			}
+		}
+		return dp[n-1][n-1];
+	}
+}
+_______________________________________________________________________________________________________________________________
+RECURRSION:- 
+
+class Solution{
+	static int ans = Integer.MAX_VALUE;
+	static void calc(int maze[][], int i, int j, int cart) {
+		if(i>=maze.length || j>=maze.length) return;
+		if(maze[i][j]>cart) cart = maze[i][j];
+		if(i==maze.length-1 && j==maze.length-1) {
+			if(cart<ans) ans = cart;
+		}
+		calc(maze, i+1, j, cart);
+		calc(maze, i, j+1, cart);
+	}
+	static int get_ans(int maze[][]){
+		calc(maze, 0, 0, 0);
+		return ans;
+	}
+}

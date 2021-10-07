@@ -1,0 +1,33 @@
+class Solution{
+    
+    static long trappingWater(int a[], int n) { 
+        int max = 0;
+        for(int i = 0; i<n; i++){
+            if(a[i]>=a[max]) max = i;
+        }
+        int curr = 0;
+        long q = 0;
+        int i = 0;
+        while(i<max){
+            if(a[i]>=a[curr]){
+                curr = i;
+            }
+            else{
+                q += a[curr] - a[i];
+            }
+            i++;
+        }
+        int j = n-1;
+        curr = n-1;
+        while(j>max){
+            if(a[j]>=a[curr]){
+                curr = j;
+            }
+            else{
+                q += a[curr] - a[j];
+            }
+            j--;
+        }
+        return q;
+    }
+}

@@ -1,0 +1,48 @@
+class Pair{
+    int start;
+    int end;
+    public Pair(int start, int end){
+        this.start = start;
+        this.end = end;
+    }
+}
+
+class Solution
+{
+    public static int activitySelection(int start[], int end[], int n)
+    {
+        Pair[] pairs = new Pair[n];
+        for(int i = 0; i<n; i++){
+            pairs[i] = new Pair(start[i], end[i]);
+        }
+        Arrays.sort(pairs, new Comparator<Pair>(){
+            @Override
+            public int compare(Pair first, Pair second){
+                return first.end - second.end;
+            }
+        });
+        
+        // for(int i = 0; i<n; i++){
+        //     System.out.println(pairs[i].start + " " + pairs[i].end);
+        // }
+
+        // int i = 0;
+        // int count = 1;
+        // for(int j = 1; j<n; j++){
+        //     if(pairs[j].start>=pairs[i].end){
+        //         count++;
+        //         i=j;
+        //     }
+        // }
+        
+        int activity = Integer.MIN_VALUE;
+        int count = 0;
+        for(int i = 0; i<n; i++){
+            if(pairs[i].start>activity){
+                activity = pairs[i].end;
+                count++;
+            }
+        }
+        return count;
+    }
+}

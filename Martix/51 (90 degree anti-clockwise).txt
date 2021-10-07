@@ -1,0 +1,16 @@
+class Solution
+{
+    //Function to rotate matrix anticlockwise by 90 degrees.
+    static void rotateby90(int a[][], int n) 
+    { 
+        for(int layer = 0; layer<n/2; layer++){
+            for(int i = layer; i<n-layer-1; i++){
+                int temp = a[layer][i];
+                a[layer][i] = a[i][n-layer-1];
+                a[i][n-layer-1] = a[n-layer-1][n-i-1];
+                a[n-layer-1][n-i-1] = a[n-i-1][layer];
+                a[n-i-1][layer] = temp;
+            }
+        }
+    }
+}

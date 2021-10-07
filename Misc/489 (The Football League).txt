@@ -1,0 +1,58 @@
+import java.util.*;
+
+class TestClass {
+    public static void main(String args[] ) throws Exception {
+
+        Scanner sc = new Scanner(System.in);
+        int t = Integer.parseInt(sc.nextLine());
+        while(t>0){
+            int n = Integer.parseInt(sc.nextLine());
+            // System.out.println(n);
+            String matches[] = new String[n];
+            for(int i = 0; i<n; i++){
+                matches[i] = sc.nextLine();
+            }
+            // for(int i = 0; i<n; i++){
+            //     System.out.println(matches[i]);
+            // }
+            String ht[] = new String[n];
+            int hg[] = new int[n];
+            String at[] = new String[n];
+            int ag[] = new int[n];
+            for(int i = 0; i<n; i++){
+                String match[] = matches[i].split(" ");
+                ht[i] = match[0];
+                hg[i] = Integer.parseInt(match[1]);
+                at[i] = match[2];
+                ag[i] = Integer.parseInt(match[3]);
+            }
+            // for(int i = 0; i<n; i++){
+            //     System.out.println(ht[i]+"-"+hg[i]+"-"+at[i]+"-"+ag[i]);
+            // }
+            int gd[] = new int[n];
+            int max = 0;
+            for(int i = 0; i<n; i++){
+                gd[i] = hg[i]-ag[i];
+                if(gd[i]>max) max = gd[i];
+            }
+            int count[] = new int[1000+1];
+            int max_count = 0;
+            for(int i = 0; i<n; i++){
+                if(gd[i]>=0){
+                    count[gd[i]]+=1;
+                    if(count[gd[i]]>count[max_count]) max_count = gd[i];
+                }
+            }
+            int j;
+            for(j = n-1; j>=0; j--){
+                if(gd[j]==max_count){
+                    System.out.println(max_count+" "+ht[j]);
+                    break;
+                }
+            }
+            if(j<0) System.out.println(-1);
+            t--;
+        }
+
+    }
+}

@@ -1,0 +1,58 @@
+O(N):-
+
+class Solution
+{
+    static int findPlatform(int a[], int d[], int n)
+    {
+        int platform[] = new int[2361];
+        int platforms_req = 0;
+        for(int i = 0; i<n; i++){
+            platform[a[i]]+=1;
+            platform[d[i]+1]-=1;
+        }
+        for(int i = 1; i<2361; i++){
+            platform[i] = platform[i]+platform[i-1];
+            platforms_req = Math.max(platforms_req, platform[i]);
+        }
+        return platforms_req;
+    }
+}
+__________________________________________________________________________
+O(N*LogN):-
+
+//GIVES TLE
+
+class Solution
+{
+    static int findPlatform(int a[], int d[], int n)
+    {
+        Arrays.sort(a);
+        Arrays.sort(d);
+        int platforms = 0;
+        int i = 0;
+        int j = 0;
+        int count = 0;
+        while(i<n && j<n){
+            if(a[i]<d[j]){
+                count++;
+                i++;
+            }
+            else if(d[j]<a[i]){
+                count--;
+                j++;
+            }
+            if(count>platforms) platforms = count;
+        }
+        while(i<n){
+            count++;
+            i++;
+            if(count>platforms) platforms = count;
+        }
+        while(j<n){
+            count--;
+            j++;
+            if(count>platforms) platforms = count;
+        }
+        return platforms;
+    }
+}
