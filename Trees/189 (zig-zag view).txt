@@ -1,0 +1,54 @@
+/*class Node
+{
+    int data;
+    Node left,right;
+    Node(int d)
+    {
+        data=d;
+        left=right=null;
+    }
+}*/
+class Pair{
+    Node node;
+    boolean flag;
+    Pair(Node node, boolean flag){
+        this.node = node;
+        this.flag = flag;
+    }
+}
+class GFG
+{
+    ArrayList<Integer> ans = new ArrayList<>();
+    void bfs(Node node, boolean flag){
+        Queue<Pair> q = new LinkedList<>();
+        Stack<Pair> s = new Stack<>();
+        q.add(new Pair(node, flag));
+        while(!q.isEmpty()){
+            Pair temp = q.poll();
+            if(temp.node.left!=null){
+                q.add(new Pair(temp.node.left, !temp.flag));
+            }
+            if(temp.node.right!=null){
+                q.add(new Pair(temp.node.right, !temp.flag));
+            }
+            if(temp.flag==true){
+                s.push(temp);
+            }
+            if(temp.flag==false){
+                while(!s.isEmpty()){
+                    ans.add(s.pop().node.data);
+                }
+                ans.add(temp.node.data);
+            }
+        }
+        while(!s.isEmpty()){
+            ans.add(s.pop().node.data);
+        }
+    }
+	ArrayList<Integer> zigZagTraversal(Node root)
+	{
+	    boolean flag = false;
+	    bfs(root, flag);
+	    return ans;
+	}
+}

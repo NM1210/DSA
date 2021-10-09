@@ -1,0 +1,71 @@
+/*A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}*/
+
+class Pair{
+    Node node;
+    int width;
+    Pair(Node node, int width){
+        this.node = node;
+        this.width = width;
+    }
+}
+class Solution
+{
+    HashMap<Integer, Integer> map = new HashMap<>();
+    void bfs(Node node, int width){
+        Queue<Pair> q = new LinkedList<Pair>();
+        q.add(new Pair(node, width));
+        while(!q.isEmpty()){
+            Pair temp = q.poll();
+            if(!map.containsKey(temp.width)){
+                map.put(temp.width, temp.node.data);
+            }
+            if(temp.node.left!=null){
+                q.add(new Pair(temp.node.left, temp.width-1));
+            }
+            if(temp.node.right!=null){
+                q.add(new Pair(temp.node.right, temp.width+1));
+            }
+        }
+    }
+    // void dfs(Node node, int width){
+    //     if(node==null) return;
+    //     if(!this.map.containsKey(width)){
+    //         this.map.put(width, node.data);
+    //     }
+    //     dfs(node.left, width-1);
+    //     dfs(node.right, width+1);
+    // }
+    static ArrayList<Integer> topView(Node root)
+    {
+        // System.out.println(root.data);
+        Solution obj = new Solution();
+        int width = 0;
+        // obj.dfs(root, width);
+        obj.bfs(root, width);
+        ArrayList<Integer> top = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
+        set = obj.map.keySet();
+        ArrayList<Integer> keys = new ArrayList<>(set);
+        Collections.sort(keys);
+        for(Integer key: keys){
+            // System.out.print(key+":"+obj.map.get(key)+" ");
+            top.add(obj.map.get(key));
+        }
+        // for(Integer key: map.keySet()){
+        //     System.out.print(key+":"+map.get(key)+" ");
+        //     top.add(map.get(key));
+        // }
+        return top;
+    }
+}

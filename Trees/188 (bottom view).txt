@@ -1,0 +1,61 @@
+/*A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}*/
+
+class Pair{
+    Node node;
+    int level;
+    Pair(Node node, int level){
+        this.node = node;
+        this.level = level;
+    }
+}
+class Solution
+{
+    HashMap<Integer, Pair> map = new HashMap<>();
+    void dfs(Node node, int width, int level){
+        if(node==null) return;
+        if(!this.map.containsKey(width)){
+            this.map.put(width, new Pair(node, level));
+        }
+        else{
+            Pair temp = this.map.get(width);
+            if(level>=temp.level){
+                this.map.put(width, new Pair(node, level));
+            }
+        }
+        dfs(node.left, width-1, level+1);
+        dfs(node.right, width+1, level+1);
+    }
+    static ArrayList<Integer> bottomView(Node root)
+    {
+        // System.out.println(root.data);
+        Solution obj = new Solution();
+        int width = 0;
+        int level = 0;
+        obj.dfs(root, width, level);
+        ArrayList<Integer> bottom = new ArrayList<>();
+        Set<Integer> set = new HashSet<>();
+        set = obj.map.keySet();
+        ArrayList<Integer> keys = new ArrayList<>(set);
+        Collections.sort(keys);
+        for(Integer key: keys){
+            // System.out.print(key+":"+obj.map.get(key)+" ");
+            bottom.add(obj.map.get(key).node.data);
+        }
+        // for(Integer key: map.keySet()){
+        //     System.out.print(key+":"+map.get(key)+" ");
+        //     top.add(map.get(key));
+        // }
+        return bottom;
+    }
+}
