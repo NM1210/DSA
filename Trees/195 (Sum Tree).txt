@@ -1,0 +1,23 @@
+/*Node is as follows:
+class Node{
+    int data;
+    Node left,right;
+    Node(int d){
+    	data=d;
+    	left=null;
+    	right=null;
+    }
+}*/
+
+class Solution{
+    int sumTree(Node node){
+        if(node==null) return 0;
+        int left = node.left!=null?node.left.data:0;
+        int right = node.right!=null?node.right.data:0;
+        node.data = sumTree(node.left)+left+sumTree(node.right)+right;
+        return node.data;
+    }
+    public void toSumTree(Node root){
+        sumTree(root);
+    }
+}

@@ -1,0 +1,43 @@
+/*************************************************************
+
+    Following is the Binary Tree node structure
+
+    class BinaryTreeNode<T> {
+        public T data;
+        public BinaryTreeNode<T> left;
+        public BinaryTreeNode<T> right;
+
+        BinaryTreeNode(T data) {
+            this.data = data;
+            left = null;
+            right = null;
+        }
+    }
+
+*************************************************************/
+import java.util.*;
+public class Solution
+{
+    public static BinaryTreeNode<Integer> treeFromBracket(String str)
+    {
+        int n = str.length();
+        BinaryTreeNode<Integer> node = new BinaryTreeNode<>(-1);
+        node.data = Integer.parseInt(String.valueOf(str.charAt(0)));
+        if(n==1) return node;
+        Stack<Character> stack = new Stack<>();
+        int si = 1;
+        stack.push(str.charAt(si));
+        int i = si+1;
+        while(!stack.isEmpty() && i<n){
+            if(str.charAt(i)=='(') stack.push('(');
+            if(str.charAt(i)==')') stack.pop();
+            i++;
+        }
+        int ei = i;
+        if(si+1==ei-1) node.left=null;
+        else node.left = treeFromBracket(str.substring(si+1, ei-1));
+        if(ei+1>n-1) node.right = null;
+        else node.right = treeFromBracket(str.substring(ei+1, n-1));
+        return node;
+    }
+}

@@ -1,0 +1,36 @@
+/* A binary tree node class
+class Node
+{
+	int data;
+	Node left,right;
+	
+	Node(int d)
+	{
+		data = d;
+		left = right = null;		
+	}
+} */
+
+class Tree
+{
+    boolean check(Node node, int[] h){
+        if(node==null){
+            h[0] = 0;
+            return true;
+        }
+        int lheight[] = {0};
+        int rheight[] = {0};
+        boolean l = check(node.left, lheight);
+        boolean r = check(node.right, rheight);
+        int lh[] = lheight;
+        int rh[] = rheight;
+        h[0] += (lh[0]>rh[0]?lh[0]:rh[0]) + 1;
+        if(Math.abs(lh[0]-rh[0])>=2) return false;
+        else return l && r;
+    }
+    boolean isBalanced(Node root)
+    {
+        int h[] = {0};
+        return check(root, h);
+    }
+}

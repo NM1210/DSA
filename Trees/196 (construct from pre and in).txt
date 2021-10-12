@@ -1,0 +1,49 @@
+/*Node is as follows:
+class Node{
+    int data;
+    Node left,right;
+    Node(int d){
+    	data=d;
+    	left=null;
+    	right=null;
+    }
+}*/
+
+class Solution
+{
+    static int find(int node, int[] in){
+        for(int i = 0; i<in.length; i++){
+            if(in[i]==node) return i;
+        }
+        return -1;
+    }
+    static void place(Node node, Node index, int i, int[] in){
+        if(i<index.data){
+            if(index.left==null){
+                index.left = new Node(i);
+                node.left = new Node(in[i]);
+            }
+            else{
+                place(node.left, index.left, i, in);
+            }
+        }
+        if(i>index.data){
+            if(index.right==null){
+                index.right = new Node(i);
+                node.right = new Node(in[i]);
+            }
+            else{
+                place(node.right, index.right, i, in);
+            }
+        }
+    }
+    public static Node buildTree(int in[], int pre[], int n)
+    {
+        Node root = new Node(pre[0]);
+        Node index = new Node(find(pre[0], in));
+        for(int i = 1; i<n; i++){
+            place(root, index, find(pre[i], in), in);
+        }
+        return root;
+    }
+}
