@@ -1,0 +1,67 @@
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}
+ */
+
+class Solution {
+    ArrayList<String> list;
+    String inorder(Node node){
+        if(node==null) return "";
+        if(node.left==null && node.right==null) return String.valueOf(node.data);
+        String s =  "";
+        s = inorder(node.left) + String.valueOf(node.data) + inorder(node.right);
+        list.add(s);
+        return s;
+    }
+    int dupSub(Node root) {
+        list = new ArrayList<>();
+        inorder(root);
+        int n = list.size();
+        for(int i = 0; i<n-1; i++){
+            // System.out.print(list.get(i)+" ");
+            for(int j = i+1; j<n; j++){
+                if(list.get(j).equals(list.get(i))) return 1;
+            }
+        }
+        return 0;
+    }
+}
+_________________________________________________________________________________________
+CHECK IF SUBTREE (PRE-REQUISITES):-
+
+/* class Node{
+    int data;
+    Node left,right;
+    Node(int d)
+    {
+        data=d;
+        left=null;
+        right=null;
+    }
+}*/
+
+class Solution {
+    static boolean check(Node T, Node S){
+        if(T==null && S==null) return true;
+        if(T==null || S==null) return false;
+        if(T.data!=S.data) return false;
+        return check(T.left, S.left) && check(T.right, S.right);
+    }
+    public static boolean isSubtree(Node T, Node S) {
+        if(T==null) return false;
+        if(T.data==S.data){
+            if(check(T, S)){
+                return true;
+            }
+        }
+        return isSubtree(T.left, S) || isSubtree(T.right, S);
+    }
+}

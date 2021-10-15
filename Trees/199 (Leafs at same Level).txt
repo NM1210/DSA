@@ -1,0 +1,35 @@
+/* A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}
+*/
+
+class Solution
+{
+    int h;
+    int height(Node node){
+        if(node==null) return 0;
+        return Math.max(height(node.left), height(node.right))+1;
+    }
+    boolean equal(Node node, int level){
+        if(node==null) return true;
+        if(node.left==null && node.right==null){
+            if(level!=h) return false;
+        }
+        return equal(node.left, level+1) && equal(node.right, level+1);
+    }
+    boolean check(Node root)
+    {
+        h = height(root);
+        // System.out.println(h);
+        return equal(root, 1);
+    }
+}

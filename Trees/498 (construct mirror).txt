@@ -1,0 +1,26 @@
+/* A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+   Node(int item)
+   {
+        data = item;
+        left = right = null;
+    }
+} */
+
+class Solution {
+    Node swap(Node node){
+        if(node==null) return null;
+        if(node.left==null && node.right==null) return node;
+        Node lc = node.left;
+        Node rc = node.right;
+        node.right = swap(lc);
+        node.left = swap(rc);
+        return node;
+    }
+    void mirror(Node node) {
+        swap(node);
+    }
+}

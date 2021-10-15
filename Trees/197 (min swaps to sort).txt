@@ -1,0 +1,103 @@
+GRAPH APPROACH :-
+//O(N*LogN)
+
+class Solution
+{
+    public int minSwaps(int a[])
+    {
+        int n = a.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i<n; i++){
+            map.put(a[i], i);
+        }
+        Arrays.sort(a);
+        int count = 0;
+        boolean vis[] = new boolean[n];
+        Arrays.fill(vis, false);
+        for(int i = 0; i<n; i++){
+            if(vis[i] || map.get(a[i])==i) continue;
+            int j = i;
+            int cycle = 0;
+            while(!vis[j]){
+                vis[j] = true;
+                j = map.get(a[j]);
+                cycle++;
+            }
+            if(cycle>0){
+                count += cycle-1;
+            }
+        }
+        return count;
+    }
+}
+______________________________________________________________________________________
+O(N*LogN):-
+
+class Solution
+{
+    void swap(int i, int target, int[] a){
+        int t = a[i];
+        a[i] = a[target];
+        a[target] = t;
+    }
+    //Function to find the minimum number of swaps required to sort the array.
+    public int minSwaps(int a[])
+    {
+        int n = a.length;
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i<n; i++){
+            map.put(a[i], i);
+        }
+        int temp[] = new int[n];
+        for(int i = 0; i<n; i++){
+            temp[i] = a[i];
+        }
+        Arrays.sort(temp);
+        int count = 0;
+        for(int i = 0; i<n; i++){
+            if(a[i]!=temp[i]){
+                count++;
+                int element = a[i];
+                swap(i, map.get(temp[i]), a);
+                map.put(element, map.get(a[i]));
+                map.put(a[i], i);
+            }
+        }
+        return count;
+    }
+}
+________________________________________________________________________________________________
+O(N^2):-
+
+class Solution
+{
+    int find(int element, int[] a){
+        for(int i = 0; i<a.length; i++){
+            if(a[i]==element) return i;
+        }
+        return -1;
+    }
+    void swap(int i, int target, int[] a){
+        int t = a[i];
+        a[i] = a[target];
+        a[target] = t;
+    }
+    //Function to find the minimum number of swaps required to sort the array.
+    public int minSwaps(int a[])
+    {
+        int n = a.length;
+        int temp[] = new int[n];
+        for(int i = 0; i<n; i++){
+            temp[i] = a[i];
+        }
+        Arrays.sort(temp);
+        int count = 0;
+        for(int i = 0; i<n; i++){
+            if(a[i]!=temp[i]){
+                count++;
+                swap(i, find(temp[i], a), a);
+            }
+        }
+        return count;
+    }
+}

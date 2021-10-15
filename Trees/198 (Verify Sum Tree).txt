@@ -1,0 +1,55 @@
+/* A Binary Tree node
+class Node
+{
+    int data;
+    Node left, right;
+
+    Node(int item)
+    {
+        data = item;
+        left = right = null;
+    }
+}
+*/
+class Solution
+{
+    void dfs(Node node){
+        if(node==null) return;
+        System.out.print(node.data+" ");
+        dfs(node.left);
+        dfs(node.right);
+    }
+    void construct(Node root, Node node){
+        if(root==null) return;
+        if(root.left!=null) node.left = new Node(root.left.data);
+        if(root.right!=null) node.right = new Node(root.right.data);
+        construct(root.left, node.left);
+        construct(root.right, node.right);
+    }
+    int sum(Node node){
+        if(node==null) return 0;
+        if(node.left==null && node.right==null) return 0;
+        int lc = node.left!=null?node.left.data:0;
+        int rc = node.right!=null?node.right.data:0;
+        node.data = lc+sum(node.left)+rc+sum(node.right);
+        return node.data;
+    }
+    boolean compare(Node root, Node node){
+        if(node==null && root==null) return true;
+        if(node.data!=root.data) return false;
+        return compare(root.left, node.left) && compare(root.right, node.right);
+    }
+	boolean isSumTree(Node root)
+	{
+	    if(root==null) return true;
+        Node node = new Node(root.data);
+        construct(root, node);
+        // dfs(root);
+        // System.out.println();
+        // dfs(node);
+        sum(node);
+        // System.out.println();
+        // dfs(node);
+        return compare(root, node);
+	}
+}
