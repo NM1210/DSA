@@ -1,0 +1,39 @@
+/*
+node class of binary tree
+class Node {
+    int data;
+    Node left, right;
+    
+    public Node(int data){
+        this.data = data;
+    }
+}
+*/
+class Solution{
+    int SUM;
+    int N;
+    void longest(Node node, int sum, int n){
+        if(node==null) return;
+        if(node.left==null && node.right==null){
+            sum+=node.data;
+            if(n>=N){
+                if(n==N){
+                    SUM = (int)Math.max(sum, SUM);
+                }
+                else{
+                    SUM = sum;
+                    N = n;
+                } 
+            }
+        }
+        longest(node.left, sum+node.data, n+1);
+        longest(node.right, sum+node.data, n+1);
+    }
+    public int sumOfLongRootToLeafPath(Node root)
+    {
+        SUM = 0;
+        N = 0;
+        longest(root, 0, 0);
+        return SUM;
+    }
+}

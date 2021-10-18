@@ -1,0 +1,100 @@
+MEMOIZATION:-
+
+/*class Node
+{
+    int data;
+    Node left, right;
+    
+    Node(int data)
+    {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+    }
+}*/
+
+class Solution
+{
+    
+    static void traverse(Node root, Node node){
+        if(root==null) return;
+        if(root.left!=null){
+            node.left = new Node(-1);
+            traverse(root.left, node.left);
+        }
+        if(root.right!=null){
+            node.right = new Node(-1);
+            traverse(root.right, node.right);
+        }
+    }
+    
+    static void dfs(Node node){
+        if(node==null) return;
+        System.out.print(node.data+" ");
+        dfs(node.left);
+        dfs(node.right);
+    }
+    
+    static int sum(Node root, Node dp){
+        if(root==null) return 0;
+        if(dp.data!=-1) return dp.data;
+        if(root.left==null && root.right==null) return dp.data = root.data;
+        Node lchild = null, rchild = null, ll = null, lr = null, rl = null, rr = null;
+        Node lchilddp = null, rchilddp = null, lldp = null, lrdp = null, rldp = null, rrdp = null;
+        if(root.left!=null){
+            lchild = root.left;
+            ll = lchild.left==null?null:lchild.left;
+            lr = lchild.right==null?null:lchild.right;
+            lchilddp = dp.left;
+            lldp = lchilddp.left==null?null:lchilddp.left;
+            lrdp = lchilddp.right==null?null:lchilddp.right;
+        }
+        if(root.right!=null){
+            rchild = root.right;
+            rl = rchild.left==null?null:rchild.left;
+            rr = rchild.right==null?null:rchild.right;
+            rchilddp = dp.right;
+            rldp = rchilddp.left==null?null:rchilddp.left;
+            rrdp = rchilddp.right==null?null:rchilddp.right;
+        }
+        return dp.data = Math.max(root.data+sum(ll, lldp)+sum(lr, lrdp)
+                                           +sum(rl, rldp)+sum(rr, rrdp),
+                        sum(lchild, lchilddp)+sum(rchild, rchilddp));
+    }
+    
+    static int getMaxSum(Node root)
+    {
+        Node node = new Node(-1);
+        traverse(root, node);
+        // dfs(node);
+        return sum(root, node);
+    }
+}
+____________________________________________________________________________________________
+RECURRSION:-
+
+class Solution
+{
+    //Function to return the maximum sum of non-adjacent nodes.
+    static int getMaxSum(Node root)
+    {
+        if(root==null) return 0;
+        if(root.left==null && root.right==null) return root.data;
+        Node lchild = root.left==null?null:root.left;
+        Node rchild = root.right==null?null:root.right;
+        Node ll = null;
+        Node lr = null;
+        Node rl = null;
+        Node rr = null;
+        if(lchild!=null){
+            ll = lchild.left==null?null:lchild.left;
+            lr = lchild.right==null?null:lchild.right;
+        }
+        if(rchild!=null){
+            rl = rchild.left==null?null:rchild.left;
+            rr = rchild.right==null?null:rchild.right;
+        }
+        return Math.max(root.data+getMaxSum(ll)+getMaxSum(lr)+getMaxSum(rl)+getMaxSum(rr),
+                        getMaxSum(lchild)+getMaxSum(rchild));
+    }
+}

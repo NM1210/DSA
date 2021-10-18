@@ -1,0 +1,43 @@
+/************************************************************
+
+    Following is the TreeNode class structure:
+
+    class TreeNode<T> 
+    {
+       public:
+        T data;
+        TreeNode<T> left;
+        TreeNode<T> right;
+
+        TreeNode(T data) 
+        {
+            this.data = data;
+            left = null;
+            right = null;
+        }
+    };
+
+************************************************************/
+
+
+public class Solution {
+    static int sum;
+    static int sumTree(TreeNode<Integer> node){
+        if(node==null) return 0;
+        if(node.left==null && node.right==null) return node.data;
+        node.data = node.data + sumTree(node.left) + sumTree(node.right);
+        return node.data;
+    }
+    static void traverse(TreeNode<Integer> node){
+        if(node==null) return;
+        if(node.data>sum) sum = node.data;
+        traverse(node.left);
+        traverse(node.right);
+    }
+    public static int largestSubtreeSum(TreeNode<Integer> root) {
+        sum = Integer.MIN_VALUE;
+        sumTree(root);
+        traverse(root);
+        return sum;
+    }
+}
