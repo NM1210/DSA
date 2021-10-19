@@ -1,0 +1,27 @@
+class GfG {
+    boolean dfs(Node node, int n, int[] dis, int level){
+        if(node==null) return false;
+        if(node.data==n){
+            dis[0] = level;
+            return true;
+        } 
+        return dfs(node.left, n, dis, level+1) || dfs(node.right, n, dis, level+1);
+    }
+    int findDist(Node root, int n1, int n2) {
+        // if(!(dfs(root, n1)&&dfs(root, n2))) return null;
+	    int distance = -1;
+		Queue<Node> q = new LinkedList<>();
+		q.add(root);
+		while(!q.isEmpty()){
+		    Node temp = q.remove();
+		    int d1[] = {-1};
+		    int d2[] = {-1};
+		    if(temp.left!=null) q.add(temp.left);
+		    if(temp.right!=null) q.add(temp.right);
+		    if(dfs(temp, n1, d1, 0) && dfs(temp, n2, d2, 0)){
+		        distance = d1[0]+d2[0];
+		    }
+		}
+		return distance;
+    }
+}

@@ -1,0 +1,95 @@
+/*
+class Node {
+    int data;
+    Node left, right;
+    
+    public Node(int data){
+        this.data = data;
+    }
+}
+*/
+
+class Solution{
+    HashMap<String, Integer> m;
+    List<Node> list;
+    String inorder(Node node)
+    {
+        if (node == null)
+            return "";
+      
+        String str = "(";
+        str += inorder(node.left);
+        str += Integer.toString(node.data);
+        str += inorder(node.right);
+        str += ")";
+      
+        if (m.get(str) != null && m.get(str)==1 )
+            list.add(node);
+      
+        if (m.containsKey(str))
+            m.put(str, m.get(str) + 1);
+        else
+            m.put(str, 1);
+         
+        
+        return str;
+    }
+    public List<Node> printAllDups(Node root)
+    {
+        m = new HashMap<>();
+        list = new ArrayList<>();
+        inorder(root);
+        return list;
+    }
+}
+____________________________________________________________________________________________
+
+MY APPROACH:-
+
+class Solution{
+    boolean check(Node root, Node node){
+        if(root==null && node==null) return true;
+        if(root==null || node==null) return false;
+        if(root.data!=node.data) return false;
+        return check(root.left, node.left) && check(root.right, node.right);
+    }
+    String inorder(Node node){
+        if(node==null) return "";
+        if(node.left==null && node.right==null) return String.valueOf(node.data);
+        String s =  "";
+        s = inorder(node.left) + String.valueOf(node.data) + inorder(node.right);
+        return s;
+    }
+    public List<Node> printAllDups(Node root)
+    {
+        List<Node> list = new ArrayList<>();
+        ArrayList<String> inorders = new ArrayList<>();
+        ArrayList<Node> subtrees = new ArrayList<>();
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        while(!q.isEmpty()){
+            Node temp = q.remove();
+            if(temp.left!=null) q.add(temp.left);
+            if(temp.right!=null) q.add(temp.right);
+            subtrees.add(temp);
+        }
+        // for(Node i: subtrees){
+        //     System.out.print(i.data+" ");
+        // }
+        int n = subtrees.size();
+        for(int i = n-1; i>=1; i--){
+            for(int j = i-1; j>=0; j--){
+                if(subtrees.get(j).data==subtrees.get(i).data){
+                    if(check(subtrees.get(i), subtrees.get(j))){
+                        String str = inorder(subtrees.get(i));
+                        if(!inorders.contains(str)){
+                            inorders.add(str);
+                            list.add(subtrees.get(j));
+                        }
+                    }
+                }
+            }
+        }
+       return list;
+    }
+}

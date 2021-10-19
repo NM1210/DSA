@@ -1,0 +1,24 @@
+class Solution
+{
+    boolean dfs(Node node, int n){
+        if(node==null) return false;
+        if(node.data==n) return true;
+        return dfs(node.left, n) || dfs(node.right, n);
+    }
+	Node lca(Node root, int n1,int n2)
+	{
+	    if(!(dfs(root, n1)&&dfs(root, n2))) return null;
+	    Node ans = root;
+		Queue<Node> q = new LinkedList<>();
+		q.add(root);
+		while(!q.isEmpty()){
+		    Node temp = q.remove();
+		    if(temp.left!=null) q.add(temp.left);
+		    if(temp.right!=null) q.add(temp.right);
+		    if(dfs(temp, n1) && dfs(temp, n2)){
+		        ans = temp;
+		    }
+		}
+		return ans;
+	}
+}

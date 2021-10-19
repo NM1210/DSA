@@ -1,0 +1,43 @@
+/*
+Structure of Node class is:
+
+class Node {
+    int data;
+    Node left, right;
+    
+    public Node(int data){
+        this.data = data;
+    }
+}
+*/
+
+class Tree
+{
+    boolean dfs(Node node, int n){
+        if(node==null) return false;
+        if(node.data==n) return true;
+        return dfs(node.left, n) || dfs(node.right, n);
+    }
+    public int kthAncestor(Node root, int k, int n)
+    {
+        int ans = -1;
+        Stack<Node> s = new Stack<>();
+		Queue<Node> q = new LinkedList<>();
+		q.add(root);
+		while(!q.isEmpty()){
+		    Node temp = q.remove();
+		    if(temp.left!=null) q.add(temp.left);
+		    if(temp.right!=null) q.add(temp.right);
+		    if(dfs(temp, n)){
+		        s.push(temp);
+		    }
+		}
+		int count = 0;
+		while(!s.isEmpty()){
+		    Node temp = s.pop();
+		    if(count==k) ans = temp.data;
+		    count++;
+		}
+		return ans;
+    }
+}

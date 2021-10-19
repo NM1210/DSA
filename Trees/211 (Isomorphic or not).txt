@@ -1,0 +1,21 @@
+class Solution  
+{ 
+    boolean isIsomorphic(Node t1, Node t2)  
+    {
+        if(t1==null && t2==null) return true;
+        if(t1==null || t2==null) return false;
+        if(t1.data!=t2.data) return false;
+        Node lc = t1.left;
+        Node rc = t1.right;
+        int lt1 = t1.left==null?-1:t1.left.data;
+        int rt1 = t1.right==null?-1:t1.right.data;
+        int lt2 = t2.left==null?-1:t2.left.data;
+        int rt2 = t2.right==null?-1:t2.right.data;
+        boolean exp = isIsomorphic(t1.left, t2.left) && isIsomorphic(t1.right, t2.right);
+        if(lt1==rt2 && rt1==lt2){
+            t1.left = rc;
+            t1.right = lc;
+        }
+        return exp || (isIsomorphic(t1.left, t2.left) && isIsomorphic(t1.right, t2.right));
+    }
+}
