@@ -1,0 +1,27 @@
+/*
+class Node {
+    int data;
+    Node left, right,next;
+    
+    public Node(int data){
+        this.data = data;
+    }
+}
+*/
+class Solution{
+    Queue<Node> q;
+    void inorder(Node node){
+        if(node==null) return;
+        inorder(node.left);
+        q.add(node);
+        inorder(node.right);
+    }
+    public void populateNext(Node root){
+        q = new LinkedList<>();
+        inorder(root);
+        while(!q.isEmpty()){
+            Node temp = q.remove();
+            temp.next = q.peek();
+        }
+    }
+}

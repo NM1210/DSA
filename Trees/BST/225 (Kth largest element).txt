@@ -1,0 +1,35 @@
+/*
+class Node
+{
+    int data;
+    Node left;
+    Node right;
+    Node(int data)
+    {
+        this.data = data;
+        left=null;
+        right=null;
+    }
+}
+*/
+class Solution
+{
+    Stack<Integer> s = new Stack<>();
+    void inorder(Node node){
+        if(node==null) return;
+        inorder(node.left);
+        s.add(node.data);
+        inorder(node.right);
+    }
+    public int kthLargest(Node root,int K)
+    {
+        inorder(root);
+        int i = 0;
+        int temp = -1;
+        while(!s.isEmpty() && i<K){
+            temp = s.pop();
+            i++;
+        }
+        return temp;
+    }
+}

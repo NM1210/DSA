@@ -1,0 +1,66 @@
+/*
+class Node  
+{ 
+    int data; 
+    Node left, right; 
+   
+    public Node(int d)  
+    { 
+        data = d; 
+        left = right = null; 
+    } 
+}
+*/
+class Solution
+{
+    void traverse(Node node, ArrayList<Integer> inorder){
+        if(node==null) return;
+        traverse(node.left, inorder);
+        inorder.add(node.data);
+        traverse(node.right, inorder);
+    }
+    
+    List<Integer> combine(List<Integer> list, ArrayList<Integer> inorder1, ArrayList<Integer> inorder2, int n1, int n2){
+        int i = 0;
+        int j = 0;
+        while(i<n1 && j<n2){
+            if(inorder1.get(i)<inorder2.get(j)){
+                list.add(inorder1.get(i));
+                i++;
+            }
+            else{
+                list.add(inorder2.get(j));
+                j++;
+            } 
+        }
+        while(i<n1){
+            list.add(inorder1.get(i));
+            i++;
+        } 
+        while(j<n2){
+            list.add(inorder2.get(j));
+            j++;
+        }
+        return list;
+    }
+    
+    public List<Integer> merge(Node root1,Node root2)
+    {
+        ArrayList<Integer> inorder1 = new ArrayList<>();
+        ArrayList<Integer> inorder2 = new ArrayList<>();
+        traverse(root1, inorder1);
+        traverse(root2, inorder2);
+        int n1 = inorder1.size();
+        int n2 = inorder2.size();
+        // for(int i = 0; i<n1; i++){
+        //     System.out.print(inorder1.get(i));
+        // }
+        // System.out.println();
+        // for(int i = 0; i<n1; i++){
+        //     System.out.print(inorder2.get(i));
+        // }
+        // System.out.println();
+        List<Integer> list = new ArrayList<>();
+        return combine(list, inorder1, inorder2, n1, n2);
+    }
+}

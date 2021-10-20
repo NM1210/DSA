@@ -1,0 +1,36 @@
+/*
+class Node
+{
+    int data;
+    Node left, right;
+    Node(int item){
+        data = item;
+        left = right = null;
+    }
+}
+*/
+
+class Solution
+{
+    LinkedList<Integer> q;
+    void inorder(Node node){
+        if(node==null) return;
+        inorder(node.left);
+        node.data = q.removeFirst();
+        inorder(node.right);
+    }
+    void dfs(Node node){
+        if(node==null) return;
+        dfs(node.left);
+        dfs(node.right);
+        q.add(node.data);
+    }
+    Node binaryTreeToBST(Node root)
+    {
+        q = new LinkedList<>();
+        dfs(root);
+        Collections.sort(q);
+        inorder(root);
+        return root;
+    }
+}
