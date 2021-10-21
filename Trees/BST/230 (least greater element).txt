@@ -1,0 +1,60 @@
+import java.util.*;
+public class Solution {
+    class Node{
+       int data;
+        Node left, right;
+        Node(int d){
+            data = d;
+            left = right = null;
+        }
+    }
+    static Node root;
+    static Node succ;
+    Solution(){
+        root = null;
+        succ = null;
+    }
+    Node insert(Node node, int data){
+        if(node==null) node = new Node(data);
+        if(data<node.data){
+            succ = node;
+            node.left = insert(node.left, data);
+        }
+        else if(data>node.data) node.right = insert(node.right, data);
+//         else succ = node;
+        return node;
+    }
+    Node find(Node node, int data){
+        if(node.data==data) return node;
+        if(data<node.data){
+            succ = node;
+            return find(node.left, data);
+        } 
+        if(data>node.data) return find(node.right, data);
+        return null;
+    }
+    void get(Node node){
+        if(node==null) return;
+        if(node.right!=null){
+            node=node.right;
+            while(node.left!=null) node = node.left;
+            succ = node;
+        }
+    }
+    public static int[] leastGreaterElement(int[] a) {
+        Solution tree = new Solution();
+        ArrayList<Integer> list = new ArrayList<>();
+        int n = a.length;
+        for(int i = n-1; i>=0; i--){
+            succ = null;
+            if(!list.contains(a[i])){
+                root = tree.insert(root, a[i]);
+                list.add(a[i]);
+            } 
+            else tree.get(tree.find(root, a[i]));
+            if(succ!=null) a[i] = succ.data;
+            else a[i] = -1;
+        }
+        return a;
+    }
+}

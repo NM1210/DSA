@@ -1,0 +1,23 @@
+class Solution
+{
+    public static boolean find(Node node, int elem){
+        if(node==null) return false;
+        if(node.data==elem) return true;
+        if(elem<node.data) return find(node.left, elem);
+        if(elem>node.data) return find(node.right, elem);
+        return false;
+    }
+	public static int countPairs(Node root1, Node root2, int x)
+	{
+	    int count = 0;
+		Queue<Node> q = new LinkedList<>();
+		q.add(root1);
+		while(!q.isEmpty()){
+		    Node temp = q.remove();
+		    if(temp.left!=null) q.add(temp.left);
+		    if(temp.right!=null) q.add(temp.right);
+		    if(find(root2, x-temp.data)) count++;
+		}
+		return count;
+	}
+}

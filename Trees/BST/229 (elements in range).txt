@@ -1,0 +1,21 @@
+class Tree
+{
+    ArrayList<Integer> inorder;
+    void travel(Node node){
+        if(node==null) return;
+        travel(node.left);
+        inorder.add(node.data);
+        travel(node.right);
+    }
+    int getCount(Node root,int l, int h)
+    {
+        int count = 0;
+        inorder = new ArrayList<>();
+        travel(root);
+        int n = inorder.size();
+        for(int i = 0; i<n; i++){
+            if(inorder.get(i)>=l && inorder.get(i)<=h) count++;
+        }
+        return count;
+    }
+}

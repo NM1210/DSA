@@ -1,0 +1,21 @@
+class Solution {
+    Queue<Integer> q;
+    void inorder(Node node){
+        if(node==null) return;
+        inorder(node.left);
+        q.add(node.data);
+        inorder(node.right);
+    }
+    public int KthSmallestElement(Node root, int K) {
+        q = new LinkedList<>();
+        inorder(root);
+        int ans = -1;
+        int i = 1;
+        while(!q.isEmpty()){
+            int temp = q.remove();
+            if(i==K) ans = temp;
+            i++;
+        }
+        return ans;
+    }
+}

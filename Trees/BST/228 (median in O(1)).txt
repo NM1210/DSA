@@ -1,0 +1,50 @@
+/*************************************************************************
+
+    Following is the class structure of the Node class:
+
+	class TreeNode<T> {
+	    public T data;
+	    public TreeNode<T> left;
+	    public TreeNode<T> right;
+
+	    TreeNode(T data) {
+	        this.data = data;
+	        left = null;
+	        right = null;
+	    }
+	}
+
+
+*************************************************************************/
+
+public class Solution {
+    static int n;
+    static int count;
+    static void size(TreeNode<Integer> node){
+        if(node==null) return;
+        size(node.left);
+        n++;
+        size(node.right);
+    }
+    static int find(TreeNode<Integer> node, int elem){
+        if(node==null) return 0;
+        int left = find(node.left, elem);
+        count++;
+        if(count==elem) return node.data;
+        int right = find(node.right, elem);
+        return left+right;
+    }
+	public static int medianBST(TreeNode<Integer> root) {
+		n = 0;
+        	size(root);
+        	// System.out.println(n);
+        	count = 0;
+        	if(n%2!=0) return find(root, n/2+1);
+        	else{
+            	int f = find(root, n/2);
+            	count = 0;
+            	int s = find(root, n/2+1);
+            	return (f+s)/2;
+        	}
+	}
+}
