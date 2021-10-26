@@ -13,6 +13,61 @@
  *     }
  * }
  */
+________________________________________________________________________________________________
+O(N):-
+
+class Index{
+    int index = 0;
+}
+class Solution {
+    Index preIndex = new Index();
+    TreeNode construct(int[] pre, Index preIndex, int key, int min, int max, int n){
+        if(preIndex.index>=n) return null;
+        TreeNode root = null;
+        if(key>min && key<max){
+            root = new TreeNode(key);
+            preIndex.index = preIndex.index+1;
+            if(preIndex.index<n){
+                root.left = construct(pre, preIndex, pre[preIndex.index], min, key, n);
+            }
+            if(preIndex.index<n){
+                root.right = construct(pre, preIndex, pre[preIndex.index], key, max, n);
+            }
+        }
+        return root;
+    }
+    public TreeNode bstFromPreorder(int[] pre) {
+        int n = pre.length;
+        return construct(pre, preIndex, pre[0], Integer.MIN_VALUE, Integer.MAX_VALUE, n);
+    }
+}
+_________________________________________________________________________
+O(N^2):-
+
+class Solution {
+    TreeNode root;
+    int find(int[] pre, int s, int e){
+        int j = s+1;
+        while(j<=e && pre[j]<pre[s]) j++;
+        return j;
+    }
+    TreeNode construct(int[] pre, TreeNode node, int s, int e){
+        if(e<s) return null;
+        if(node==null) node = new TreeNode(pre[s]);
+        int j = find(pre, s, e);
+        node.left = construct(pre, node.left, s+1, j-1);
+        node.right = construct(pre, node.right, j, e);
+        return node;
+    }
+    public TreeNode bstFromPreorder(int[] pre) {
+        int n = pre.length;
+        root = construct(pre, root, 0, n-1);
+        return root;
+    }
+}
+__________________________________________________________________________
+O(N^3):-
+
 class Solution {
     
     int find(int node, int[] in){

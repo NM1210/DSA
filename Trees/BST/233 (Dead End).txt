@@ -1,0 +1,68 @@
+/*class Node {
+        int data;
+        Node left, right;
+ 
+        Node(int item) {
+            data = item;
+            left = right = null;
+        }
+    }*/
+
+class GFG
+{
+    static int n;
+    static int[] nodes;
+    static int node_counter;
+    static int[] leafs;
+    static int leaf_counter;
+    static void size(Node node){
+        if(node==null) return;
+        size(node.left);
+        size(node.right);
+        n++;
+    }
+    static void dfs(Node root){
+        if(root==null) return;
+        if(root.left==null && root.right==null){
+            leafs[leaf_counter++] = root.data;
+            return;
+        }
+        dfs(root.left);
+        dfs(root.right);
+        nodes[node_counter++] = root.data;
+    }
+    static boolean check(int elem){
+        for(int node = 0; node<node_counter; node++){
+            if(nodes[node]==elem) return true;
+        }
+        return false;
+    }
+    public static boolean isDeadEnd(Node root)
+    {
+        n = 0;
+        size(root);
+        // System.out.println(n);
+        nodes = new int[n];
+        node_counter = 0;
+        leafs = new int[n];
+        leaf_counter = 0;
+        dfs(root);
+        // for(int i = 0; i<node_counter; i++){
+        //     System.out.print(nodes[i]+" ");
+        // }
+        // System.out.println();
+        // for(int i = 0; i<leaf_counter; i++){
+        //     System.out.print(leafs[i]+" ");
+        // }
+        // System.out.println();
+        for(int leaf = 0; leaf<leaf_counter; leaf++){
+            if(leafs[leaf]==1){
+                if(check(leafs[leaf]+1)) return true;
+            }
+            else{
+                if(check(leafs[leaf]-1) && check(leafs[leaf]+1)) return true;
+            }
+        }
+        return false;
+    }
+}

@@ -1,0 +1,72 @@
+O(N):-
+//WITHOUT STACK
+
+class Solution {
+    static int index = 0;
+    static void valid(int[] pre, int min, int max, int n){
+        if(index>=n) return;
+        if(min<=pre[index] && pre[index]<=max){
+            int root = pre[index];
+            index++;
+            valid(pre, min, root, n);
+            valid(pre, root, max, n);
+        }
+    }
+    static int canRepresentBST(int pre[], int n) {
+        valid(pre, Integer.MIN_VALUE, Integer.MAX_VALUE, n);
+        return index==n?1:0;
+    }
+}
+__________________________________________________________________________
+O(N):-
+
+class Solution {
+    static int canRepresentBST(int pre[], int n) {
+        
+        Stack<Integer> s = new Stack<>();
+        
+        int root = Integer.MIN_VALUE;
+        
+        for(int i = 0; i<n; i++){
+            
+            if(pre[i]<root) return 0;
+            
+            while(!s.isEmpty() && s.peek()<pre[i]){
+                root = s.pop();
+            }
+            
+            s.push(pre[i]);
+        }
+        return 1;
+    }
+}
+_______________________________________________________________________
+O(N^2):-
+
+class Solution {
+    static LinkedList<Integer> pre = new LinkedList<>();
+    static ArrayList<LinkedList<Integer>> list;
+    
+    static boolean check(int a[], int i, int j){
+        for(int k = j; k<a.length; k++){
+            if(a[k]<a[i]) return false;
+        }
+        return true;
+    }
+    
+    static boolean preorder(int[] a, int s, int e){
+        for(int i = s; i<=e; i++){
+            int j = i+1;
+            while(j<=e && a[j]<a[i]){
+                j++;
+            }
+            if(!check(a, i, j) || !preorder(a, i+1, j-1) || !preorder(a, j+1, e)) return false;
+        }
+        return true;
+    }
+    
+    static int canRepresentBST(int a[], int n) {
+        boolean ans = preorder(a, 0, n-1);
+        return ans==true?1:0;
+    }
+}

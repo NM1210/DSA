@@ -1,0 +1,110 @@
+import java.util.*;
+
+public class Nappointments {
+	
+	static class Interval
+	{
+	    int low, high;
+	    int get_low(){
+	        return this.low;
+	    }
+	    int get_high(){
+	        return this.high;
+	    }
+	}
+	static class ITNode
+	{
+	    Interval i;
+	    int max;
+	    ITNode left, right;
+	}
+	static Interval newNode(int l, int h)
+	{
+	    Interval temp = new Interval();
+	    temp.low = l;
+	    temp.high = h;
+	    return temp;
+	}
+	static ITNode newNode(Interval i)
+	{
+	    ITNode temp = new ITNode();
+	    temp.i = i;
+	    temp.max = i.high;
+	    temp.left = temp.right = null;
+	    return temp;
+	}
+	
+	static ITNode insert(ITNode root, Interval i)
+	{
+	    if (root == null)
+	        return newNode(i);
+
+	    int l = root.i.low;
+
+	    if (i.low < l)
+	        root.left = insert(root.left, i);
+
+	    else
+	        root.right = insert(root.right, i);
+	    
+	    if (root.max < i.high)
+	        root.max = i.high;
+	 
+	    return root;
+	}
+	
+	static boolean doOVerlap(Interval i1, Interval i2)
+	{
+	    if (i1.low < i2.high && i2.low < i1.high)
+	        return true;
+	         
+	    return false;
+	}
+	
+	static Interval overlapSearch(ITNode root, Interval i)
+	{
+		if (root == null)
+			return null;
+
+		if (doOVerlap(root.i, i))
+			return root.i;
+
+		if (root.left != null &&root.left.max >= i.low)
+			return overlapSearch(root.left, i);
+
+		return overlapSearch(root.right, i);
+	}
+	
+	static void printConflicting(Interval appt[], int n)
+	{
+	    ITNode root = null;
+	    root = insert(root, appt[0]);
+
+	    for(int i = 1; i < n; i++)
+	    {
+	        Interval res = overlapSearch(root, appt[i]);
+	         
+	        if (res != null)
+	            System.out.print("[" + appt[i].low +
+	                             "," + appt[i].high +
+	                             "] Conflicts with [" +
+	                             res.low + "," +
+	                             res.high + "]\n");
+
+	        root = insert(root, appt[i]);
+	    }
+	}
+	
+	public static void main(String[] args) {
+		int meetings[][] = { {1, 5}, {3, 7}, {2, 6}, {10, 15}, {5, 6}, {4, 100}};
+		int n = meetings.length;
+        Interval intervals[] = new Interval[n];
+        for(int i = 0; i<n; i++){
+            intervals[i] = newNode(meetings[i][0], meetings[i][1]);
+        }
+//        for(int i = 0; i<n; i++){
+//            System.out.println(intervals[i].low+" "+intervals[i].high);
+//        }
+        printConflicting(intervals, n);
+	}
+}

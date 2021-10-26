@@ -1,0 +1,37 @@
+class Solution{
+    static int max_len;
+    static ArrayList<ArrayList<Integer>> inorders;
+    static ArrayList<Integer> traverse(Node root){
+        if(root==null) return new ArrayList<Integer>();
+        ArrayList<Integer> list = new ArrayList<>();
+        list.addAll(traverse(root.left));
+        list.add(root.data);
+        list.addAll(traverse(root.right));
+        inorders.add(list);
+        return list;
+    }
+    static boolean sorted(ArrayList<Integer> list){
+        for(int i = 1; i<list.size(); i++){
+            if(list.get(i)<=list.get(i-1)) return false;
+        }
+        return true;
+    }
+    static int largestBst(Node root)
+    {
+        max_len = 0;
+        inorders = new ArrayList<>();
+        traverse(root);
+        // System.out.println(inorders.size());
+        // for(ArrayList<Integer> inorder: inorders){
+        //     for(Integer i: inorder){
+        //         System.out.print(i+" ");
+        //     }
+        //     System.out.println();
+        // }
+        for(ArrayList<Integer> inorder: inorders){
+            if(sorted(inorder)) max_len = Math.max(inorder.size(), max_len);
+        }
+        return max_len;
+    }
+    
+}
