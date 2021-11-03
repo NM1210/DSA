@@ -1,0 +1,35 @@
+public class Solution 
+{
+    public static int boardCutting(ArrayList<Integer> horizontal, ArrayList<Integer> vertical, int m, int n)
+    {
+        int cost = 0;
+//         System.out.println(horizontal.size()+" "+vertical.size());
+        Collections.sort(horizontal, Collections.reverseOrder());
+        Collections.sort(vertical, Collections.reverseOrder());
+        int hc = 1, vc = 1;
+        int i = 0, j = 0;
+        while(i<m-1 && j<n-1){
+            if(horizontal.get(i)>=vertical.get(j)){
+                cost += horizontal.get(i)*vc;
+                hc++;
+                i++;
+            }
+            else{
+                cost += vertical.get(j)*hc;
+                vc++;
+                j++;
+            }
+        }
+        while(i<m-1){
+            cost += horizontal.get(i)*vc;
+            hc++;
+            i++;
+        }
+        while(j<n-1){
+            cost += vertical.get(j)*hc;
+            vc++;
+            j++;
+        }
+        return cost;
+    }
+}

@@ -1,0 +1,18 @@
+class Solution{
+    static int minimumDays(int S, int N, int M){
+        int count = 0;
+        int present_day = 0;
+        int instock = 0;
+        int days_survived = 0;
+        while(days_survived<S){
+            if(present_day==6) return -1;
+            else{
+                days_survived += (instock+N)/M;
+                instock = (instock+N)%M;
+                present_day = days_survived%7;
+                count++;
+            }
+        }
+        return count;
+    }
+}

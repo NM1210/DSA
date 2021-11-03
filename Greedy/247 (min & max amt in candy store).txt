@@ -1,0 +1,26 @@
+class Solution{
+    static ArrayList<Integer> candyStore(int candies[],int N,int k){
+        Arrays.sort(candies);
+        int j = N;
+        int i = 0;
+        int min_amt = 0;
+        while(i<j){
+            min_amt += candies[i];
+            j -= k;
+            i++;
+        }
+        int max_amt = 0;
+        j = N;
+        i = j-1;
+        j = 0;
+        while(i>=j){
+            max_amt += candies[i];
+            j += k;
+            i--;
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(min_amt);
+        list.add(max_amt);
+        return list;
+    }
+}
