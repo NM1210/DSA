@@ -1,0 +1,13 @@
+class Solution{
+    
+    long Maximize(int a[], int n)
+    {
+        long p = (long)Math.pow(10, 9)+7;
+        Arrays.sort(a);
+        long sum = 0;
+        for(int i = 0; i<n; i++){
+            sum = (sum%p + ((a[i]%p)*(i%p))%p)%p;
+        }
+        return sum%p;
+    }   
+}
