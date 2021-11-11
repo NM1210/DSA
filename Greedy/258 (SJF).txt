@@ -1,0 +1,44 @@
+/*
+class Job{
+	int id, arrival, burst;
+	Job(int id, int arrival, int burst){
+		this.id = id;
+		this.arrival = arrival;
+		this.burst = burst;
+	}
+}
+*/
+
+class Solution{
+	ArrayList<Job> sequence(Job[] jobs, int n){
+		ArrayList<Job> list = new ArrayList<>();
+		PriorityQueue<Job> pq = new PriorityQueue<>(n, new Comparator<Job>() {
+			public int compare(Job x, Job y) {
+				return x.burst-y.burst;
+			}
+		});
+//		for(Job j: jobs) {
+//			System.out.println(j.id+" "+j.arrival+" "+j.burst);
+//		}
+		Arrays.sort(jobs, new Comparator<Job>() {
+			public int compare(Job one, Job two) {
+				return one.arrival-two.arrival;
+			}
+		});
+//		for(Job j: jobs) {
+//			System.out.println(j.id+" "+j.arrival+" "+j.burst);
+//		}
+		int i = 0;
+		while(i<n) {
+			pq.add(jobs[i++]);
+			while(!pq.isEmpty()) {
+				Job temp = pq.remove();
+				list.add(temp);
+				while(i<n && jobs[i].arrival <= temp.arrival+temp.burst) {
+					pq.add(jobs[i++]);
+				}
+			}
+		}
+		return list;
+	}
+}

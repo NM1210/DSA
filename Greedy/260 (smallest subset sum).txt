@@ -1,0 +1,20 @@
+class Solution{
+	int subset(int[] a) {
+		int count = 0;
+		int n = a.length;
+		int sum = 0;
+		for(int i = 0; i<n; i++) {
+			sum += a[i];
+		}
+		Arrays.sort(a);
+		int subset_sum = 0;
+		int i = n-1;
+		while(i>=0 && subset_sum<=sum) {
+			sum -= a[i];
+			subset_sum += a[i];
+			count++;
+			i--;
+		}
+		return count;
+	}
+}
