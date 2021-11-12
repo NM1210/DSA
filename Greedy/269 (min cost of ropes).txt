@@ -1,0 +1,21 @@
+class Solution
+{
+    //Function to return the minimum cost of connecting the ropes.
+    long minCost(long a[], int n) 
+    {
+        // long p = (long)Math.pow(10, 9)+7;
+        PriorityQueue<Long> q = new PriorityQueue<>();
+        long cost = 0;
+        for(int i = 0; i<n; i++){
+            q.add(a[i]);
+        }
+        while(q.size()>1){
+            long first = q.remove();
+            long second = q.remove();
+            long temp = first + second;
+            cost += (first+second);
+            q.add(first+second);
+        }
+        return cost;
+    }
+}

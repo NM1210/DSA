@@ -1,0 +1,35 @@
+class Solution{
+    static String smallestNumber(int S, int D){
+        if(S<=9*D){
+            String str = "";
+            Stack<Integer> s = new Stack<>();
+            int sum = 0;
+            for(int place = 0; place<D; place++){
+                if(place==D-1){
+                    for(int i = 9; i>=0; i--){
+                        if(sum+i==S){
+                            s.push(i);
+                            break;
+                        }
+                    }
+                }
+                else{
+                    for(int i = 9; i>=0; i--){
+                        if(sum+i<S){
+                            s.push(i);
+                            sum += i;
+                            break;
+                        }
+                    }
+                }
+            }
+            while(!s.isEmpty()){
+                str += String.valueOf(s.pop());
+            }
+            return str;
+        }
+        else{
+            return "-1";
+        }
+    }
+}

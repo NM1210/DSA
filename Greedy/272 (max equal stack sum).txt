@@ -1,0 +1,71 @@
+import java.util.Stack;
+
+public class Solution {
+	public static int maxSum(Stack<Integer> s1, Stack<Integer> s2, Stack<Integer> s3) {
+        int sum1 = 0, sum2 = 0, sum3 = 0;
+//         for(Integer element: s1){
+//             System.out.print(element+" ");
+//         }
+		for(Integer element: s1){
+            sum1 += element;
+        }
+        for(Integer element: s2){
+            sum2 += element;
+        }
+        for(Integer element: s3){
+            sum3 += element;
+        }
+//         System.out.print(sum1+" "+sum2+" "+sum3+" ");
+        while(true){
+            if(s1.isEmpty() || s2.isEmpty() || s3.isEmpty()){
+                return 0;
+            }
+            if(sum1==sum2 && sum2==sum3) return sum1;
+            if(sum1>=sum2 && sum1>=sum3){
+                sum1 -= s1.pop();
+            }
+            else if(sum2>=sum1 && sum2>=sum3){
+                sum2 -= s2.pop();
+            }
+            else if(sum3>=sum1 && sum3>=sum2){
+                sum3 -= s3.pop();
+            }
+        }
+	}
+}
+__________________________________________________________________________________________________
+INITIAL ATTEMPT(WRONG):-
+
+import java.util.Stack;
+
+public class Solution {
+	public static int maxSum(Stack<Integer> s1, Stack<Integer> s2, Stack<Integer> s3) {
+        Integer sum1 = 0, sum2 = 0, sum3 = 0;
+//         for(Integer element: s1){
+//             System.out.print(element+" ");
+//         }
+		for(Integer element: s1){
+            sum1 += element;
+        }
+        for(Integer element: s2){
+            sum2 += element;
+        }
+        for(Integer element: s3){
+            sum3 += element;
+        }
+//         System.out.print(sum1+" "+sum2+" "+sum3+" ");
+        while(!s1.isEmpty() && !s2.isEmpty() && !s3.isEmpty()){
+            if(sum1==sum2 && sum2==sum3) return sum1;
+            else if(!s1.isEmpty() && sum1>sum2 && sum1>sum3){
+                sum1 -= s1.pop();
+            }
+            else if(!s2.isEmpty() && sum2>sum1 && sum2>sum3){
+                sum2 -= s2.pop();
+            }
+            else if(!s3.isEmpty() && sum3>sum1 && sum3>sum2){
+                sum3 -= s3.pop();
+            }
+        }
+        return 0;
+	}
+}
