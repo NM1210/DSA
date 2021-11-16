@@ -1,0 +1,47 @@
+class Solution
+{
+    public int[] singleNumber(int[] a)
+    {
+        int ans[] = new int[2];
+        int n = a.length;
+        int res = 0;
+        for(int i = 0; i<n; i++){
+            res = res^a[i];
+        }
+        // System.out.println(res);
+        int j = 0;
+        int temp = res;
+        while((temp&1)==0){
+            j++;
+            temp = temp>>1;
+        }
+        int mask = 1<<j;
+        // System.out.println(mask);
+        int one[] = new int[n];
+        int zero[] = new int[n];
+        int itr1 = 0;
+        int itr2 = 0;
+        for(int i = 0; i<n; i++){
+            if((a[i]&mask)==0){
+                zero[itr2++] = a[i];
+            }
+            else{
+                one[itr1++] = a[i];
+            }
+        }
+        temp = res;
+        for(int i = 0; i<itr1; i++){
+            temp = temp^one[i];
+        }
+        ans[0] = temp;
+        ans[1] = res^temp;
+        // int itr = 0;
+        // for(int i = 0; i<n; i++){
+        //     if(a[i]==elem1 || a[i]==elem2){
+        //         ans[itr++] = a[i];
+        //     }
+        // }
+        Arrays.sort(ans);
+        return ans;
+    }
+}

@@ -1,0 +1,64 @@
+O(1):-
+class Solution{
+    public static boolean isPowerofTwo(long n){
+        if(n==0) return false;
+        // System.out.println(Math.log(n)+" "+Math.log(2));
+        // System.out.println(Math.log(n)/Math.log(2));
+
+        double x = Math.log(n)/Math.log(2);
+
+        // System.out.println(Math.floor(Math.log(n)/Math.log(2)));
+        // System.out.println(Math.ceil(Math.log(n)/Math.log(2)));
+        
+        double scale = Math.pow(10, 10);
+        double rounded_x = Math.round(x*scale)/scale;
+
+        // System.out.println(Math.round((Math.log(n)/Math.log(2))*scale)/scale);
+        // System.out.println(Math.floor(Math.round((Math.log(n)/Math.log(2))*scale)/scale));
+        // System.out.println(Math.ceil(Math.round((Math.log(n)/Math.log(2))*scale)/scale));
+        
+        return (long)Math.ceil(rounded_x) ==
+               (long)Math.floor(rounded_x);
+    }
+}
+_____________________________________________________________________________________________________
+O(1):-
+class Solution{
+    public static boolean isPowerofTwo(long n){
+        return n!=0 && ((n&n-1)==0);
+    }
+}
+_____________________________________________________________________________________________________
+O(1):-
+class Solution{
+    public static boolean isPowerofTwo(long n){
+        if(n==0) return false;
+        if((n&(~(n-1)))==n) return true;
+        return false;
+    }
+}
+_____________________________________________________________________________________________________
+O(No. of set bits):-
+class Solution{
+    public static boolean isPowerofTwo(long n){
+        int count = 0;
+        while(n>0){
+            count++;
+            n = n&(n-1);
+        }
+        if(count==1) return true;
+        else return false;
+    }
+}
+_____________________________________________________________________________________________________
+O(LogN):-
+class Solution{
+    public static boolean isPowerofTwo(long n){
+        if(n==0) return false;
+        while(n>0){
+            if(n!=1 && (n&1)==1) return false;
+            n = n>>1;
+        }
+        return true;
+    }
+}
