@@ -1,0 +1,39 @@
+BIT MANIPULATION:-
+
+class Solution
+{
+    public List<String> AllPossibleStrings(String s)
+    {
+        ArrayList<String> a = new ArrayList<>();
+        int set_size = s.length();
+        int power_set_size = (int)Math.pow(2, set_size);
+        for(int i = 0; i<power_set_size; i++){
+            String temp = "";
+            for(int j = 0; j<set_size; j++){
+                if((i&(1<<j))>0) temp += s.charAt(j);
+            }
+            if(temp!="") a.add(temp);
+        }
+        Collections.sort(a);
+        return a;
+    }
+}
+__________________________________________________________
+class Solution
+{
+    ArrayList<String> a = new ArrayList<>();
+    void power_set(String s, int pos, String str){
+        if(pos>=s.length()){
+            if(str!="") a.add(str);
+            return;
+        }
+        power_set(s, pos+1, str + s.charAt(pos));
+        power_set(s, pos+1, str);
+    }
+    public List<String> AllPossibleStrings(String s)
+    {
+        power_set(s, 0, "");
+        Collections.sort(a);
+        return a;
+    }
+}

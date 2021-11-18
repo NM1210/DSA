@@ -1,0 +1,28 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+
+  public static void main(String[] args){
+    Scanner scn = new Scanner(System.in);
+    int a = scn.nextInt();
+    int b = scn.nextInt();
+    int l = scn.nextInt();
+    int r = scn.nextInt();
+    
+    int mask = 0;
+    int i = r-1;
+    while(i>=l-1){
+        int temp = 1<<i;
+        mask = mask | temp;
+        i--;
+    }
+    // System.out.println(mask);
+    
+    int res = a & mask;
+    res = b | res;
+    System.out.println(res);
+    
+  }
+
+}
