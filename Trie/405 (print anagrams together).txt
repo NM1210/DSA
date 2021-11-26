@@ -1,0 +1,64 @@
+class Solution {
+    static class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        boolean isEnd;
+        ArrayList<String> list;
+        TrieNode() {
+            list = new ArrayList<>();
+            isEnd = false;
+            for (int i = 0; i < 26; i++) children[i] = null;
+        }
+    }
+    static void insert(TrieNode root, String str, int ind, String[] strings)
+    {
+        int n = str.length();
+        TrieNode curr = root;
+        for(int i = 0; i<n; i++){
+            int index = str.charAt(i) - 'a';
+            if(curr.children[index]==null)
+                curr.children[index] = new TrieNode();
+            curr = curr.children[index];
+        }
+        curr.isEnd = true;
+        curr.list.add(strings[ind]);
+    }
+    void search(TrieNode root)
+    {
+        if(root.isEnd){
+            this.ans.add(root.list);
+        }
+        for(int i = 0; i<26; i++){
+            if(root.children[i]!=null){
+                search(root.children[i]);
+            }
+        }
+    }
+    List<List<String>> ans = new ArrayList<>();
+    public List<List<String>> Anagrams(String[] strings) {
+        int n = strings.length;
+        
+        TrieNode root = new TrieNode();
+        
+        for(int i = 0; i<n; i++){
+            int map[] = new int[26];
+            int len = strings[i].length();
+            for(int j = 0; j<len; j++){
+                int index = strings[i].charAt(j)-'a';
+                map[index]++;
+            }
+            String temp = "";
+            for(int j = 0; j<26; j++){
+                while(map[j]>0){
+                    temp += (char)(97+j);
+                    map[j]--;
+                }
+            }
+            // System.out.print(temp+" ");
+            insert(root, temp, i, strings);
+        }
+        
+        this.search(root);
+        
+        return ans;
+    }
+}

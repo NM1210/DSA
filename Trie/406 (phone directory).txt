@@ -1,0 +1,72 @@
+class Solution{
+    static class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        boolean isEnd;
+        TrieNode() {
+            isEnd = false;
+            for (int i = 0; i < 26; i++) children[i] = null;
+        }
+    }
+    
+    static void insert(TrieNode root, String str)
+    {
+        int n = str.length();
+        TrieNode curr = root;
+        for(int i = 0; i<n; i++){
+            int index = str.charAt(i) - 'a';
+            if(curr.children[index]==null)
+                curr.children[index] = new TrieNode();
+            curr = curr.children[index];
+        }
+        curr.isEnd = true;
+    }
+    
+    void search(TrieNode root, String str, String temp){
+        int n = str.length();
+        TrieNode curr = root;
+        for(int i = 0; i<n; i++){
+            int index = str.charAt(i)-'a';
+            if(curr.children[index]==null){
+                temp = "0";
+                inner.add(temp);
+                return;
+            }
+            curr = curr.children[index];
+            temp += str.charAt(i);
+        }
+        traverse(curr, temp);
+    }
+    
+    void traverse(TrieNode curr, String temp){
+        if(curr.isEnd){
+            // System.out.print(temp+" ");
+            inner.add(temp);
+        }
+        for(int i = 0; i<26; i++){
+            if(curr.children[i]!=null){
+                traverse(curr.children[i], temp+(char)(i+97));
+            }
+        }
+    }
+    
+    ArrayList<String> inner;
+    ArrayList<ArrayList<String>> outer = new ArrayList<>();
+    
+    ArrayList<ArrayList<String>> displayContacts(int n, String contact[], String s)
+    {
+        TrieNode root = new TrieNode();
+        for(int i = 0; i<n; i++){
+            insert(root, contact[i]);
+        }
+        // ArrayList<String> list = new ArrayList<>();
+        // inner = list;
+        // search(root, s, "");
+        // outer.add(inner);
+        for(int i = 1; i<=s.length(); i++){
+            inner = new ArrayList<>();
+            search(root, s.substring(0, i), "");
+            outer.add(inner);
+        }
+        return outer;
+    }
+}

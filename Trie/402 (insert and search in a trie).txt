@@ -1,0 +1,108 @@
+import java.io.*;
+import java.util.*;
+class GFG {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int t = sc.nextInt();
+
+        while (t-- > 0) {
+            int n = sc.nextInt();
+            sc.nextLine();
+            String[] keys = sc.nextLine().split(" ");
+
+            TrieNode root = new TrieNode();
+            for (int i = 0; i < n; i++) {
+                insert(root, keys[i]);
+            }
+            String abc = sc.nextLine();
+            if (search(root, abc))
+                System.out.println(1);
+            else
+                System.out.println(0);
+        }
+    }
+
+    static final int ALPHABET_SIZE = 26;
+
+    static class TrieNode {
+        TrieNode[] children = new TrieNode[ALPHABET_SIZE];
+
+        boolean isEndOfWord;
+
+        TrieNode() {
+            isEndOfWord = false;
+            for (int i = 0; i < ALPHABET_SIZE; i++) children[i] = null;
+        }
+    };
+
+//RECURRSIVE:-
+static void insrt(TrieNode node, String str, int pos){
+    if(pos>=str.length()){
+        node.isEndOfWord = true;
+        return;
+    }
+    int index = str.charAt(pos) - 'a';
+    if(node.children[index]==null)
+        node.children[index] = new TrieNode();
+    insrt(node.children[index], str, pos+1);
+}
+//static void insert(TrieNode root, String key) 
+//{
+//    insrt(root, key, 0);
+//}
+//_____________________________________________________________________________________
+
+//ITERATIVE:-
+static void insert(TrieNode root, String key)
+{
+    int level;
+    int length = key.length();
+    int index;
+    TrieNode pCrawl = root;
+    for(level = 0; level<length; level++){
+        index = key.charAt(level) - 'a';
+        if(pCrawl.children[index]==null)
+            pCrawl.children[index] = new TrieNode();
+        pCrawl = pCrawl.children[index];
+    }
+    pCrawl.isEndOfWord = true;
+}
+//_____________________________________________________________________________________
+
+//RECURRSIVE:-
+static boolean srch(TrieNode node, String str, int pos){
+    if(pos>=str.length()){
+        if(node.isEndOfWord==true) return true;
+        else return false;
+    }
+    int index = str.charAt(pos) - 'a';
+    if(node.children[index]==null) 
+        return false;
+    return srch(node.children[index], str, pos+1);
+}
+static boolean search(TrieNode root, String key)
+{
+    return srch(root, key, 0);
+}
+//_____________________________________________________________________________________
+
+//ITERATIVE:-
+static boolean search(TrieNode root, String key)
+{
+    int level;
+    int length = key.length();
+    int index;
+    TrieNode pCrawl = root;
+    for(level = 0; level<length; level++){
+        index = key.charAt(level) - 'a';
+        if(pCrawl.children[index]==null) 
+            return false;
+        pCrawl = pCrawl.children[index];
+    }
+    if(pCrawl.isEndOfWord==true) return true;
+    else return false;
+}
+//_____________________________________________________________________________________
+
+}

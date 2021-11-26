@@ -1,0 +1,55 @@
+class Sol
+{
+    static class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+
+        boolean isEndOfWord;
+
+        TrieNode() {
+            isEndOfWord = false;
+            for (int i = 0; i < 26; i++) children[i] = null;
+        }
+    }
+    
+    static void insert(TrieNode root, String key)
+    {
+        int level;
+        int length = key.length();
+        int index;
+        TrieNode pCrawl = root;
+        for(level = 0; level<length; level++){
+            index = key.charAt(level) - 'a';
+            if(pCrawl.children[index]==null)
+                pCrawl.children[index] = new TrieNode();
+            pCrawl = pCrawl.children[index];
+        }
+        pCrawl.isEndOfWord = true;
+    }
+    
+    static boolean search(TrieNode root, String str, int pos, TrieNode curr){
+        if(pos>=str.length()) return true;
+        int index = str.charAt(pos) - 'a';
+        if(curr.children[index]!=null){
+            if(curr.isEndOfWord==true){
+                return search(root, str, pos, root) || 
+                       search(root, str, pos+1, curr.children[index]);
+            }
+            else{
+                return search(root, str, pos+1, curr.children[index]);
+            }
+        }
+        else if(curr.children[index]==null && curr.isEndOfWord==true){
+            return search(root, str, pos, root);
+        }
+        return false;
+    }
+    
+    public static int wordBreak(String str, ArrayList<String> list )
+    {
+        TrieNode root = new TrieNode();
+        for(String s: list){
+            insert(root, s);
+        }
+        return search(root, str, 0, root)?1:0;
+    }
+}

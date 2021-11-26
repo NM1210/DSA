@@ -1,0 +1,57 @@
+class Solution {
+    static class TrieNode {
+        TrieNode[] children = new TrieNode[26];
+        boolean isEndOfWord;
+        int freq;
+        TrieNode() {
+            freq = 1;
+            isEndOfWord = false;
+            for (int i = 0; i < 26; i++) children[i] = null;
+        }
+    }
+    
+    static void insert(TrieNode root, String str)
+    {
+        int n = str.length();
+        TrieNode curr = root;
+        for(int i = 0; i<n; i++){
+            int index = str.charAt(i) - 'a';
+            if(curr.children[index]==null){
+                curr.children[index] = new TrieNode();
+            }
+            else{
+                curr.children[index].freq += 1;
+            }
+            curr = curr.children[index];
+        }
+        curr.isEndOfWord = true;
+    }
+    
+    static String search(TrieNode root, String str, String pre)
+    {
+        int n = str.length();
+        TrieNode curr = root;
+        for(int i = 0; i<n; i++){
+            int index = str.charAt(i) - 'a';
+            if(curr.children[index].freq==1) {
+                pre += str.charAt(i);
+                return pre;
+            }
+            pre += str.charAt(i);
+            curr = curr.children[index];
+        }
+        return pre;
+    }
+    static String[] findPrefixes(String[] list, int n) {
+        TrieNode root = new TrieNode();
+        for (int i = 0; i < n; i++) {
+            insert(root, list[i]);
+        }
+        String[] ans = new String[n];
+        int itr = 0;
+        for (int i = 0; i < n; i++) {
+            ans[itr++] = search(root, list[i], "");
+        }
+        return ans;
+    }
+};
