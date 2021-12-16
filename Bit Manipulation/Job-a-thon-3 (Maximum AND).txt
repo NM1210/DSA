@@ -1,0 +1,116 @@
+Given an array A[ ] of N elements, you can pick at most one element of the array and increment or decrement it by any value. 
+The task is to maximize the AND of the resulting array.
+
+ANOTHER APPROACH (ACCEPTED):-
+
+class Solution 
+{ 
+    int maxAnd(int n, int a[]) 
+    { 
+        ArrayList<ArrayList<Integer>> temp = new ArrayList<>();
+        for(int i = 0; i<n; i++){
+            ArrayList<Integer> list = new ArrayList<>();
+            temp.add(list);
+        }
+        int v = 0;
+        for(int i = 0; i<32; i++){
+            int count = 0, index = -1;
+            for(int j = 0; j<n; j++){
+                if(((a[j]>>i)&1)==0){
+                    count++;
+                    index = j;
+                }
+            }
+            if(count==1 && index!=-1){
+                ArrayList<Integer> list = temp.get(index);
+                list.add(i);
+                temp.add(list);
+            }
+            if(count==0){
+                v+=Math.pow(2, i);
+            }
+        }
+        int max = 0;
+        for(int i = 0; i<n; i++){
+            int t = 0;
+            for(Integer j: temp.get(i)){
+                t += Math.pow(2, j);
+            }
+            max = Math.max(max, t);
+        }
+        v += max;
+        return v;
+    }
+}
+________________________________________________________________________
+INITIAL APPROACH (TLE):-
+
+class Solution 
+{ 
+    int maxAnd(int n, int a[]) 
+    { 
+        int max = 0;
+        for(int i = 0; i<n; i++){
+            if(a[i]>max) max = a[i];
+        }
+        int power = 0;
+        while(Math.pow(2, power)<max){
+            power += 1;
+        }
+        max = (int)Math.pow(2, power);
+        
+        int ans = 0;
+        
+        for(int j = 0; j<n; j++){
+            int temp[]  = new int[n-1];
+            int k = 0;
+            for(int i = 0; i<n; i++){
+                if(i==j) continue;
+                else temp[k++] = a[i];
+            }
+            int res = temp[0];
+            for(int i = 1; i<k; i++){
+                res = res & temp[i];
+            }
+            
+            int temp_max = res;
+            for(int i = 0; i<max; i++){
+                if((res&i)>temp_max){
+                    temp_max = res & i;
+                }
+            }
+            if(temp_max>ans) ans = temp_max;
+        }
+        
+        return ans;
+    }
+}
+___________________________________________________________________________
+ANOTHER APPROACH (DOESN'T SEEM TO WORK):-
+
+class Solution 
+{ 
+    int maxAnd(int n, int a[]) 
+    { 
+        if(n==1) return a[0];
+        int max = 0;
+        int res = a[1];
+        for(int i = 1; i<n-1; i++){
+            res &= a[i];
+        }
+        // System.out.println(res);
+        max = Math.max(res&a[0], res&a[n-1]);
+        for(int i = 1; i<n-1; i++){
+            int p = a[0];
+            int s = a[n-1];
+            for(int j = 0; j<i; j++){
+                p &= a[j];
+            }
+            for(int j = i+1; j<n; j++){
+                s &= a[j];
+            }
+            if((p&s)>max) max = p & s;
+        }
+        return max;
+    }
+}

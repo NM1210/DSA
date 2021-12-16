@@ -1,0 +1,26 @@
+public class Q8 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String bs = input.nextLine();
+        if (bs.length() % 2 == 0){
+            if (count(bs,'0') % 2 == 0 && count(bs, '1') % 2 == 0){
+                for (int j = bs.length() -1; j > 0; j--){
+                    if ((count(bs.substring(0,j+1), '0') == count(bs.substring(j+1), '0'))
+                            && (count(bs.substring(0,j+1), '1') == count(bs.substring(j+1), '1'))){
+                        System.out.print(bs.substring(0,j+1) + " " + bs.substring(j+1));
+                        j=0;
+                    }
+                }
+            }
+        }
+    }
+    static int count(String str, char ch){
+        int count = 0;
+        for (int i = 0; i<str.length(); i++){
+            if (str.charAt(i) == ch){
+                count++;
+            }
+        }
+        return count;
+    }
+}

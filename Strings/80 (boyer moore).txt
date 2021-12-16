@@ -1,0 +1,35 @@
+public class Q30 {
+    public static void main(String[] args) {
+        String text = "this is a test";
+        String pattern = "test";
+        HashMap<Character, Integer> dict = new HashMap<>();
+//        dict.put('*', pattern.length());
+        for (int i = 0; i < pattern.length(); i++){
+            dict.put(pattern.charAt(i), Math.max(1, pattern.length() - i - 1));
+        }
+        int inc = 0;
+//        int f = 0;
+//        System.out.println(dict.entrySet());
+        for (int i = 0; i <= text.length()-pattern.length(); i = i+inc){
+            inc = 0;
+            for (int j = pattern.length()-1; j>=0; j--){
+                if (pattern.charAt(j) != text.charAt(i+j)){
+                    if (dict.containsKey(text.charAt(i+j))){
+                        inc = dict.get(text.charAt(i+j));
+                    }
+                    else {
+                        inc = pattern.length();
+                    }
+                    System.out.println(text.charAt(i+j) + " " + inc);
+                    break;
+                }
+//                else if (pattern.charAt(j) == text.charAt(i+j)){
+//                    f++;
+//                    System.out.println(f);
+//                }
+            }
+        }
+//        if (f == pattern.length()) System.out.println("True");
+        System.out.println("False");
+    }
+}

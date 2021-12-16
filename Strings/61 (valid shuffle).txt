@@ -1,0 +1,51 @@
+public class Q3 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String a, b, s;
+        a = input.nextLine();
+        b = input.nextLine();
+        s = input.nextLine();
+        if (s.length() == (a.length() + b.length())){
+            if (check(s,a) && check(s,b)){
+                if (index(s,a) && index(s,a)){
+                    System.out.print("Valid");
+                }
+                else System.out.print("failed3");
+            }
+            else System.out.print("failed2");
+        }
+        else System.out.print("failed1");
+    }
+    static boolean index(String str, String st){
+        int[] index = new int[st.length()];
+        for (int i = 0; i < st.length(); i++){
+            char ch = st.charAt(i);
+            for (int j = 0; j < str.length(); j++){
+                if (Character.compare(str.charAt(j), ch) == 0){
+                    index[i] += j;
+                }
+            }
+        }
+        int f = 0;
+        for (int i = 0; i < index.length - 1; i++){
+            if (index[i] > index[i + 1]){
+                f = 1;
+            }
+        }
+        if (f == 0) return true;
+        else return false;
+    }
+    static boolean check(String str, String st){
+        int f = 0;
+        for (int i = 0; i < st.length(); i++){
+            char ch = st.charAt(i);
+            for (int j = 0; j < str.length(); j++){
+                if (Character.compare(str.charAt(j), ch) == 0){
+                    f++;
+                }
+            }
+        }
+        if (f == st.length()) return true;
+        else return false;
+    }
+}

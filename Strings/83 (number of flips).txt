@@ -1,0 +1,28 @@
+public class Q27 {
+    static int c = 0;
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String binary = input.nextLine();
+        int i;
+        for (i = 0; i < binary.length()-2; i++){
+            if (binary.charAt(i) == binary.charAt(i+1)){
+                if (binary.charAt(i+2) == binary.charAt(i)){
+                    binary = flip(binary, i+1);
+                }
+                else if(binary.charAt(i+2) < binary.charAt(i) || binary.charAt(i+2) > binary.charAt(i)){
+                    binary = flip(binary, i);
+                }
+            }
+        }
+        if (binary.charAt(i) == binary.charAt(i+1)){
+            binary = flip(binary, i+1);
+        }
+        System.out.println(binary);
+        System.out.println(c);
+    }
+    static String flip(String str, int index){
+        c++;
+        if (str.charAt(index) == '0') return str.substring(0,index) + '1' + str.substring(index+1);
+        else return str.substring(0,index) + '0' + str.substring(index+1);
+    }
+}

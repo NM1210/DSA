@@ -1,0 +1,37 @@
+public class Q20 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String str = input.nextLine();
+        String s = "{[()]}";
+        Stack<Character> charStack = new Stack<>();
+        for (int i = 0; i < str.length(); i++){
+            if (s.substring(0,3).contains(String.valueOf(str.charAt(i)))){
+                charStack.push(str.charAt(i));
+//                System.out.println(charStack);
+            }
+            else if (s.substring(3).contains(String.valueOf(str.charAt(i)))){
+                if (charStack.empty()){
+                    for (int j = i; j < str.length(); j++){
+                        if (str.charAt(j) == '['){
+                            str = str.substring(0,i) + str.charAt(j) + str.charAt(i) + str.substring(j+1);
+                            j = str.length() - 1;
+                            i = i + 1;
+                        }
+                    }
+                }
+                else {
+                    for (int j = 0; j < s.length(); j++){
+                        if (s.charAt(j) == charStack.peek()){
+                            int index = s.length() - j - 1;
+                            if (s.charAt(index) == str.charAt(i)){
+                                charStack.pop();
+                                j = s.length() - 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        System.out.println(str);
+    }
+}

@@ -1,0 +1,26 @@
+public class Q24 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        HashSet<String> set = new HashSet<>();
+        String str = input.nextLine();
+        int i = 0;
+        for (int j = 0; j < str.length(); j++){
+            if (str.charAt(j) == ' '){
+                if (set.isEmpty() || (!set.contains(str.substring(i,j)))){
+                    set.add(str.substring(i,j));
+                    i = j + 1;
+                }
+                else {
+                    System.out.println(str.substring(i,j));
+                    j = str.length()-1;
+                    i = j;
+                }
+            }
+        }
+        if (i != str.length()-1){
+            if (set.contains(str.substring(i))){
+                System.out.println(str.substring(i));
+            }
+        }
+    }
+}
