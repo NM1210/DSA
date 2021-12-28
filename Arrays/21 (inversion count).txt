@@ -1,0 +1,40 @@
+class Solution
+{
+    static long count = 0;
+    static void merge(long a[], int low, int mid, int high){
+        int i = low, k = low, j = mid+1;
+        long temp[] = new long[a.length];
+        while(i<=mid && j<=high){
+            if(a[i]>a[j]){
+                temp[k++] = a[j++];
+                count += (mid+1)-(low+i);
+            }
+            else{
+                temp[k++] = a[i++];
+            }
+        }
+        while(i<=mid){
+            temp[k++] = a[i++];
+        }
+        while(j<=high){
+            temp[k++] = a[j++];
+        }
+        for(int l = low; l<=high; l++){
+            a[l] = temp[l];
+        }
+    }
+    static void sort(long a[], int start, int end){
+        // if(start>=end) return;
+        if(start<end){
+            int mid = (end+start)/2;
+            sort(a, start, mid);
+            sort(a, mid+1, end);
+            merge(a, start, mid, end);
+        }
+    }
+    static long inversionCount(long a[], long n)
+    {
+        sort(a, 0, (int)n-1);
+        return count;
+    }
+}

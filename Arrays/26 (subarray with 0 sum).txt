@@ -1,0 +1,17 @@
+O(N):-
+
+class Solution{
+    static boolean findsum(int a[],int n)
+    {
+        HashSet<Integer> set = new HashSet<>();
+        int sum = 0;
+        for(int i = 0; i<n; i++){
+            set.add(sum);
+            sum += a[i];
+            if(set.contains(sum)){
+                return true;
+            }
+        }
+        return false;
+    }
+}

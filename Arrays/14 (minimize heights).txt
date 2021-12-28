@@ -1,0 +1,18 @@
+class Solution {
+    int getMinDiff(int[] array, int n, int k) {
+        Arrays.sort(array);
+        int a = array[0];
+        int b = array[n-1];
+        int diff = b - a;
+        int min = 0;
+        int max = 0;
+        for(int i = 1; i<n; i++){
+            if(array[i]-k>=0){
+                min = Math.min(a+k, array[i]-k);
+                max = Math.max(b-k, array[i-1]+k);
+                diff = Math.min(diff, max-min);
+            }
+        }
+        return diff;
+    }
+}

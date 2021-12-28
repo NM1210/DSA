@@ -1,0 +1,12 @@
+class Solution{
+    long maxSubarraySum(int a[], int n){
+        long max = Long.MIN_VALUE;
+        long curr = 0;
+        for(int i = 0; i<n; i++){
+            curr += a[i];
+            max = Math.max(max, curr);
+            if(curr<0) curr = 0;
+        }
+        return max;
+    }
+}

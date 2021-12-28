@@ -1,5 +1,61 @@
-import java.util.Scanner;
+O(N):-
 
+public class Solution {
+    public static void rearrange(int[] a) {
+        int n = a.length;
+        int curr = n-1;
+        for(int i = n-1; i>=0; i--){
+            if(a[i]<0){
+                int temp = a[i];
+                a[i] = a[curr];
+                a[curr--] = temp;
+            }
+        }
+        if(curr+1 == 0 || curr+1==n) return;
+        int k = 0;
+        curr += 1;
+        while(k<n && curr<n){
+            int temp = a[k];
+            a[k] = a[curr];
+            a[curr] = temp;
+            k += 2;
+            curr += 1;
+        }
+    }
+}
+___________________________________________________________
+O(N^2):-
+
+public class Solution {
+    public static void rearrange(int[] a) {
+        int n = a.length;
+        for(int i = 0; i<n; i++){
+            if(i%2==0 && a[i]>=0){
+                int j = i;
+                while(j<n && a[j]>=0){
+                    j++;
+                }
+                if(j<n){
+                    int temp = a[i];
+                	a[i] = a[j];
+                	a[j] = temp;
+                }
+            }
+            else if(i%2!=0 && a[i]<0){
+                int j = i;
+                while(j<n && a[j]<0){
+                    j++;
+                }
+                if(j<n){
+                    int temp = a[i];
+                	a[i] = a[j];
+                	a[j] = temp;
+                }
+            }
+        }
+    }
+}
+_________________________________________________________
 public class Q11 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);

@@ -1,0 +1,34 @@
+class Solution
+{
+    static void quickSort(int a[], int low, int high)
+    {
+        if(low<high){
+            int index = partition(a, low, high);
+            quickSort(a, low, index-1);
+            quickSort(a, index+1, high);
+        }
+    }
+    static int partition(int a[], int low, int high)
+    {
+        int i = low;
+        int p = low;
+        int j = high;
+        while(i<j){
+            while(i<high && a[i]<=a[p]){
+                i++;
+            }
+            while(a[j]>a[p]){
+                j--;
+            }
+            if(i<j){
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+        int temp = a[p];
+        a[p] = a[j];
+        a[j] = temp;
+        return j;
+    } 
+}

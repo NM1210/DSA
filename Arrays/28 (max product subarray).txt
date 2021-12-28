@@ -1,3 +1,71 @@
+O(N):-
+
+class Solution {
+    int prod(int a[], int start, int end){
+        if(start<=end){
+            int negative = 0;
+            for(int i = start; i<=end; i++){
+                if(a[i]<0) negative++;
+            }
+            if(negative%2==0){
+                int max = 1;
+                for(int i = start; i<=end; i++){
+                    max *= a[i];
+                }
+                return max;
+            }
+            else{
+                int max = Integer.MIN_VALUE;
+                int curr = 1;
+                for(int i = start; i<=end; i++){
+                    curr *= a[i];
+                    if(curr>max) max = curr;
+                }
+                curr = 1;
+                for(int i = end; i>=start; i--){
+                    curr *= a[i];
+                    if(curr>max) max = curr;
+                }
+                return max;
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+    public int maxProduct(int[] a) {
+        int n = a.length;
+        
+        boolean zero = false;
+        
+        int max = Integer.MIN_VALUE;
+        
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(-1);
+        for(int i = 0; i<n; i++){
+            if(a[i]==0) {
+                zero = true;
+                list.add(i);
+            }
+        }
+        list.add(n);
+        
+        // for(int i = 0; i<list.size(); i++){
+        //     System.out.print(list.get(i)+" ");
+        // }
+        // System.out.println();
+        
+        for(int i = 0; i<list.size()-1; i++){
+            int temp = prod(a, list.get(i)+1, list.get(i+1)-1);
+            if(temp>max) max = temp;
+        }
+        
+        if(zero) max = max<0?0:max;
+        
+        return max==Integer.MIN_VALUE?0:max;
+    }
+}
+_______________________________________________________________________________
+O(N^2):-
+
 public class Q15 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);

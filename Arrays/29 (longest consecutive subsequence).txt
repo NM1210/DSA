@@ -1,4 +1,67 @@
-public class Q16 {
+O(N):-
+
+class Solution
+{   
+	static int findLongestConseqSubseq(int a[], int n)
+	{
+	   HashSet<Integer> set = new HashSet<>();
+	   for(int i = 0; i<n; i++){
+	       set.add(a[i]);
+	   }
+	   int max = 0;
+	   for(int i = 0; i<n; i++){
+	       if(!set.contains(a[i]-1)){
+	           int curr = a[i];
+	           int count = 0;
+	           while(set.contains(curr)){
+	               count++;
+	               curr += 1;
+	           }
+	           if(count>max) max = count;
+	       }
+	   }
+	   return max;
+	}
+}
+________________________________________________________________________
+O(NLogN):-
+
+class Solution
+{   
+	static int findLongestConseqSubseq(int arr[], int n)
+	{
+	   int temp[] = new int[n];
+	   int k = 0;
+	   HashSet<Integer> set = new HashSet<>();
+	   for(int i = 0; i<n; i++){
+	       if(!set.contains(arr[i])){
+	           temp[k++] = arr[i];
+	       }
+	       set.add(arr[i]);
+	   }
+	   int a[] = new int[k];
+	   for(int i = 0; i<k; i++){
+	       a[i] = temp[i];
+	   }
+	   Arrays.sort(a);
+	   int max = 1;
+	   int i = 0;
+	   while(i<k-1){
+	       int count = 1;
+	       int j = i;
+	       while(j<k-1 && a[j+1] == a[j]+1){
+	           // ((a[j+1] == a[j]+1)||(a[j+1] == a[j])) ){
+	           count++;
+	           j++;
+	       }
+	       if(count>max) max = count;
+	       i = j+1;
+	   }
+	   return max;
+	}
+}
+_________________________________________________________________________
+/*public class Q16 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int n, beg = 0, end = 0, length = 0;
@@ -26,4 +89,4 @@ public class Q16 {
             System.out.print(a[i] + " ");
         }
     }
-}
+}*/
