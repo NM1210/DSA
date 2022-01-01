@@ -1,0 +1,25 @@
+O(N^2):-
+
+public class Solution {
+    public static int findMaxValue(int mat[][], int n) {
+        int max_diff = Integer.MIN_VALUE;
+        if(n==1) return max_diff;
+//         int max = mat[n-1][n-1];
+        for(int i = n-2; i>=0; i--){
+            mat[i][n-1] = Math.max(mat[i][n-1], mat[i+1][n-1]);
+        }
+        for(int j = n-2; j>=0; j--){
+            mat[n-1][j] = Math.max(mat[n-1][j], mat[n-1][j+1]);
+        }
+        for(int i = n-2; i>=0; i--){
+            for(int j = n-2; j>=0; j--){
+                if(mat[i+1][j+1]-mat[i][j]>max_diff){
+                    max_diff = mat[i+1][j+1]-mat[i][j];
+                }
+                mat[i][j] = Math.max(mat[i][j],
+                            Math.max(mat[i+1][j], mat[i][j+1]));
+            }
+        }
+        return max_diff;
+    }
+}

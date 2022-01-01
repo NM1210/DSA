@@ -1,0 +1,145 @@
+class GfG {
+    boolean condition_H(int mat[][], int row, int start, int end){
+        if(row>=mat.length) return false;
+        int c = 0;
+        for(int i = start; i<end; i++){
+            if(mat[row][i]==1){
+                c++;
+            }
+        }
+        if(c==(end - start +1)){
+            return true;
+        }
+        return false;
+    }
+    
+    boolean condition_V(int mat[][], int col, int start, int end){
+        if(col>=mat[0].length) return false;
+        int c = 0;
+        for(int i = start; i<end; i++){
+            if(mat[i][col]==1){
+                c++;
+            }
+        }
+        if(c==(end - start +1)){
+            return true;
+        }
+        return false;
+    }
+    
+    public int maxArea(int M[][], int m, int n) {
+        int max = 0;
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                if(M[i][j]==1){
+                    int begi = i;
+                    int begj = j;
+                    int leni = i;
+                    int lenj = j;
+                    while(lenj<n || M[i][lenj]!=0){
+                        lenj++;
+                    }
+                    while(condition_H(M, leni, begj, lenj)){
+                        leni++;
+                    }
+                    int area1 = (leni - begi + 1) * (lenj - begj + 1);
+                    
+                    leni = i;
+                    lenj = j;
+                    while(leni<m || M[leni][j]!=0){
+                        leni++;
+                    }
+                    while(condition_V(M, lenj, begi, leni)){
+                        lenj++;
+                    }
+                    int area2 = (leni - begi + 1) * (lenj - begj + 1);
+                    if(area1>max) max = area1;
+                    if(area2>max) max = area2;
+                }
+            }
+        }
+        return max;
+    }
+}
+__________________________________________________________________________________________
+
+class GfG {
+    boolean condition_H(int mat[][], int row, int start, int end, int m){
+        if(row>=m) return false;
+        int c = 0;
+        for(int i = start; i<end; i++){
+            if(mat[row][i]==1){
+                c++;
+            }
+        }
+        if(c==(end - start)){
+            return true;
+        }
+        return false;
+    }
+    
+    boolean condition_V(int mat[][], int col, int start, int end, int n){
+        if(col>=n) return false;
+        int c = 0;
+        for(int i = start; i<end; i++){
+            if(mat[i][col]==1){
+                c++;
+            }
+        }
+        if(c==(end - start)){
+            return true;
+        }
+        return false;
+    }
+    
+    public int maxArea(int M[][], int m, int n) {
+        int max = 0;
+        for(int i = 0; i<m; i++){
+            for(int j = 0; j<n; j++){
+                if(M[i][j]==1){
+                    
+                    int begi = i;
+                    int begj = j;
+                    
+                    int leni = i;
+                    int lenj = j;
+                    while(lenj<n && M[i][lenj]!=0){
+                        lenj++;
+                    }
+                    while(condition_H(M, leni, begj, lenj, m)){
+                        leni++;
+                    }
+                    int endi;
+                    int endj;
+                    int area1 = (leni - begi) * (lenj - begj);
+                    
+                    leni = begi;
+                    lenj = begj;
+                    while(leni<m && M[leni][j]!=0){
+                        leni++;
+                    }
+                    while(condition_V(M, lenj, begi, leni, n)){
+                        lenj++;
+                    }
+                    int area2 = (leni - begi) * (lenj - begj);
+                    
+                    int area;
+                    if(area1>area2) area = area1;
+                    else area = area2;
+                    
+                    if(area>max) max = area;
+                    
+                    System.out.println(i+" "+j+" "+area1+" "+area2);
+                }
+            }
+        }
+        return max;
+    }
+}
+__________________________________________________________________________________
+
+[["1","1","1","1","1","1","1","1"],
+ ["1","1","1","1","1","1","1","0"],
+ ["1","1","1","1","1","1","1","0"],
+ ["1","1","1","1","1","0","0","0"],
+ ["0","1","1","1","1","0","0","0"]]

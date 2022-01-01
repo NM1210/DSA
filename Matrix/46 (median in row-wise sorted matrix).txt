@@ -1,0 +1,90 @@
+O(R*C):-
+
+class Item{
+    int value;
+    int i;
+    int j;
+    Item(int val, int i, int j){
+        this.value = val;
+        this.i = i;
+        this.j = j;
+    }
+}
+class Solution {
+    int median(int mat[][], int r, int c) {
+        PriorityQueue<Item> pq = new PriorityQueue<>(3, new Comparator<Item>(){
+            public int compare(Item i1, Item i2){
+                return i1.value - i2.value;
+            }
+        });
+        for(int i = 0; i<r; i++){
+            pq.add(new Item(mat[i][0], i, 0));
+        }
+        // while(!pq.isEmpty()){
+        //     Item temp = pq.poll();
+        //     System.out.println(temp.i+","+temp.j+"->"+temp.value);
+        // }
+        int median = 0;
+        int count = 0;
+        while(!pq.isEmpty()){
+            Item temp = pq.poll();
+            count++;
+            if(temp.j<c-1){
+                pq.add(new Item(mat[temp.i][temp.j+1], temp.i, temp.j+1));
+            }
+            if(count==(r*c/2)+1) median = temp.value;
+        }
+        return median;
+    }
+}
+___________________________________________________________________________________
+public class Q27 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int m, n;
+        m = input.nextInt();
+        n = input.nextInt();
+        int a[][] = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                a[i][j] = input.nextInt();
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(a[i][j] + " ");
+            }
+            System.out.println();
+        }
+        int min = 0;
+        int max  = 0;
+        for (int j = 0; j < m; j++){
+            for (int i = 0; i < m; i++){
+                if (a[i][j] < a[min][j]){
+                    min = i;
+                }
+                if (a[i][j] > a[min][j]){
+                    max = i;
+                }
+            }
+        }
+        int maxi = a[max][n-1];
+        int mini = a[min][0];
+        int mid = 0;
+        int desired = (n*m+1)/2;
+        while (min < max){
+            mid = (min + max)/2;
+            int c = 0;
+            for (int i = 0; i < m; i++){
+                for (int j = 0; j < n; j++){
+                    if (a[i][j] < mid){
+                        c++;
+                    }
+                }
+            }
+            if (c < desired) min = mid + 1;
+            else max = mid;
+        }
+        System.out.print(mid);
+    }
+}
