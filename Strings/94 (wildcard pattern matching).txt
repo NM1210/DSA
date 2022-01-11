@@ -1,0 +1,56 @@
+MEMOIZATTION:-
+
+class Solution
+{
+    int dp[][];
+    boolean wildcard(String text, String pattern, int t, int p){
+        if(t==text.length()&&p==pattern.length()) {
+            dp[t][p] = 1;
+            return true;
+        }
+        if(dp[t][p]!=-1){
+            return dp[t][p]==1?true:false;
+        }
+        if(t<=text.length() && p<pattern.length() && pattern.charAt(p)=='*'){
+            boolean temp = wildcard(text, pattern, t, p+1) || wildcard(text, pattern, t+1, p);
+            dp[t][p] = temp?1:0;
+            return temp;
+        }
+        if(t<text.length() && p<pattern.length() && (pattern.charAt(p)=='?' || text.charAt(t)==pattern.charAt(p))){
+            boolean temp = wildcard(text, pattern, t+1, p+1);
+            dp[t][p] = temp?1:0;
+            return temp;
+        }
+        return false;
+    }
+    int wildCard(String pattern, String str)
+    {
+        int t = str.length();
+        int p = pattern.length();
+        dp = new int[t+2][p+1];
+        for(int row[]: dp){
+            Arrays.fill(row, -1);
+        }
+        return wildcard(str, pattern, 0, 0) == true ? 1 : 0;
+    }
+}
+_________________________________________________________________________________________________________________________
+RECURRSION:-
+
+class Solution
+{
+    boolean wildcard(String text, String pattern, int t, int p){
+        if(t==text.length()&&p==pattern.length()) return true;
+        if(t<=text.length() && p<pattern.length() && pattern.charAt(p)=='*'){
+            return wildcard(text, pattern, t, p+1) || wildcard(text, pattern, t+1, p);
+        }
+        if(t<text.length() && p<pattern.length() && (pattern.charAt(p)=='?' || text.charAt(t)==pattern.charAt(p))){
+            return wildcard(text, pattern, t+1, p+1);
+        }
+        return false;
+    }
+    int wildCard(String pattern, String str)
+    {
+        return wildcard(str, pattern, 0, 0) == true ? 1 : 0;
+    }
+}

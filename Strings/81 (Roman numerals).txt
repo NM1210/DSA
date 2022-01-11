@@ -1,3 +1,38 @@
+class Solution {
+    // Finds decimal value of a given roman numeral
+    public int romanToDecimal(String str) {
+        int n = str.length();
+        HashMap<Character, Integer> map = new HashMap<>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+        int num = 0;
+        int prev = 0;
+        int curr = n-1;
+        while(curr>=0){
+            boolean f = true;
+            if(map.get(str.charAt(curr))<prev){
+                while(curr>=0 && map.get(str.charAt(curr))<prev){
+                    num = f ? num-map.get(str.charAt(curr)) : num+map.get(str.charAt(curr));
+                    f = !f;
+                    prev = map.get(str.charAt(curr));
+                    curr--;
+                }
+            }
+            else{
+                num += map.get(str.charAt(curr));
+                prev = map.get(str.charAt(curr));
+                curr--;
+            }
+        }
+        return num;
+    }
+}
+___________________________________________________________________________________________________
 class RomanToNumber {
     // Finds decimal value of a given roman numeral
     public int romanToDecimal(String str) {

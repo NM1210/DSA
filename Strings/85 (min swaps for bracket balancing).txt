@@ -1,3 +1,37 @@
+O(N^2):-
+
+class Solution{
+    static int minimumNumberOfSwaps(String str){
+        int count = 0;
+        int n = str.length();
+        Character ch[] = new Character[n];
+        for(int i = 0; i<n; i++){
+            ch[i] = str.charAt(i);
+        }
+        Stack<Character> stack = new Stack<>();
+        for(int i = 0; i<n; i++){
+            if(ch[i]=='['){
+                stack.push('[');
+            }
+            else if(ch[i]==']'){
+                if(!stack.isEmpty() && stack.peek()=='['){
+                    stack.pop();
+                }
+                else if(stack.isEmpty()){
+                    int j = i;
+                    while(ch[j]!='[') j++;
+                    char temp = ch[i];
+                    ch[i] = ch[j];
+                    ch[j] = temp;
+                    count += j-i;
+                    stack.push('[');
+                }
+            }
+        }
+        return count;
+    }
+}
+__________________________________________________________________________________________________________________
 public class Q20 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);

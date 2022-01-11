@@ -1,0 +1,17 @@
+class Solution {
+    List<String> list = new ArrayList<>();
+    public void generate(String s, String str){
+        if(str.isEmpty()){
+            list.add(s);
+            return;
+        }
+        for(int i = 0; i<str.length(); i++){
+            generate(s+str.charAt(i), str.substring(0,i)+str.substring(i+1));
+        }
+    }
+    public List<String> find_permutation(String S) {
+        generate("", S);
+        Collections.sort(list);
+        return list;
+    }
+}

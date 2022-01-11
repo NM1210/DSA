@@ -1,3 +1,76 @@
+O(N):-
+
+class Solution {
+    public String findSubString(String str) {
+        int n = str.length();
+        HashSet<Character> set = new HashSet<>();
+        String output = "";
+        for(int i = 0; i<n; i++){
+            set.add(str.charAt(i));
+            // output+=str.charAt(i);
+        }
+        int window = n;
+        int beg = 0;
+        int distinct = set.size();
+        int vis[] = new int[256];
+        int start = 0;
+        int count = 0;
+        for(int end = 0; end<n; end++){
+            if(vis[(int)str.charAt(end)]==0) count++;
+            vis[(int)str.charAt(end)]++;
+            if(count==distinct){
+                while(vis[(int)str.charAt(start)]>1){
+                    vis[(int)str.charAt(start)]--;
+                    start++;
+                }
+                if(end+1-start<window){
+                    beg = start;
+                    window = end+1-start;
+                }
+            }
+        }
+        output = "";
+        for(int i = beg; i<beg+window; i++){
+            output += str.charAt(i);
+        }
+        return output;
+    }
+}
+____________________________________________________________________________________
+O(N^2 * No. of distict elements):-
+//TLE
+
+class Solution {
+    public String findSubString(String str) {
+        int n = str.length();
+        HashSet<Character> set = new HashSet<>();
+        String output = "";
+        for(int i = 0; i<n; i++){
+            set.add(str.charAt(i));
+            output+=str.charAt(i);
+        }
+        int window = n;
+        for(int i = 0; i<n; i++){
+            String temp = "";
+            for(int j = i; j<n; j++){
+                temp+=str.charAt(j);
+                int f = 1;
+                for(Character ch: set){
+                    if(!str.substring(i, j+1).contains(String.valueOf(ch))){
+                        f = 0;
+                        break;
+                    }
+                }
+                if(f==1 && j+1-i<window){
+                    output = temp;
+                    window = j+1-i;
+                }
+            }
+        }
+        return output;
+    }
+}
+_________________________________________________________________________
 public class Q10 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);

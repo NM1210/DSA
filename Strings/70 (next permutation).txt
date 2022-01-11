@@ -1,0 +1,87 @@
+class Solution{
+    static void quicksort(int a[], int low, int high){
+        if(low<high){
+            int index = partition(a, low, high);
+            quicksort(a, low, index-1);
+            quicksort(a, index+1, high);
+        }
+    }
+    static int partition(int a[], int low, int high){
+        int i = low;
+        int j = high;
+        int p = low;
+        while(i<j){
+            while(i<=high && a[i]<=a[p]){
+                i++;
+            }
+            while(a[j]>a[p]){
+                j--;
+            }
+            if(i<j){
+                int temp = a[i];
+                a[i] = a[j];
+                a[j] = temp;
+            }
+        }
+        int temp = a[p];
+        a[p] = a[j];
+        a[j] = temp;
+        return j;
+    }
+    static List<Integer> nextPermutation(int n, int a[]){
+        List<Integer> ans = new ArrayList<>();
+        int i = n-2;
+        while(i>=0 && a[i]>a[i+1]){
+            i--;
+        }
+        if(i>=0){
+            int j = n-1;
+            while(a[j]<a[i]){
+                j--;
+            }
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+            quicksort(a, i+1, n-1);
+        }
+        else{
+            Arrays.sort(a);
+        }
+        for(i = 0; i<n; i++){
+            ans.add(a[i]);
+        }
+        return ans;
+    }
+}
+________________________________________________________________________________________________________
+public class  Q16 {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String str = input.nextLine();
+        String s = "";
+        int f = 0;
+        for (int j = str.length() - 1; j >= 0; j--){
+            for (int i = j; i >= 0; i--){
+                if (str.charAt(j) > str.charAt(i)){
+                    s = str.substring(0,i) + str.charAt(j) + str.charAt(i) + str.substring(j+1);
+                    f = 1;
+                    i = 0;
+                    j = 0;
+                    System.out.println(s);
+                }
+            }
+        }
+        if (f == 0){
+            for (int j = 0; j < str.length(); j++){
+                for (int i = j; i < str.length(); i++){
+                    if (str.charAt(j) < str.charAt(i)){
+                        s = str.substring(0,j) + str.charAt(i) + str.charAt(j) + str.substring(i+1);
+                        i = str.length()-1;
+                        j = str.length()-1;
+                        System.out.println(s);
+                    }
+                }
+            }
+        }
+    }
+}

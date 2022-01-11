@@ -1,3 +1,45 @@
+O(k*n):-
+
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;
+        if(n==0) return 0;
+        int dp[][] = new int[k+1][n];
+        for(int i = 1; i<=k; i++){
+            int max = Integer.MIN_VALUE;
+            for(int j = 1; j<n; j++){
+                if(dp[i-1][j-1]-prices[j-1]>max){
+                    max = dp[i-1][j-1]-prices[j-1];
+                }
+                dp[i][j] = Math.max(dp[i][j-1], max+prices[j]);
+            }
+        }
+        return dp[k][n-1];
+    }
+}
+__________________________________________________________________________________
+O(k*n*n):-
+
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;
+        if(n==0) return 0;
+        int dp[][] = new int[k+1][n];
+        for(int i = 1; i<=k; i++){
+            for(int j = 1; j<n; j++){
+                int max = Integer.MIN_VALUE;
+                for(int p = 0; p<j; p++){
+                    if(dp[i-1][p]+prices[j]-prices[p]>max){
+                        max = dp[i-1][p]+prices[j]-prices[p];
+                    }
+                }
+                dp[i][j] = Math.max(dp[i][j-1], max);
+            }
+        }
+        return dp[k][n-1];
+    }
+}
+_______________________________________________________________________________
 O(k*n) (OPTIMIZED):-
 
 class Solution {

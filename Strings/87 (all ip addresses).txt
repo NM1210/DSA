@@ -1,3 +1,49 @@
+O(N^3):-
+
+class Solution {
+    ArrayList<String> list = new ArrayList<>();
+    public boolean isValid(String str){
+        String[] components = str.split("\\.");
+        int count = 0;
+        for(String component: components){
+            Long value = Long.parseLong(component);
+            if(component.length()>1){
+                if(component.charAt(0)!='0' && value>=0 && value<256){
+                    count++;
+                }
+            }
+            else{
+                count++;
+            }
+        }
+        if(count==4) return true;
+        else return false;
+    }
+    public ArrayList<String> genIp(String str) {
+        int n = str.length();
+        if(n<4 && n>12) return list;
+        for(int i = 0; i<n-3; i++){
+            for(int j = i+1; j<n-2; j++){
+                for(int k = j+1; k<n-1; k++){
+                    String temp = str.substring(0, i+1)   + "." +
+                                  str.substring(i+1, j+1) + "." +
+                                  str.substring(j+1, k+1) + "." +
+                                  str.substring(k+1);
+                    // System.out.println(temp);
+                    if(isValid(temp)){
+                        list.add(temp);
+                    } 
+                }
+            }
+        }
+        // String test = "255.255.255.255";
+        // String[] components = test.split("[.]");
+        // System.out.println(components.length);
+        // System.out.println(isValid(test));
+        return list;
+    }
+}
+_________________________________________________________________________________________________________
 public class Q14 {
     public static void main(String[] args) {
         String str = "225255120125";

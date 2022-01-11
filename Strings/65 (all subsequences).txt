@@ -1,0 +1,18 @@
+class Solution {
+    ArrayList<String> list = new ArrayList<>();
+    public void generate(String sub, String str, int i){
+        if(i>=str.length()){
+            if(!sub.isEmpty()){
+                this.list.add(sub);
+            }
+            return;
+        }
+        generate(sub+str.charAt(i), str, i+1);
+        generate(sub, str, i+1);
+    }
+    public static ArrayList<String> subsequences(String str) {
+        Solution obj = new Solution();
+        obj.generate("", str, 0);
+        return obj.list;
+    }
+}
