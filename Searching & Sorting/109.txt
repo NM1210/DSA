@@ -1,4 +1,19 @@
 class Complete{
+    public static int search (int a[], int n, int x, int k) {
+        if(n==1 && a[0]==x) return 0;
+        for(int i = 0; i<n-1; i++){
+            if(a[i]==x) return i;
+            else{
+                if(x<=a[i]+k && x>=a[i]-k){
+                    if(a[i+1]==x) return i+1;
+                }
+            }
+        }
+        return -1;
+    }
+}
+____________________________________________________________________
+class Complete{
     
    
     // Function for finding maximum and value pair

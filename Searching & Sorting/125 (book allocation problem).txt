@@ -1,3 +1,53 @@
+O(NLogN):-
+//USING BINARY SEARCH
+
+class Solution 
+{
+    public static int findPages(int[]a,int n,int m)
+    {
+        int res = -1;
+        int min = a[0];
+        int max = 0;
+        for(int i = 0; i<n; i++){
+            if(a[i]<min) min = a[i];
+            max+=a[i];
+        }
+        // System.out.println(min+" "+max);
+        int low = min;
+        int high = max;
+        while(low<=high){
+            int mid = (low+high)/2;
+            // System.out.println("mid = "+mid);
+            int sum = 0;
+            int count = 1;
+            for(int i = 0; i<n; i++){
+                if(a[i]>mid){
+                    count = m+1;
+                    break;
+                }
+                else if(sum+a[i]>mid){
+                    // System.out.println(sum+" "+count);
+                    sum = 0;
+                    count++;
+                }
+                sum+=a[i];
+            }
+            if(count>m){
+                low = mid+1;
+            }
+            else{
+                res = mid;
+                high = mid-1;
+            }
+            // System.out.println(res);
+        }
+        return res;
+    }
+};
+___________________________________________________________________
+RECURSION:-
+O(2^N)
+
 class Solution {
     public static int findPages(int[]a,int n,int m)
     {

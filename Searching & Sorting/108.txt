@@ -1,5 +1,25 @@
 class Solution
 {
+    static int majorityElement(int a[], int n)
+    {
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i = 0; i<n; i++){
+            if(!map.containsKey(a[i])){
+                map.put(a[i], 1);
+            }
+            else{
+                map.put(a[i], map.get(a[i])+1);
+            }
+        }
+        for(Integer key: map.keySet()){
+            if(map.get(key)>n/2) return key;
+        }
+        return -1;
+    }
+}
+__________________________________________________________________________
+class Solution
+{
     static int majorityElement(int a[], int size)
     {
         int ans = 0;

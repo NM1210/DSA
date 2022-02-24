@@ -1,3 +1,63 @@
+TIME:- O(NLogN)
+SPACE:- O(1)
+class Compute  
+{ 
+    static void sortBySetBitCount(Integer a[], int n)
+    { 
+        Arrays.sort(a, new Comparator<Integer>(){
+            public int compare(Integer a, Integer b){
+                return Integer.bitCount(b)-Integer.bitCount(a);
+            }
+        });
+    } 
+}
+_____________________________________________________________________________________
+TIME:- O(NLogN)
+SPACE:- O(N)
+
+class Pair{
+    int num;
+    int set_bits;
+    Pair(int num, int set_bits){
+        this.num = num;
+        this.set_bits = set_bits;
+    }
+    public int get_set_bits(){
+        return set_bits;
+    }
+    public int get_num(){
+        return num;
+    }
+}
+class Compute  
+{ 
+    static int set_bits(int num){
+        int count = 0;
+        while(num>0){
+            if(num%2!=0) count++;
+            num/=2;
+        }
+        return count;
+    }
+    static void sortBySetBitCount(Integer a[], int n)
+    { 
+        PriorityQueue<Pair> pq = new PriorityQueue<Pair>(new Comparator<Pair>(){
+            public int compare(Pair one, Pair two){
+                return two.get_set_bits() - one.get_set_bits();
+            }
+        });
+        for(int i = 0; i<n; i++){
+            Pair p = new Pair(a[i], set_bits(a[i]));
+            pq.add(p);
+        }
+        int k = 0;
+        while(!pq.isEmpty()){
+            a[k++] = pq.poll().get_num();
+        }
+    } 
+}
+______________________________________________________________
+TIME:- O(1)
 class Compute  
 { 
     static int countSetBits(int a){

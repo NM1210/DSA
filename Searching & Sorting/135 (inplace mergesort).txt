@@ -1,0 +1,119 @@
+O(NLogN):-
+
+if we want to convert A --> B, such that we can get A afterwards.
+choose N greater than both A and B, put A = A+(B*N) = exp;
+now, we can get B by, A/N (i.e. exp/N) and we can get A by A%N (i.e. exp%N).
+// Swaping without using extra space.
+
+class Solution
+{
+    void merge(int a[], int low, int mid, int high)
+    {
+        int max = Math.max(a[mid], a[high])+1;
+        int i = low;
+        int j = mid+1;
+        int k = low;
+        while(i<=mid && j<=high){
+            int e1 = a[i]%max;
+            int e2 = a[j]%max;
+            if(e1<=e2){
+                a[k] += (e1*max);
+                i++;
+                k++;
+            }
+            else{
+                a[k] += (e2*max);
+                j++;
+                k++;
+            }
+        }
+        while(i<=mid){
+            int e = a[i]%max;
+            a[k] += (e*max);
+            i++;
+            k++;
+        }
+        while(j<=high){
+            int e = a[j]%max;
+            a[k] += (e*max);
+            j++;
+            k++;
+        }
+        for(int itr = low; itr<=high; itr++){
+            a[itr]/=max;
+        }
+    }
+    void mergeSort(int a[], int low, int high)
+    {
+        if(low<high){
+            int mid = (high+low)/2;
+            mergeSort(a, low, mid);
+            mergeSort(a, mid+1, high);
+            merge(a, low, mid, high);
+        }
+    }
+}
+________________________________________________________________
+O(LogN*NLogN):-
+
+class Solution
+{
+    void merge(int a[], int low, int mid, int high)
+    {
+        int n = high-low+1;
+        int gap = n<=1?0:(int)Math.ceil(n/2.0);		//HIGHLIGHT
+        while(gap>0){
+            for(int i = low; i+gap<=high; i++){
+                if(a[i+gap]<a[i]){
+                    int temp = a[i];
+                    a[i] = a[i+gap];
+                    a[i+gap] = temp;
+                }
+            }
+            gap=gap<=1?0:(int)Math.ceil(gap/2.0);		//HIGHLIGHT
+        }
+    }
+    void mergeSort(int a[], int low, int high)
+    {
+        if(low<high){
+            int mid = (high+low)/2;
+            mergeSort(a, low, mid);
+            mergeSort(a, mid+1, high);
+            merge(a, low, mid, high);
+        }
+    }
+}
+___________________________________________________________________
+O(N^2*LogN):-
+
+class Solution
+{
+    void merge(int a[], int low, int mid, int high)
+    {
+        int i = low;
+        int j = mid+1;
+        while(j<=high){
+            if(a[i]<a[j]){
+                i++;
+            }
+            else{
+                int temp = a[j];
+                for(int k = j; k>i; k--){
+                    a[k] = a[k-1];
+                }
+                a[i] = temp;
+                i++;
+                j++;
+            }
+        }
+    }
+    void mergeSort(int a[], int low, int high)
+    {
+        if(low<high){
+            int mid = (high+low)/2;
+            mergeSort(a, low, mid);
+            mergeSort(a, mid+1, high);
+            merge(a, low, mid, high);
+        }
+    }
+}

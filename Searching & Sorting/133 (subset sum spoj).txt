@@ -1,0 +1,87 @@
+import java.util.*;
+import java.lang.*;
+
+class Main
+{
+      static ArrayList<Integer> set;
+	static void sub(int a[], int s, int e, int pos, int sum){
+		if(pos>e){
+			if(sum>0) set.add(sum);
+			return;
+		}
+		sub(a, s, e, pos+1, sum+a[pos]);
+		sub(a, s, e, pos+1, sum);
+	}
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner sc = new Scanner(System.in);
+		int n = sc.nextInt();
+		int lb = sc.nextInt();
+		int ub = sc.nextInt();
+		// System.out.println(n +" "+ lb + " " +ub);
+		int a[] = new int[n];
+		for(int i = 0; i<n; i++){
+			a[i] = sc.nextInt();
+			// System.out.println(a[i]+" ");
+		}
+		Arrays.sort(a);
+		set = new ArrayList<Integer>();
+		sub(a, 0, (n/2)-1, 0, 0);
+		Integer set1[] = new Integer[set.size()];
+		set1 = set.toArray(set1);
+		set = new ArrayList<Integer>();
+		sub(a, n/2, n-1, n/2, 0);
+		Integer set2[] = new Integer[set.size()];
+		set2 = set.toArray(set2);
+		
+		Arrays.sort(set1);
+		Arrays.sort(set2);
+		
+		int count = 0;
+		
+		// System.out.println(set1.length+" "+set2.length);
+		for(Integer i : set1){
+			if(i>=lb && i<=ub) count++;
+			 System.out.print(i+" ");
+		}
+		 System.out.println();
+		for(Integer i : set2){
+			if(i>=lb && i<=ub) count++;
+			 System.out.print(i+" ");
+		}
+		
+		for(int i = 0; i<set1.length; i++){
+			if(set1[i]==0) continue;
+			int low = 0;
+			int high = set2.length - 1;
+			int start = 0;
+			int end = 0;
+			while(low<=high){
+				int mid = (high+low)/2;
+				if(lb-set1[i]<=set2[mid]){
+					high = mid - 1;
+					start = mid;
+				}
+				else{
+					low = mid + 1;
+				}
+			}
+			low = 0;
+			high = set2.length - 1;
+			while(low<=high){
+				int mid = (high+low)/2;
+				if(ub-set1[i]<set2[mid]){
+					high = mid - 1;
+				}
+				else{
+					low = mid + 1;
+					end = mid;
+				}
+			}
+			count += end - start;
+		}
+		
+		System.out.println(count);
+		
+	}
+}

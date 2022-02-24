@@ -1,0 +1,120 @@
+ACCEPTED (ADVANCED BINARY SEARCH):-
+
+import java.util.*;
+import java.lang.*;
+
+class Main
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int test = 0; test<t; test++){
+			int ans = 0;
+			int p = sc.nextInt();
+			int l = sc.nextInt();
+			int r[] = new int[l];
+			// int ts[] = new int[l];
+			// int m[] = new int[l];
+			for(int i = 0; i<l; i++){
+				r[i] = sc.nextInt();
+				// ts[i] = r[i];
+			}
+			// Arrays.fill(m, 2);
+			int lb = 0;
+			int ub = (int) 1e8;
+			while(lb<=ub){
+				int mid = (lb+ub)/2;
+				int count = 0;
+				for(int i = 0; i<l; i++){
+					int T = r[i];
+					int m = 2;
+					while(T<=mid){
+						count++;
+						T = T+m*r[i];
+						m++;
+					}
+				}
+				if(count>=p){
+					ans = mid;
+					ub = mid-1;
+				}
+				else{
+					lb = mid+1;
+				}
+			}
+			System.out.println(ans);
+		}
+	}
+}
+________________________________________________________________________________
+import java.util.*;
+import java.lang.*;
+
+class Main
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int test = 0; test<t; test++){
+			int p = sc.nextInt();
+			int l = sc.nextInt();
+			int r[] = new int[l];
+			int ts[] = new int[l];
+			int m[] = new int[l];
+			for(int i = 0; i<l; i++){
+				r[i] = sc.nextInt();
+				ts[i] = r[i];
+			}
+			Arrays.fill(m, 2);
+			int count = 0;
+			int T = 1;
+			while(count<p){
+				for(int i = 0; i<l; i++){
+					if(T>=ts[i]){
+						count++;
+						ts[i] = ts[i] + m[i]*r[i];
+						m[i]++;
+					}
+				}
+				T++;
+			}
+			System.out.println(T-1);
+		}
+	}
+}
+____________________________________________________________________________________________
+		Scanner input = new Scanner(System.in);
+		int t = input.nextInt();
+//		System.out.println(t);
+		for(int i = 0; i<t; i++){
+			int p = input.nextInt();
+			int l = input.nextInt();
+			int a[] = new int[l];
+			for(int j = 0; j<l; j++){
+				a[j] = input.nextInt();
+			}
+			// input.close();
+//			System.out.println(p);
+//			System.out.print(l+" ");
+//			for(int j = 0; j<l; j++){
+//				System.out.print(a[j]+" ");
+//			}
+			int count[] = new int[l];
+			Arrays.fill(count,1);
+			int temp[] = a.clone();
+			int n = 0;
+			int time = 1;
+			while(n<p){
+				for(int j = 0; j<l; j++){
+					if(temp[j]==time){
+						n += 1;
+						count[j]++;
+						temp[j] = temp[j] + (a[j]*count[j]);
+					}
+				}
+				time++;
+			}
+			System.out.println(time-1);
+		}
